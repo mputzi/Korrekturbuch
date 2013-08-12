@@ -12,6 +12,8 @@ import java.awt.event.ActionEvent;
 import javax.swing.Action;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class TestFrame extends JFrame {
 
@@ -51,6 +53,15 @@ public class TestFrame extends JFrame {
 		contentPane.setLayout(new BorderLayout(0, 0));
 		
 		JButton btnServus = new JButton("Servus!");
+		btnServus.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				System.out.println("Button gedrückt!");
+				setVisible(false);
+				dispose();
+				System.exit(0);
+			}
+		});
 
 		contentPane.add(btnServus, BorderLayout.NORTH);
 		

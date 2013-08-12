@@ -2,6 +2,7 @@ package korrgui;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.Frame;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -25,7 +26,7 @@ public class Passwort extends JDialog {
 	 */
 	public static void main(String[] args) {
 		try {
-			Passwort dialog = new Passwort();
+			Passwort dialog = new Passwort(null);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -36,7 +37,35 @@ public class Passwort extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public Passwort() {
+	public Passwort(final Frame aufrufer) {
+		ActionListener al = new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				String cmd = e.getActionCommand();
+				if (cmd=="OK"){
+				System.out.println("Passwort-Dialog: " + cmd);
+				// Vergleiche mit hinterlegtem Passwort
+				System.out.println("Eingegebenes Passwort: "+
+				  passwortField.getText());
+				
+				
+				}
+				if (cmd=="Cancel"){
+					System.out.println("Passwort-Dialog: " + cmd);
+					// Abbrechen und das Programm verlassen
+					Passwort.this.setVisible(false);
+			        Passwort.this.dispose();
+			        try{
+			        	aufrufer.setVisible(false);
+			        	aufrufer.dispose();}
+			        catch(NullPointerException npe){
+			        	System.out.println("kein aufrufender Frame gefunden!");
+			        }
+					System.exit(0);
+				}
+			}
+		};
+		
+		
 		setUndecorated(true);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setBackground(Color.RED);
@@ -63,40 +92,14 @@ public class Passwort extends JDialog {
 			getContentPane().add(buttonPane);
 			{
 				JButton okButton = new JButton("OK");
-				okButton.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						String cmd = e.getActionCommand();
-						if (cmd=="OK"){
-						System.out.println("Passwort-Dialog: " + cmd);
-						// Vergleiche mit hinterlegtem Passwort
-						}
-						
-					}
-				});
+				okButton.addActionListener(al);
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
 			}
 			{
-				JButton cancelButton = new JButton("Abbrechen");
-		
-				cancelButton.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						String cmd = e.getActionCommand();
-						if (cmd=="Cancel"){
-						System.out.println("Passwort-Dialog: " + cmd);
-						// Abbrechen und das Programm verlassen
-						JButton bt = (JButton)e.getSource();
-						JDialog dg = (JDialog)bt.getParent();
-						System.out.println(dg);
-						
-						//dg.setVisible(false);
-						//dg.dispose();
-						//System.exit(0);
-						}
-						
-					}
-				});
+				JButton cancelButton = new JButton("Abbrechen");	
+				cancelButton.addActionListener(al);
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}

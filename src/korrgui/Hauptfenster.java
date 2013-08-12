@@ -39,7 +39,7 @@ public class Hauptfenster {
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
+		private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -58,7 +58,7 @@ public class Hauptfenster {
 		JMenuItem mntmBeenden = new JMenuItem("Beenden");
 		mntmBeenden.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				//String cmd = arg0.getActionCommand();
+				String cmd = arg0.getActionCommand();
 				System.out.println(cmd);
 				frame.setVisible(false);
 				frame.dispose();
@@ -73,8 +73,8 @@ public class Hauptfenster {
 		menuBar.add(mnKlasse);
 		
 		JMenuItem mntmOeffnen = new JMenuItem("Öffnen");
-		//mntmffnen.setEnabled(false);
 		mnKlasse.add(mntmOeffnen);
+		mntmOeffnen.setActionCommand("Klasseoeffnen");
 		
 		
 		JMenuItem mntmNeuAnlegen = new JMenuItem("Neu anlegen");
@@ -86,6 +86,22 @@ public class Hauptfenster {
 		
 		JMenu mnNeu = new JMenu("Neu");
 		mnPruefung.add(mnNeu);
-		//Kommentar
+		
+		JMenuItem mntmSchulaufgabe = new JMenuItem("Schulaufgabe");
+		mnNeu.add(mntmSchulaufgabe);
+		mntmSchulaufgabe.setEnabled(false);
+		
+		JMenuItem mntmStegreifaufgabe = new JMenuItem("Stegreifaufgabe");
+		mnNeu.add(mntmStegreifaufgabe);
+		mntmStegreifaufgabe.setEnabled(true);
+		
+		JMenuItem mntmKurzarbeit = new JMenuItem("Kurzarbeit");
+		mnNeu.add(mntmKurzarbeit);
+		mntmKurzarbeit.setEnabled(false);
+		
+		JMenuItem mntmTest = new JMenuItem("Test");
+		mnNeu.add(mntmTest);
+		mntmTest.setEnabled(true);
+		
 	}
 }

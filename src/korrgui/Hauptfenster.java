@@ -86,5 +86,6 @@ public class Hauptfenster {
 		
 		JMenu mnNeu = new JMenu("Neu");
 		mnPruefung.add(mnNeu);
+		//Kommentar
 	}
 }

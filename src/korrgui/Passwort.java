@@ -38,7 +38,7 @@ public class Passwort extends JDialog {
 	 * Create the dialog.
 	 */
 	public Passwort(final Frame aufrufer) {
-		ActionListener al = new ActionListener(){
+		ActionListener PWDal = new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				String cmd = e.getActionCommand();
 				if (cmd=="OK"){
@@ -99,14 +99,14 @@ public class Passwort extends JDialog {
 			getContentPane().add(buttonPane);
 			{
 				JButton okButton = new JButton("OK");
-				okButton.addActionListener(al);
+				okButton.addActionListener(PWDal);
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
 			}
 			{
 				JButton cancelButton = new JButton("Abbrechen");	
-				cancelButton.addActionListener(al);
+				cancelButton.addActionListener(PWDal);
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}

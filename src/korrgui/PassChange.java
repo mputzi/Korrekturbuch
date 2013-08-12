@@ -2,6 +2,7 @@ package korrgui;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.Frame;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -16,6 +17,9 @@ import javax.swing.JPasswordField;
 import java.awt.Color;
 import javax.swing.border.BevelBorder;
 
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
 public class PassChange extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
@@ -28,7 +32,7 @@ public class PassChange extends JDialog {
 	 */
 	public static void main(String[] args) {
 		try {
-			PassChange dialog = new PassChange();
+			PassChange dialog = new PassChange(null);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -39,7 +43,23 @@ public class PassChange extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public PassChange() {
+	public PassChange(final Frame aufrufer) {
+		ActionListener PWDChgAL = new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				String cmd = e.getActionCommand();
+				System.out.println("Passwort-Änderungs-Dialog: " + cmd);
+				if (cmd=="OK"){
+					actionOKButton();		
+				}
+				
+				// Dialog verlassen.
+				if (cmd=="Cancel"){
+					actionCancelButton();									
+ 			    }
+			}
+		};
+		
+		
 		setTitle("Passwort ändern");
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setAlwaysOnTop(true);
@@ -123,16 +143,56 @@ public class PassChange extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton okButton = new JButton("OK");
+				okButton.addActionListener(PWDChgAL);
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
 			}
 			{
-				JButton cancelButton = new JButton("Cancel");
+				JButton cancelButton = new JButton("Abbrechen");
+				cancelButton.addActionListener(PWDChgAL);
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}
 		}
 	}
-
+	
+	private boolean passCheck(String pwd){
+		return true;
+	}
+	
+	private boolean passEqualCheck(String pwd1, String pwd2){
+		return false;
+	}
+	
+	private void actionOKButton(){
+		
+		//Ausgabe (debug only)
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append("Eingegebenes Passwort: ");
+		stringBuilder.append(passwordFieldAlt.getText());		
+		System.out.println(stringBuilder.toString());
+		// Vergleiche mit hinterlegtem Passwort
+		boolean passCheck = passCheck(passwordFieldAlt.getText());
+		// Wenn Passwort richtig:
+		if(passCheck){
+			// Zurück zum aufrufenden Fenster!
+			System.out.println("Passwort akzeptiert.");
+			
+			// Passwort-Dialog abbauen
+			PassChange.this.setVisible(false);
+			PassChange.this.dispose();
+		}
+		else{
+			System.out.println("Passwort falsch");
+		}
+	}
+	
+	private void actionCancelButton(){
+		
+		// Abbrechen und das Programm verlassen
+		// Passwort-Dialog abbauen
+		PassChange.this.setVisible(false);
+        PassChange.this.dispose();
+	}
 }

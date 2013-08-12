@@ -20,6 +20,34 @@ public class Hauptfenster {
 	private JMenuBar menuBar;
 	
 	/**
+	 * Menüauswahl abfangen und auswerten
+	 */
+	private ActionListener al = new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				String cmd = e.getActionCommand();
+				System.out.println(cmd);
+				
+				if (cmd=="passwordchange"){}
+				if (cmd=="exit")
+				{
+					frame.setVisible(false);
+					frame.dispose();
+					System.exit(0);
+				}
+				
+				if (cmd=="classnew"){}
+				if (cmd=="classopen"){}
+				if (cmd=="classedit"){}
+				
+				if (cmd=="Schulaufgabe"){}
+				if (cmd=="Stegreifaufgabe"){}
+				if (cmd=="Kurzarbeit"){}
+				if (cmd=="Test"){}
+				
+			}
+		};
+		
+	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
@@ -40,24 +68,15 @@ public class Hauptfenster {
 	 * Create the application.
 	 */
 	public Hauptfenster() {
-		ActionListener al = new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-				String cmd = e.getActionCommand();
-				System.out.println(cmd);
-				/**if (cmd=="OK")
-				{
-					
-				}	**/		
-			}
-		};
+		
 		
 		initialize();
-		mnPruefung.setEnabled(false);
-		mntmBearbeiten.setEnabled(false);
+		//mnPruefung.setEnabled(false);
+		//mntmBearbeiten.setEnabled(false);
 	}
 
 	/**
-	 * Initialize the contents of the frame.
+	 * Fensterinhalte festlegen
 	 */
 	private void initialize() {
 		frame = new JFrame();
@@ -69,38 +88,46 @@ public class Hauptfenster {
 		menuBar.setBounds(0, 0, 436, 21);
 		frame.getContentPane().add(menuBar);
 		
-		mnDatei = new JMenu("Datei");
-		menuBar.add(mnDatei);
+		/**
+		 * Menü "Datei" anlegen mit "Passwort ändern" und "Beenden"
+		 */ 
+		mnDatei = new JMenu("Datei"); // Menü "Datei" anlegen
+		menuBar.add(mnDatei); // Menü zur Menüleiste hinzufügen
 		
-		mntmPasswortAendern = new JMenuItem("Passwort ändern");
-		mnDatei.add(mntmPasswortAendern);
+		mntmPasswortAendern = new JMenuItem("Passwort ändern"); // Menüpunkt "Passwort ändern" erzeugen
+		mntmPasswortAendern.setActionCommand("passwordchange"); // bei Auswahl wird "passwordchange" übermittelt
+		mntmPasswortAendern.addActionListener(al); // den Menüpunkt zum "ActionListener" hinzufügen
+		mnDatei.add(mntmPasswortAendern); // Menüpunkt dem Menü "Datei" hinzufügen
 		
-		mntmBeenden = new JMenuItem("Beenden");
-		/**mntmBeenden.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				String cmd = arg0.getActionCommand();
-				System.out.println(cmd);
-				frame.setVisible(false);
-				frame.dispose();
-				System.exit(0);
-				
-			}
-		});**/
+		mntmBeenden = new JMenuItem("Beenden"); // siehe oben 
+		mntmBeenden.setActionCommand("exit");
+		mntmBeenden.addActionListener(al);
 		mnDatei.add(mntmBeenden);
 		
+		/**
+		 * Menü "Klasse" anlegen mit Unterpunkten
+		 */
 		mnKlasse = new JMenu("Klasse");
 		menuBar.add(mnKlasse);
 		
-		mntmOeffnen = new JMenuItem("Öffnen");
+		mntmOeffnen = new JMenuItem("Öffnen");		
+		mntmOeffnen.setActionCommand("classopen");
+		mntmOeffnen.addActionListener(al);
 		mnKlasse.add(mntmOeffnen);
-		mntmOeffnen.setActionCommand("Klasseoeffnen");
 		
 		mntmBearbeiten = new JMenuItem("Bearbeiten");
+		mntmBearbeiten.setActionCommand("classedit");
+		mntmBearbeiten.addActionListener(al);
 		mnKlasse.add(mntmBearbeiten);
 		
 		mntmNeuAnlegen = new JMenuItem("Neu anlegen");
+		mntmNeuAnlegen.setActionCommand("classnew");
+		mntmNeuAnlegen.addActionListener(al);
 		mnKlasse.add(mntmNeuAnlegen);
 		
+		/**
+		 * Menü "Prüfung" anlegen mit Unterpunkten
+		 */
 		mnPruefung = new JMenu("Prüfung");
 		menuBar.add(mnPruefung);
 		
@@ -108,15 +135,19 @@ public class Hauptfenster {
 		mnPruefung.add(mnNeu);
 		
 		mntmSchulaufgabe = new JMenuItem("Schulaufgabe");
+		mntmSchulaufgabe.addActionListener(al);
 		mnNeu.add(mntmSchulaufgabe);
 		
 		mntmStegreifaufgabe = new JMenuItem("Stegreifaufgabe");
+		mntmStegreifaufgabe.addActionListener(al);
 		mnNeu.add(mntmStegreifaufgabe);
 		
 		mntmKurzarbeit = new JMenuItem("Kurzarbeit");
+		mntmKurzarbeit.addActionListener(al);
 		mnNeu.add(mntmKurzarbeit);
 		
 		mntmTest = new JMenuItem("Test");
+		mntmTest.addActionListener(al);
 		mnNeu.add(mntmTest);
 		
 		// Passwort-Abfrage bei Programmstart.

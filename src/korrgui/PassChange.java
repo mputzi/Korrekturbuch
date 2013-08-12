@@ -20,6 +20,7 @@ import javax.swing.border.BevelBorder;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.*;
+import java.io.*;
 
 public class PassChange extends JDialog {
 
@@ -158,19 +159,58 @@ public class PassChange extends JDialog {
 		}
 	}
 	
-	private boolean passCheck(int pwd){
-		
-		
-		return true;
+	private boolean passCheck(char[] pwd){
+		FileReader f;
+	    int c;
+	    String inStr = new String("");
+
+	    try {
+	      f = new FileReader("pwd.dat");
+	      while ((c = f.read()) != -1) {
+	         System.out.print((char)c);
+	         inStr=inStr+(char)c;
+	         System.out.println(inStr);
+	      }
+	      f.close();
+	    } catch (IOException e) {
+	      System.out.println("Fehler beim Lesen der Datei");
+	    }
+	    System.out.println(inStr);
+	    char[] in = inStr.toCharArray();
+	    System.out.println(in);
+		if (Arrays.equals(in, pwd)){
+			return true;
+		} else return false;
 	}
 	
 	private boolean passEqualCheck(char[] pwd1, char[] pwd2){
-		System.out.println(pwd1);
-		System.out.println(pwd2);
+
 		if (Arrays.equals(pwd1,pwd2)){
 			return true;
 		}
 		else return false;
+	}
+	
+	private int writePWD(char[] pwd){
+/*		pwdDat = new File("pwd.dat");
+		if(pwdDat.exists() && pwdDat.canWrite() && pwdDat.isFile()){
+			
+		}
+		else if(pwdDat.exists() && !(pwdDat.canWrite() && pwdDat.isFile())){
+			System.out.println("kein Schreibzugriff oder keine Datei!");
+		}
+		else{*/
+			FileWriter f1;
+
+		    try {
+		      f1 = new FileWriter("pwd.dat");
+		      f1.write(pwd);
+		      f1.close();
+		    } catch (IOException e) {
+		      System.out.println("Fehler beim Erstellen der Datei");
+		    }
+		//}
+		return 0;
 	}
 	
 	private void actionOKButton(){
@@ -181,7 +221,7 @@ public class PassChange extends JDialog {
 		stringBuilder.append(passwordFieldAlt.getPassword());		
 		System.out.println(stringBuilder.toString());
 		// Vergleiche mit hinterlegtem Passwort
-		boolean passCheck = passCheck(passwordFieldAlt.hashCode());
+		boolean passCheck = passCheck(passwordFieldAlt.getPassword());
 		// Vergleiche, ob eingegebene neue Passwörter gleich sind.
 		boolean passEqualCheck = passEqualCheck(passwordFieldNeu1.getPassword(),passwordFieldNeu2.getPassword());
 		// Wenn Passwort richtig:
@@ -193,7 +233,7 @@ public class PassChange extends JDialog {
 				System.out.println("Eingegebene Passwörter gleich");
 			
 				// Passwort abspeichern
-				
+				writePWD(passwordFieldNeu1.getPassword());
 				// Passwort-Dialog abbauen
 				PassChange.this.setVisible(false);
 				PassChange.this.dispose();

@@ -56,6 +56,16 @@ public class Hauptfenster {
 		mnDatei.add(mntmPasswortndern);
 		
 		JMenuItem mntmBeenden = new JMenuItem("Beenden");
+		mntmBeenden.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				//String cmd = arg0.getActionCommand();
+				//System.out.println(cmd);
+				frame.setVisible(false);
+				frame.dispose();
+				System.exit(0);
+				
+			}
+		});
 
 		mnDatei.add(mntmBeenden);
 		

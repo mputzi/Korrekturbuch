@@ -37,6 +37,23 @@ public class Passwort extends JDialog {
 	 * Create the dialog.
 	 */
 	public Passwort() {
+		ActionListener al = new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				String cmd = e.getActionCommand();
+				if (cmd=="OK"){
+				System.out.println("Passwort-Dialog: " + cmd);
+				// Vergleiche mit hinterlegtem Passwort
+				}
+				if (cmd=="Cancel"){
+					System.out.println("Passwort-Dialog: " + cmd);
+					// Abbrechen und das Programm verlassen
+			        
+					System.exit(0);
+				}
+			}
+		};
+		
+		
 		setUndecorated(true);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setBackground(Color.RED);
@@ -63,40 +80,14 @@ public class Passwort extends JDialog {
 			getContentPane().add(buttonPane);
 			{
 				JButton okButton = new JButton("OK");
-				okButton.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						String cmd = e.getActionCommand();
-						if (cmd=="OK"){
-						System.out.println("Passwort-Dialog: " + cmd);
-						// Vergleiche mit hinterlegtem Passwort
-						}
-						
-					}
-				});
+				okButton.addActionListener(al);
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
 			}
 			{
-				JButton cancelButton = new JButton("Abbrechen");
-		
-				cancelButton.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						String cmd = e.getActionCommand();
-						if (cmd=="Cancel"){
-						System.out.println("Passwort-Dialog: " + cmd);
-						// Abbrechen und das Programm verlassen
-						JButton bt = (JButton)e.getSource();
-						JDialog dg = (JDialog)bt.getParent();
-						System.out.println(dg);
-						
-						//dg.setVisible(false);
-						//dg.dispose();
-						//System.exit(0);
-						}
-						
-					}
-				});
+				JButton cancelButton = new JButton("Abbrechen");	
+				cancelButton.addActionListener(al);
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}

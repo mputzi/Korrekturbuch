@@ -59,7 +59,7 @@ public class Hauptfenster {
 		mntmBeenden.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//String cmd = arg0.getActionCommand();
-				//System.out.println(cmd);
+				System.out.println(cmd);
 				frame.setVisible(false);
 				frame.dispose();
 				System.exit(0);

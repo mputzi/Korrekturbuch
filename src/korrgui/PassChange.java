@@ -157,12 +157,19 @@ public class PassChange extends JDialog {
 		}
 	}
 	
-	private boolean passCheck(String pwd){
+	private boolean passCheck(int pwd){
+		
+		
 		return true;
 	}
 	
-	private boolean passEqualCheck(String pwd1, String pwd2){
-		return false;
+	private boolean passEqualCheck(int pwd1, int pwd2){
+		System.out.println(pwd1);
+		System.out.println(pwd2);
+		if (pwd1 == pwd2){
+			return true;
+		}
+		else return false;
 	}
 	
 	private void actionOKButton(){
@@ -170,19 +177,30 @@ public class PassChange extends JDialog {
 		//Ausgabe (debug only)
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("Eingegebenes Passwort: ");
-		stringBuilder.append(passwordFieldAlt.getText());		
+		stringBuilder.append(passwordFieldAlt.getPassword());		
 		System.out.println(stringBuilder.toString());
 		// Vergleiche mit hinterlegtem Passwort
-		boolean passCheck = passCheck(passwordFieldAlt.getText());
+		boolean passCheck = passCheck(passwordFieldAlt.hashCode());
+		// Vergleiche, ob eingegebene neue Passwörter gleich sind.
+		boolean passEqualCheck = passEqualCheck(passwordFieldNeu1.hashCode(),passwordFieldNeu2.hashCode());
 		// Wenn Passwort richtig:
 		if(passCheck){
 			// Zurück zum aufrufenden Fenster!
 			System.out.println("Passwort akzeptiert.");
 			
-			// Passwort-Dialog abbauen
-			PassChange.this.setVisible(false);
-			PassChange.this.dispose();
-		}
+			if(passEqualCheck){
+				System.out.println("Eingegebene Passwörter gleich");
+			
+				// Passwort abspeichern
+				
+				// Passwort-Dialog abbauen
+				PassChange.this.setVisible(false);
+				PassChange.this.dispose();
+			}
+			else{
+				System.out.println("Neue Passwörter nicht identisch!");
+			}
+			}
 		else{
 			System.out.println("Passwort falsch");
 		}

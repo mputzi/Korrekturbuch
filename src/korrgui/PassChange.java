@@ -174,6 +174,8 @@ public class PassChange extends JDialog {
 		System.out.println(stringBuilder.toString());
 		// Vergleiche mit hinterlegtem Passwort
 		boolean passCheck = passCheck(passwordFieldAlt.getText());
+		
+		boolean 
 		// Wenn Passwort richtig:
 		if(passCheck){
 			// Zurück zum aufrufenden Fenster!

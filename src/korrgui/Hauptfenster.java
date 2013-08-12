@@ -27,7 +27,14 @@ public class Hauptfenster {
 				String cmd = e.getActionCommand();
 				System.out.println(cmd);
 				
-				if (cmd=="passwordchange"){}
+				if (cmd=="passwordchange"){
+					// Passwort-Änderungs-Dialog erstellen
+					PassChange pwChgDialog = new PassChange(frame);
+					// Aufrufenden frame an Passwort-Änderungs-Dialog übermitteln
+					pwChgDialog.setLocationRelativeTo(frame);
+					// Passwort-Änderungs-Dialog anzeigen
+			        pwChgDialog.setVisible(true);					
+				}
 				if (cmd=="exit")
 				{
 					frame.setVisible(false);

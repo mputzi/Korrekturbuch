@@ -12,6 +12,13 @@ import java.awt.event.ActionEvent;
 public class Hauptfenster {
 
 	private static JFrame frame;
+	static Hauptfenster window;
+	private JMenu mnDatei, mnKlasse, mnPruefung, mnNeu;
+	private JMenuItem mntmPasswortAendern, mntmBeenden;
+	private JMenuItem mntmBearbeiten, mntmOeffnen, mntmNeuAnlegen;
+	private JMenuItem mntmSchulaufgabe, mntmStegreifaufgabe, mntmKurzarbeit, mntmTest;
+	private JMenuBar menuBar;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -19,7 +26,7 @@ public class Hauptfenster {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Hauptfenster window = new Hauptfenster();
+					window = new Hauptfenster();
 					window.frame.setVisible(true);
 
 				} catch (Exception e) {
@@ -33,30 +40,43 @@ public class Hauptfenster {
 	 * Create the application.
 	 */
 	public Hauptfenster() {
+		ActionListener al = new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				String cmd = e.getActionCommand();
+				System.out.println(cmd);
+				/**if (cmd=="OK")
+				{
+					
+				}	**/		
+			}
+		};
+		
 		initialize();
+		mnPruefung.setEnabled(false);
+		mntmBearbeiten.setEnabled(false);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-		private void initialize() {
+	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
-		JMenuBar menuBar = new JMenuBar();
+		menuBar = new JMenuBar();
 		menuBar.setBounds(0, 0, 436, 21);
 		frame.getContentPane().add(menuBar);
 		
-		JMenu mnDatei = new JMenu("Datei");
+		mnDatei = new JMenu("Datei");
 		menuBar.add(mnDatei);
 		
-		JMenuItem mntmPasswortAendern = new JMenuItem("Passwort ändern");
+		mntmPasswortAendern = new JMenuItem("Passwort ändern");
 		mnDatei.add(mntmPasswortAendern);
 		
-		JMenuItem mntmBeenden = new JMenuItem("Beenden");
-		mntmBeenden.addActionListener(new ActionListener() {
+		mntmBeenden = new JMenuItem("Beenden");
+		/**mntmBeenden.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String cmd = arg0.getActionCommand();
 				System.out.println(cmd);
@@ -65,43 +85,39 @@ public class Hauptfenster {
 				System.exit(0);
 				
 			}
-		});
-
+		});**/
 		mnDatei.add(mntmBeenden);
 		
-		JMenu mnKlasse = new JMenu("Klasse");
+		mnKlasse = new JMenu("Klasse");
 		menuBar.add(mnKlasse);
 		
-		JMenuItem mntmOeffnen = new JMenuItem("Öffnen");
+		mntmOeffnen = new JMenuItem("Öffnen");
 		mnKlasse.add(mntmOeffnen);
 		mntmOeffnen.setActionCommand("Klasseoeffnen");
 		
+		mntmBearbeiten = new JMenuItem("Bearbeiten");
+		mnKlasse.add(mntmBearbeiten);
 		
-		JMenuItem mntmNeuAnlegen = new JMenuItem("Neu anlegen");
+		mntmNeuAnlegen = new JMenuItem("Neu anlegen");
 		mnKlasse.add(mntmNeuAnlegen);
 		
-		JMenu mnPruefung = new JMenu("Prüfung");
+		mnPruefung = new JMenu("Prüfung");
 		menuBar.add(mnPruefung);
-		mnPruefung.setEnabled(false);
 		
-		JMenu mnNeu = new JMenu("Neu");
+		mnNeu = new JMenu("Neu");
 		mnPruefung.add(mnNeu);
 		
-		JMenuItem mntmSchulaufgabe = new JMenuItem("Schulaufgabe");
+		mntmSchulaufgabe = new JMenuItem("Schulaufgabe");
 		mnNeu.add(mntmSchulaufgabe);
-		mntmSchulaufgabe.setEnabled(false);
 		
-		JMenuItem mntmStegreifaufgabe = new JMenuItem("Stegreifaufgabe");
+		mntmStegreifaufgabe = new JMenuItem("Stegreifaufgabe");
 		mnNeu.add(mntmStegreifaufgabe);
-		mntmStegreifaufgabe.setEnabled(true);
 		
-		JMenuItem mntmKurzarbeit = new JMenuItem("Kurzarbeit");
+		mntmKurzarbeit = new JMenuItem("Kurzarbeit");
 		mnNeu.add(mntmKurzarbeit);
-		mntmKurzarbeit.setEnabled(false);
 		
-		JMenuItem mntmTest = new JMenuItem("Test");
+		mntmTest = new JMenuItem("Test");
 		mnNeu.add(mntmTest);
-		mntmTest.setEnabled(true);
 		
 		Passwort pwDialog = new Passwort(frame);
 		pwDialog.setLocationRelativeTo(frame);

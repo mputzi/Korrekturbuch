@@ -46,14 +46,21 @@ public class Passwort extends JDialog {
 				// Vergleiche mit hinterlegtem Passwort
 				System.out.println("Eingegebenes Passwort: "+
 				  passwortField.getText());
-				
-				
+				// Wenn Passwort richtig:
+				// Zurück zum aufrufenden Fenster!
+				System.out.println("Passwort akzeptiert.");
+				// Passwort-Dialog abbauen
+				Passwort.this.setVisible(false);
+		        Passwort.this.dispose();
 				}
+				// Programm verlassen.
 				if (cmd=="Cancel"){
 					System.out.println("Passwort-Dialog: " + cmd);
 					// Abbrechen und das Programm verlassen
+					// Passwort-Dialog abbauen
 					Passwort.this.setVisible(false);
 			        Passwort.this.dispose();
+			        // Versuche das aufrufende Fenster zu schließen!
 			        try{
 			        	aufrufer.setVisible(false);
 			        	aufrufer.dispose();}

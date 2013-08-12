@@ -11,8 +11,7 @@ import java.awt.event.ActionEvent;
 
 public class Hauptfenster {
 
-	private JFrame frame;
-
+	private static JFrame frame;
 	/**
 	 * Launch the application.
 	 */
@@ -22,6 +21,7 @@ public class Hauptfenster {
 				try {
 					Hauptfenster window = new Hauptfenster();
 					window.frame.setVisible(true);
+
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -102,6 +102,10 @@ public class Hauptfenster {
 		JMenuItem mntmTest = new JMenuItem("Test");
 		mnNeu.add(mntmTest);
 		mntmTest.setEnabled(true);
+		
+		Passwort pwDialog = new Passwort(frame);
+		pwDialog.setLocationRelativeTo(frame);
+        pwDialog.setVisible(true);
 		
 	}
 }

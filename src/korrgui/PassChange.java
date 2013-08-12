@@ -19,6 +19,7 @@ import javax.swing.border.BevelBorder;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.util.*;
 
 public class PassChange extends JDialog {
 
@@ -163,10 +164,10 @@ public class PassChange extends JDialog {
 		return true;
 	}
 	
-	private boolean passEqualCheck(int pwd1, int pwd2){
+	private boolean passEqualCheck(char[] pwd1, char[] pwd2){
 		System.out.println(pwd1);
 		System.out.println(pwd2);
-		if (pwd1 == pwd2){
+		if (Arrays.equals(pwd1,pwd2)){
 			return true;
 		}
 		else return false;
@@ -182,7 +183,7 @@ public class PassChange extends JDialog {
 		// Vergleiche mit hinterlegtem Passwort
 		boolean passCheck = passCheck(passwordFieldAlt.hashCode());
 		// Vergleiche, ob eingegebene neue Passwörter gleich sind.
-		boolean passEqualCheck = passEqualCheck(passwordFieldNeu1.hashCode(),passwordFieldNeu2.hashCode());
+		boolean passEqualCheck = passEqualCheck(passwordFieldNeu1.getPassword(),passwordFieldNeu2.getPassword());
 		// Wenn Passwort richtig:
 		if(passCheck){
 			// Zurück zum aufrufenden Fenster!

@@ -46,6 +46,8 @@ public class Passwort extends JDialog {
 				// Vergleiche mit hinterlegtem Passwort
 				System.out.println("Eingegebenes Passwort: "+
 				  passwortField.getText());
+				
+				
 				}
 				if (cmd=="Cancel"){
 					System.out.println("Passwort-Dialog: " + cmd);

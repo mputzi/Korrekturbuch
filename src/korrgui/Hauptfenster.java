@@ -119,8 +119,12 @@ public class Hauptfenster {
 		mntmTest = new JMenuItem("Test");
 		mnNeu.add(mntmTest);
 		
+		// Passwort-Abfrage bei Programmstart.
+		// Passwort-Dialog erstellen
 		Passwort pwDialog = new Passwort(frame);
+		// Aufrufenden frame an Passwort-Dialog übermitteln
 		pwDialog.setLocationRelativeTo(frame);
+		// Passwort-Dialog anzeigen
         pwDialog.setVisible(true);
 		
 	}

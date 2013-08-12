@@ -103,8 +103,12 @@ public class Hauptfenster {
 		mnNeu.add(mntmTest);
 		mntmTest.setEnabled(true);
 		
+		// Passwort-Abfrage bei Programmstart.
+		// Passwort-Dialog erstellen
 		Passwort pwDialog = new Passwort(frame);
+		// Aufrufenden frame an Passwort-Dialog übermitteln
 		pwDialog.setLocationRelativeTo(frame);
+		// Passwort-Dialog anzeigen
         pwDialog.setVisible(true);
 		
 	}

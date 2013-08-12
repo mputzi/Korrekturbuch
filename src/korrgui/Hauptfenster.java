@@ -52,8 +52,8 @@ public class Hauptfenster {
 		JMenu mnDatei = new JMenu("Datei");
 		menuBar.add(mnDatei);
 		
-		JMenuItem mntmPasswortndern = new JMenuItem("Passwort ändern");
-		mnDatei.add(mntmPasswortndern);
+		JMenuItem mntmPasswortAendern = new JMenuItem("Passwort ändern");
+		mnDatei.add(mntmPasswortAendern);
 		
 		JMenuItem mntmBeenden = new JMenuItem("Beenden");
 		mntmBeenden.addActionListener(new ActionListener() {
@@ -72,19 +72,19 @@ public class Hauptfenster {
 		JMenu mnKlasse = new JMenu("Klasse");
 		menuBar.add(mnKlasse);
 		
-		JMenuItem mntmffnen = new JMenuItem("Öffnen");
+		JMenuItem mntmOeffnen = new JMenuItem("Öffnen");
 		//mntmffnen.setEnabled(false);
-		mnKlasse.add(mntmffnen);
+		mnKlasse.add(mntmOeffnen);
 		
 		
 		JMenuItem mntmNeuAnlegen = new JMenuItem("Neu anlegen");
 		mnKlasse.add(mntmNeuAnlegen);
 		
-		JMenu mnPrfung = new JMenu("Prüfung");
-		menuBar.add(mnPrfung);
-		mnPrfung.setEnabled(false);
+		JMenu mnPruefung = new JMenu("Prüfung");
+		menuBar.add(mnPruefung);
+		mnPruefung.setEnabled(false);
 		
 		JMenu mnNeu = new JMenu("Neu");
-		mnPrfung.add(mnNeu);
+		mnPruefung.add(mnNeu);
 	}
 }

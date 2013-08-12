@@ -8,15 +8,16 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.SwingConstants;
 
 public class Hauptfenster {
 
 	private static JFrame frame;
 	static Hauptfenster window;
-	private JMenu mnDatei, mnKlasse, mnPruefung, mnNeu;
+	private JMenu mnDatei, mnKlasse, mnPruefung, mnNeu, mnHilfe;
 	private JMenuItem mntmPasswortAendern, mntmBeenden;
 	private JMenuItem mntmBearbeiten, mntmOeffnen, mntmNeuAnlegen;
-	private JMenuItem mntmSchulaufgabe, mntmStegreifaufgabe, mntmKurzarbeit, mntmTest;
+	private JMenuItem mntmSchulaufgabe, mntmStegreifaufgabe, mntmKurzarbeit, mntmTest, mntmPOeffnen;
 	private JMenuBar menuBar;
 	
 	/**
@@ -43,13 +44,20 @@ public class Hauptfenster {
 				}
 				
 				if (cmd=="classnew"){}
-				if (cmd=="classopen"){}
+				if (cmd=="classopen")
+				{
+					/**
+					mnPruefung.setVisible(true); // Menü "Prüfung" anzeigen
+					mntmBearbeiten.setEnabled(true); // Menüpunkt "Klasse bearbeiten" aktivieren
+					**/
+				}
 				if (cmd=="classedit"){}
 				
 				if (cmd=="Schulaufgabe"){}
 				if (cmd=="Stegreifaufgabe"){}
 				if (cmd=="Kurzarbeit"){}
 				if (cmd=="Test"){}
+				if (cmd=="testopen"){}
 				
 			}
 		};
@@ -78,8 +86,9 @@ public class Hauptfenster {
 		
 		
 		initialize();
-		//mnPruefung.setEnabled(false);
-		//mntmBearbeiten.setEnabled(false);
+		mnPruefung.setVisible(false); // Menü "Prüfung" erst möglich, wenn Klasse geöffnet
+		mntmBearbeiten.setEnabled(false); // "Klasse bearbeiten" er möglich, wenn Klasse geöffnet
+		
 	}
 
 	/**
@@ -157,6 +166,21 @@ public class Hauptfenster {
 		mntmTest = new JMenuItem("Test");
 		mntmTest.addActionListener(al);
 		mnNeu.add(mntmTest);
+		
+		mntmPOeffnen = new JMenuItem("Öffnen");
+		mntmPOeffnen.setActionCommand("testopen");
+		mntmPOeffnen.addActionListener(al);
+		mnPruefung.add(mntmPOeffnen);
+		
+		
+		/**
+		 * Menü "Hilfe"
+		 */
+		mnHilfe = new JMenu("Hilfe");
+		mnHilfe.setToolTipText("Hier werden Sie geholfen!");
+		menuBar.add(mnHilfe);
+		
+		
 		
 		// Passwort-Abfrage bei Programmstart.
 		// Passwort-Dialog erstellen

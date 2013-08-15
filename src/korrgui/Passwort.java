@@ -15,11 +15,14 @@ import java.awt.Color;
 import javax.swing.BoxLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JPasswordField;
+
+import korrsecur.*;
 
 public class Passwort extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-	private JTextField passwortField;
+	private JPasswordField passwortField;
 
 	/**
 	 * Launch the application.
@@ -41,38 +44,68 @@ public class Passwort extends JDialog {
 		ActionListener PWDal = new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				String cmd = e.getActionCommand();
+
+
 				if (cmd=="OK"){
-				System.out.println("Passwort-Dialog: " + cmd);
-				// Vergleiche mit hinterlegtem Passwort
-			
-				// Wenn Passwort richtig:
-				// Zurück zum aufrufenden Fenster!
-				System.out.println("Passwort akzeptiert.");
-				// Passwort-Dialog abbauen und Hauptfenster wieder freigeben
-				aufrufer.setEnabled(true);
-				Passwort.this.setVisible(false);
-		        Passwort.this.dispose();
+					System.out.println("Passwort-Dialog: " + cmd);
+
+					// Vergleiche mit hinterlegtem Passwort
+					boolean passCheck = Secur.passCheck(passwortField.getPassword());
+
+					// Wenn Passwort richtig:
+					if(passCheck){
+						// Zurück zum aufrufenden Fenster!
+						System.out.println("Passwort akzeptiert.");
+						// Passwort-Dialog abbauen und Hauptfenster wieder freigeben
+						try{
+							aufrufer.setEnabled(true);
+						}
+						catch(NullPointerException npe){
+							System.out.println("kein aufrufender Frame gefunden!");
+						}
+						Passwort.this.setVisible(false);
+						Passwort.this.dispose();
+					}
+					// Wenn Passwort falsch:
+					else{
+						// nix wie raus hier!
+						Passwort.this.setVisible(false);
+						Passwort.this.dispose();
+
+						// Versuche das aufrufende Fenster zu schließen!
+						try{
+							aufrufer.setVisible(false);
+							aufrufer.dispose();}
+						catch(NullPointerException npe){
+							System.out.println("kein aufrufender Frame gefunden!");
+						}
+						System.exit(0);
+					}
+
 				}
+
+
+
 				// Programm verlassen.
 				if (cmd=="Cancel"){
 					System.out.println("Passwort-Dialog: " + cmd);
 					// Abbrechen und das Programm verlassen
 					// Passwort-Dialog abbauen
 					Passwort.this.setVisible(false);
-			        Passwort.this.dispose();
-			        // Versuche das aufrufende Fenster zu schließen!
-			        try{
-			        	aufrufer.setVisible(false);
-			        	aufrufer.dispose();}
-			        catch(NullPointerException npe){
-			        	System.out.println("kein aufrufender Frame gefunden!");
-			        }
+					Passwort.this.dispose();
+					// Versuche das aufrufende Fenster zu schließen!
+					try{
+						aufrufer.setVisible(false);
+						aufrufer.dispose();}
+					catch(NullPointerException npe){
+						System.out.println("kein aufrufender Frame gefunden!");
+					}
 					System.exit(0);
 				}
 			}
 		};
-		
-		
+
+
 		setUndecorated(true);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setBackground(Color.RED);
@@ -89,7 +122,7 @@ public class Passwort extends JDialog {
 			contentPanel.add(lblPasswort);
 		}
 		{
-			passwortField = new JTextField();
+			passwortField = new JPasswordField();
 			contentPanel.add(passwortField);
 			passwortField.setColumns(10);
 		}

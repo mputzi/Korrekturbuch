@@ -1,3 +1,4 @@
+package korrdata;
 
 import java.util.*;
 
@@ -5,7 +6,7 @@ import java.util.*;
 /**
  * Class aufgabe
  */
-public class aufgabe {
+public class Aufgabe {
 
   //
   // Fields
@@ -17,13 +18,13 @@ public class aufgabe {
   //
   // Constructors
   //
-  public aufgabe () { };
+  public Aufgabe () { };
   
-  public aufgabe (float BE) {
+  public Aufgabe (float BE) {
 	  setPunkte(BE);
   };
   
-  public aufgabe (String bez, float BE){
+  public Aufgabe (String bez, float BE){
 	  setPunkte(BE);
 	  setName(bez);
   };

@@ -1,3 +1,5 @@
+package korrdata;
+
 
 import java.util.*;
 
@@ -14,7 +16,7 @@ public class Klasse {
   private String klBez;
   private int schuljahr;
 
-  public Lehrer m_lehrer;
+  private Lehrer m_lehrer;
   
   //
   // Constructors
@@ -83,9 +85,16 @@ public class Klasse {
   //
 
   /**
+   * 
+   * @param bez Bezeichnung der Klasse
+   * @param sj Schuljahr
+   * 
    */
-  public void klasseAnlegen(  )
+  public void klasseAnlegen( String bez, int sj, Lehrer l )
   {
+	  setKlBez(bez);
+	  setSchuljahr(sj);
+	  setLehrer(l);
   }
 
 

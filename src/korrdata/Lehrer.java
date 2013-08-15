@@ -1,3 +1,5 @@
+package korrdata;
+
 
 import java.util.*;
 
@@ -15,12 +17,25 @@ public class Lehrer {
   private String amtsbez;
   private String schule;
 
-  public Vector klasseVector = new Vector();
+  public ArrayList<Klasse> klasseList = new ArrayList<Klasse>();
   
   //
   // Constructors
   //
   public Lehrer () { };
+  
+  /**
+   * Set the fields of Lehrer
+   * @param a Amtsbezeichnung
+   * @param n Nachname
+   * @param s Schule
+   */
+  public Lehrer (String a, String n, String s) {
+	  setNachname(n);
+	  setAmtsbez(a);
+	  setSchule(s);
+  };
+  
   
   //
   // Methods
@@ -83,7 +98,7 @@ public class Lehrer {
    * Add a Klasse object to the klasseVector List
    */
   public void addKlasse ( Klasse new_object ) {
-    klasseVector.add(new_object);
+    klasseList.add(new_object);
   }
 
   /**
@@ -98,13 +113,18 @@ public class Lehrer {
    * Get the List of Klasse objects held by klasseVector
    * @return List of Klasse objects held by klasseVector
    */
-  public List getKlasseList ( ) {
-    return (List) klasseVector;
+  public ArrayList<Klasse> getKlasseList() {
+    return  klasseList;
   }
 
 
   //
   // Other methods
   //
+  
+  public String toString(){
+	  return new String(amtsbez + " " + nachname + ", " + schule);
+  }
 
+  
 }

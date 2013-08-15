@@ -2,7 +2,7 @@ package korrgui;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-//import java.awt.Frame;
+import java.awt.Frame;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -20,7 +20,7 @@ public class Klassenverwaltung extends JDialog {
 	 */
 	public static void main(String[] args) {
 		try {
-			Klassenverwaltung dialog = new Klassenverwaltung();
+			Klassenverwaltung dialog = new Klassenverwaltung(null);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -32,26 +32,25 @@ public class Klassenverwaltung extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public Klassenverwaltung() {
+	public Klassenverwaltung(final Frame aufrufer) {
 		initialize(); // Dialogfenster aufbauen mit "OK"- und "Cancel"-Button
 	}
 	
 	private ActionListener CLASSal = new ActionListener(){
 		public void actionPerformed(ActionEvent e){
 			String cmd = e.getActionCommand();
+			System.out.println(cmd);
 			
 			if (cmd=="OK"){
-				System.out.println("OK");
 			}
 			if (cmd=="Cancel"){
-				System.out.println("Cancel");
+				
 			}
 			
 		}
 	};
 	
 	private void initialize() {
-		//contentPanel.setTitel("Klasse öffnen");
 		setTitle("Klasse öffnen");
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());

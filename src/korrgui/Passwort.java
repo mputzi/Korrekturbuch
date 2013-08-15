@@ -68,6 +68,8 @@ public class Passwort extends JDialog {
 					}
 					// Wenn Passwort falsch:
 					else{
+						
+						System.out.println("Passwort nicht akzeptiert.");
 						// nix wie raus hier!
 						Passwort.this.setVisible(false);
 						Passwort.this.dispose();

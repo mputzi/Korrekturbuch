@@ -44,6 +44,12 @@ public class TestFrame extends JFrame {
 					System.out.println(meineListe.toString());
 					meineListe.writeSchuelerListToCSV("testest.csv");
 					
+					Lehrer le = new Lehrer ("StR", "Onkel", "Tom" );
+					System.out.println(le.toString());
+					
+					Klasse kl = new Klasse ("13g", 2013, le);
+					System.out.println(kl.toString());
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

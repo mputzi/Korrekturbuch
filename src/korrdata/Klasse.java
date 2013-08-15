@@ -22,6 +22,7 @@ public class Klasse {
   // Constructors
   //
   public Klasse () { };
+  public Klasse ( String bez, int sj, Lehrer l ) { klasseAnlegen(bez,sj,l);};
   
   //
   // Methods
@@ -97,5 +98,8 @@ public class Klasse {
 	  setLehrer(l);
   }
 
+  public String toString(){
+	  return new String(getKlBez() + ", Schuljahr " + getSchuljahr() +"/"+ (getSchuljahr()+1) + ", Lehrer: " + getLehrer().toString());
+  }
 
 }

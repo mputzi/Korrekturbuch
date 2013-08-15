@@ -45,7 +45,10 @@ public final class Secur {
 		
 		System.out.println("Verschlüsselung...");
 		
-		String str = new String(value); 		
+		String str = new String(value);
+		System.out.print("zu enccrypt: ");
+		System.out.println(str);
+		
 		byte[] encrypted = cipher.doFinal(str.getBytes());
 				
 		return byteArrayToHexString(encrypted);
@@ -66,10 +69,9 @@ public final class Secur {
 		   Cipher cipher = Cipher.getInstance("AES");
 		   cipher.init(Cipher.DECRYPT_MODE, sks);
 		   byte[] decrypted = cipher.doFinal(hexStringToByteArray(message));
-	   
+	     
 		   
-		   
-	   return new String (decrypted.toString());
+	   return new String(decrypted);
 	   }
 	   else{
 		   System.out.println("Schlüsseldatei nicht gefunden!!!");

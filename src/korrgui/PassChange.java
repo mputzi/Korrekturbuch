@@ -190,11 +190,13 @@ public class PassChange extends JDialog {
 	      System.out.println("Fehler beim Lesen der Datei");
 	    }
 	    // debug: fertig gelesener String aus Datei
-	    System.out.println(inStr);
+	    // System.out.println(inStr);
+	    System.out.println("Passwort erfolgreich gelesen.");
+	    
 	    // Umwandeln des gelesenen Strings in Char-Array (zum Verlgeichen)
 	    char[] in = inStr.toCharArray();
 	    // debug: Ausgabe char-Array
-	    System.out.println(in);
+	    // System.out.println(in);
 	    
 	    File keyDat = new File("key.dat");
 		String decpwd = new String("");
@@ -205,10 +207,11 @@ public class PassChange extends JDialog {
 		        System.err.println("Caught Exception: " +  e.getMessage());	                                 
 		}
 	    
-		System.out.println(decpwd);
+		// ACHTUNG: Passwort im Klartext ( nur zum Debugging )
+		//System.out.println(decpwd);
 		
 	    // Überprüfung, ob eingegebenes Passwort mit gespeichertem identisch
-		if (Arrays.equals(in, decpwd.toCharArray())){
+		if (Arrays.equals(pwd, decpwd.toCharArray())){
 			return true;
 		} else return false;
 	}

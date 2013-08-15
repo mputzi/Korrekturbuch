@@ -10,32 +10,11 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.SwingConstants;
-import javax.swing.JTextPane;
-import javax.swing.BoxLayout;
-import java.awt.Component;
-import javax.swing.JTextArea;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.ComponentOrientation;
-import javax.swing.JList;
-import javax.swing.ListSelectionModel;
-import javax.swing.Box;
-import javax.swing.JSplitPane;
-import java.awt.GridBagLayout;
-import javax.swing.JScrollPane;
-import javax.swing.AbstractListModel;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import java.awt.List;
-import java.awt.Panel;
-import javax.swing.JSeparator;
-import java.awt.GridLayout;
-import javax.swing.JScrollBar;
 
 public class KlasseOeffnen extends JDialog {
 
 	Frame aufrufer = new Frame();
+	private final JPanel contentPanel = new JPanel();
 
 	/**
 	 * Launch the application.
@@ -99,6 +78,9 @@ public class KlasseOeffnen extends JDialog {
 		setTitle("Klasse öffnen");
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
+		contentPanel.setLayout(new FlowLayout());
+		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -116,31 +98,6 @@ public class KlasseOeffnen extends JDialog {
 				cancelButton.addActionListener(CLASSal);
 				buttonPane.add(cancelButton);
 			}
-		}
-		{
-			Box horizontalBox = Box.createHorizontalBox();
-			getContentPane().add(horizontalBox, BorderLayout.CENTER);
-			{
-				JList list = new JList();
-				list.setSize(new Dimension(120, 120));
-				list.setPreferredSize(new Dimension(120, 120));
-				list.setFixedCellHeight(10);
-				list.setAlignmentX(Component.LEFT_ALIGNMENT);
-				list.setAlignmentY(Component.TOP_ALIGNMENT);
-				list.setMaximumSize(new Dimension(120, 120));
-				list.setMinimumSize(new Dimension(120, 120));
-				list.setModel(new AbstractListModel() {
-					String[] values = new String[] {"Data1", "Data2", "bla", "Data1", "Data2", "bla", "Data1", "Data2", "bla", "Data1", "Data2", "bla"};
-					public int getSize() {
-						return values.length;
-					}
-					public Object getElementAt(int index) {
-						return values[index];
-					}
-				});
-				list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-				horizontalBox.add(list);
-			}
-		}
+		}		
 	} 
 }

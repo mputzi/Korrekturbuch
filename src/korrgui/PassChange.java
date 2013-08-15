@@ -7,10 +7,12 @@ import java.awt.Frame;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import java.awt.Color;
 import javax.swing.border.BevelBorder;
@@ -24,13 +26,10 @@ import korrsecur.*;
 
 public class PassChange extends JDialog {
 
-	Frame aufrufer = new Frame();
 	private final JPanel contentPanel = new JPanel();
 	private JPasswordField passwordFieldAlt;
 	private JPasswordField passwordFieldNeu1;
 	private JPasswordField passwordFieldNeu2;
-	
-	
 
 
 	/**
@@ -50,13 +49,12 @@ public class PassChange extends JDialog {
 	 * Create the dialog.
 	 */
 	public PassChange(final Frame aufrufer) {
-		this.aufrufer = aufrufer;
 		ActionListener PWDChgAL = new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				String cmd = e.getActionCommand();
 				System.out.println("Passwort-Änderungs-Dialog: " + cmd);
 				if (cmd=="OK"){
-					actionOKButton();
+					actionOKButton();		
 				}
 				
 				// Dialog verlassen.
@@ -192,9 +190,6 @@ public class PassChange extends JDialog {
 				// Passwort-Dialog abbauen
 				PassChange.this.setVisible(false);
 				PassChange.this.dispose();
-				// Kontrolle wieder an Hauptfenster übergeben
-		        aufrufer.setEnabled(true);
-		        aufrufer.setVisible(true);
 			}
 			else{
 				System.out.println("Neue Passwörter nicht identisch!");
@@ -213,10 +208,5 @@ public class PassChange extends JDialog {
 		// Passwort-Dialog abbauen
 		PassChange.this.setVisible(false);
         PassChange.this.dispose();
-        // Kontrolle wieder an Hauptfenster übergeben
-        aufrufer.setEnabled(true);
-        aufrufer.setVisible(true);
-        
-        
 	}
 }

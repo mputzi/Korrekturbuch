@@ -167,17 +167,23 @@ public class PassChange extends JDialog {
 	    try {
 	      f = new FileReader("pwd.dat");
 	      while ((c = f.read()) != -1) {
-	         System.out.print((char)c);
+	         
 	         inStr=inStr+(char)c;
-	         System.out.println(inStr);
+	         // debug: Inhalt der Datei auslesen
+	         // System.out.println(inStr);
 	      }
 	      f.close();
 	    } catch (IOException e) {
 	      System.out.println("Fehler beim Lesen der Datei");
 	    }
+	    // debug: fertig gelesener String aus Datei
 	    System.out.println(inStr);
+	    // Umwandeln des gelesenen Strings in Char-Array (zum Verlgeichen)
 	    char[] in = inStr.toCharArray();
+	    // debug: Ausgabe char-Array
 	    System.out.println(in);
+	    
+	    // Überprüfung, ob eingegebenes Passwort mit gespeichertem identisch
 		if (Arrays.equals(in, pwd)){
 			return true;
 		} else return false;
@@ -191,15 +197,20 @@ public class PassChange extends JDialog {
 		else return false;
 	}
 	
+	/**
+	 * writePWD
+	 * Methode zum Schreiben der Passwort-Datei
+	 * 
+	 * @param pwd
+	 * @return 0
+	 */
+	
 	private int writePWD(char[] pwd){
-/*		pwdDat = new File("pwd.dat");
-		if(pwdDat.exists() && pwdDat.canWrite() && pwdDat.isFile()){
+		
+		File pwdDat = new File("pwd.dat");
+		if(  pwdDat.exists() && pwdDat.canWrite() && pwdDat.isFile()  ) {
+			System.out.println("Datei pwd.dat ist da, alles in Ordnung.");
 			
-		}
-		else if(pwdDat.exists() && !(pwdDat.canWrite() && pwdDat.isFile())){
-			System.out.println("kein Schreibzugriff oder keine Datei!");
-		}
-		else{*/
 			FileWriter f1;
 
 		    try {
@@ -209,8 +220,30 @@ public class PassChange extends JDialog {
 		    } catch (IOException e) {
 		      System.out.println("Fehler beim Erstellen der Datei");
 		    }
-		//}
-		return 0;
+		    return 0;
+		}
+		else if(pwdDat.exists() && !(pwdDat.canWrite() && pwdDat.isFile())) {
+			System.out.println("kein Schreibzugriff oder keine Datei!");
+			return 1;
+		}
+		else {
+			System.out.println("Datei pwd.dat existiert nicht!");
+			
+			FileWriter f1;
+
+		    try {
+		      f1 = new FileWriter("pwd.dat");
+		      f1.write(pwd);
+		      f1.close();
+		    } catch (IOException e) {
+		      System.out.println("Fehler beim Erstellen der Datei");
+		    }
+		    
+		    System.out.println("Datei pwd.dat neu angelegt.");
+		    return 0;
+			
+		}
+		
 	}
 	
 	private void actionOKButton(){

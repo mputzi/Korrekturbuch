@@ -11,8 +11,9 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-public class Klassenverwaltung extends JDialog {
+public class KlasseOeffnen extends JDialog {
 
+	Frame aufrufer = new Frame();
 	private final JPanel contentPanel = new JPanel();
 
 	/**
@@ -20,7 +21,7 @@ public class Klassenverwaltung extends JDialog {
 	 */
 	public static void main(String[] args) {
 		try {
-			Klassenverwaltung dialog = new Klassenverwaltung(null);
+			KlasseOeffnen dialog = new KlasseOeffnen(null);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -32,7 +33,8 @@ public class Klassenverwaltung extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public Klassenverwaltung(final Frame aufrufer) {
+	public KlasseOeffnen(final Frame aufrufer) {
+		this.aufrufer = aufrufer;
 		initialize(); // Dialogfenster aufbauen mit "OK"- und "Cancel"-Button
 	}
 	
@@ -42,13 +44,35 @@ public class Klassenverwaltung extends JDialog {
 			System.out.println(cmd);
 			
 			if (cmd=="OK"){
+				actionOKButton();
 			}
 			if (cmd=="Cancel"){
-				
+				actionCancelButton();
 			}
 			
 		}
 	};
+	
+	private void actionOKButton(){
+		// Bestätigen und die Klassenauswahl verlassen
+		// Dialog abbauen
+		KlasseOeffnen.this.setVisible(false);
+		KlasseOeffnen.this.dispose();
+		Hauptfenster.set_class_open(true);
+		aufrufer.setEnabled(true); // Kontrolle wieder an Hauptfenster geben
+		aufrufer.setVisible(true);
+		
+	}
+	
+	private void actionCancelButton(){
+		// Abbrechen und die Klassenauswahl verlassen
+		// Dialog abbauen
+		KlasseOeffnen.this.setVisible(false);
+		KlasseOeffnen.this.dispose();
+		
+		aufrufer.setEnabled(true); // Kontrolle wieder an Hauptfenster geben
+		aufrufer.setVisible(true);
+	}
 	
 	private void initialize() {
 		setTitle("Klasse öffnen");

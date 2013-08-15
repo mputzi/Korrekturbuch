@@ -8,22 +8,24 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import javax.swing.JTextPane;
 
 public class Hauptfenster {
 
-	private static JFrame frame;
+	static private JFrame frame;
 	static Hauptfenster window;
 
-	private JMenu mnDatei, mnKlasse, mnPruefung, mnNeu, mnHilfe;
-	private JMenuItem mntmPasswortAendern, mntmBeenden;
-	private JMenuItem mntmBearbeiten, mntmOeffnen, mntmNeuAnlegen, mntmSchliessen;
-	private JMenuItem mntmSchulaufgabe, mntmStegreifaufgabe, mntmKurzarbeit, mntmTest, mntmPOeffnen;
-	private JMenuBar menuBar;
+	static private JMenu mnDatei, mnKlasse, mnPruefung, mnNeu, mnHilfe;
+	static private JMenuItem mntmPasswortAendern, mntmBeenden;
+	static private JMenuItem mntmBearbeiten, mntmOeffnen, mntmNeuAnlegen, mntmSchliessen;
+	static private JMenuItem mntmSchulaufgabe, mntmStegreifaufgabe, mntmKurzarbeit, mntmTest, mntmPOeffnen;
+	static private JMenuBar menuBar;
 
-	private JPanel mainpanel;
+	static private JPanel mainpanel;
 	private JTextPane welcome;
 
 
@@ -31,13 +33,13 @@ public class Hauptfenster {
 	 *  In der Variablen class_open wird gespeichert, ob eine Klasse zur Bearbeitung geöffnet ist.
 	 *  Nur dann wird überhaupt das Menü Prüfung angezeigt und auch der Menüpunkt Klassebearbeiten.
 	 **/
-	private boolean class_open=false;
-	public void set_class_open (boolean arg)
+	static private boolean class_open=false;
+	static public void set_class_open (boolean arg)
 	{
 		class_open=arg;
 		return;
 	}
-	public boolean get_class_open ()
+	static public boolean get_class_open ()
 	{
 		return class_open;
 	}
@@ -72,7 +74,11 @@ public class Hauptfenster {
 			}
 			if (cmd=="classopen")
 			{
-				set_class_open(true); // Klasse geöffnet
+				frame.setEnabled(false);
+				KlasseOeffnen KlasseOeffnenDialog = new KlasseOeffnen(frame); // Klasse Öffnen Dialog erstellen
+				KlasseOeffnenDialog.setLocationRelativeTo(frame);
+				KlasseOeffnenDialog.setVisible(true); // Dialog anzeigen
+				
 			}
 			if (cmd=="classedit"){}
 			if (cmd=="classclose")
@@ -104,6 +110,34 @@ public class Hauptfenster {
 
 
 	/**
+	 * Fensteraktionen abfangen --> "WindowsListener"
+	 */
+	static private WindowListener wl = new WindowListener(){
+		public void windowClosed(WindowEvent arg0) {}
+        public void windowActivated(WindowEvent arg0) {
+            //System.out.println("Window Activated");
+            if (get_class_open()==true)
+			{
+				mnPruefung.setVisible(true); // Menü "Prüfung" anzeigen
+				mntmBearbeiten.setEnabled(true); // Menüpunkt "Klasse bearbeiten" aktivieren
+				mntmSchliessen.setEnabled(true);
+			}
+			if (get_class_open()==false)
+			{
+				mnPruefung.setVisible(false); // Menü "Prüfung" ausblenden
+				mntmBearbeiten.setEnabled(false); // Menüpunkt "Klasse bearbeiten" ausblenden
+				mntmSchliessen.setEnabled(false);
+			}
+        }
+        public void windowClosing(WindowEvent arg0) {}
+        public void windowDeactivated(WindowEvent arg0) {}
+        public void windowDeiconified(WindowEvent arg0) {}
+        public void windowIconified(WindowEvent arg0) {}
+        public void windowOpened(WindowEvent arg0) {}
+	};
+	
+	
+	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
@@ -112,6 +146,7 @@ public class Hauptfenster {
 				try {
 					window = new Hauptfenster();
 					window.frame.setVisible(true);
+					window.frame.addWindowListener(wl);
 
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -120,6 +155,7 @@ public class Hauptfenster {
 		});
 	}
 
+	
 	/**
 	 * Create the application.
 	 */

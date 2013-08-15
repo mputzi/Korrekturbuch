@@ -19,9 +19,9 @@ public class Hauptfenster {
 	static private JFrame frame;
 	static Hauptfenster window;
 
-	static private JMenu mnDatei, mnKlasse, mnPruefung, mnNeu, mnHilfe;
+	static private JMenu mnDatei, mnKlasse, mnKneu, mnPruefung, mnNeu, mnHilfe;
 	static private JMenuItem mntmPasswortAendern, mntmBeenden;
-	static private JMenuItem mntmBearbeiten, mntmOeffnen, mntmNeuAnlegen, mntmSchliessen;
+	static private JMenuItem mntmBearbeiten, mntmOeffnen, mntmNeuAnlegen, mntmSchliessen, mntmKimport;
 	static private JMenuItem mntmSchulaufgabe, mntmStegreifaufgabe, mntmKurzarbeit, mntmTest, mntmPOeffnen;
 	static private JMenuBar menuBar;
 
@@ -72,6 +72,13 @@ public class Hauptfenster {
 			{
 				set_class_open(true); // Klasse geöffnet (neu angelegt)
 			}
+			
+			if (cmd=="classimport")
+			{
+				set_class_open(true);
+			}
+			
+			
 			if (cmd=="classopen")
 			{
 				frame.setEnabled(false);
@@ -230,10 +237,20 @@ public class Hauptfenster {
 		mntmBearbeiten.addActionListener(al);
 		mnKlasse.add(mntmBearbeiten);
 
+		mnKneu = new JMenu("Neu");
+		mnKlasse.add(mnKneu);
+		
 		mntmNeuAnlegen = new JMenuItem("Neu anlegen");
 		mntmNeuAnlegen.setActionCommand("classnew");
 		mntmNeuAnlegen.addActionListener(al);
-		mnKlasse.add(mntmNeuAnlegen);
+		mnKneu.add(mntmNeuAnlegen);
+		
+		mntmKimport = new JMenuItem("Importieren (CVS)");
+		mntmKimport.setActionCommand("classimport");
+		mntmKimport.addActionListener(al);
+		mnKneu.add(mntmKimport);
+		
+		
 
 		mntmSchliessen = new JMenuItem("Schließen");
 		mntmSchliessen.setActionCommand("classclose");

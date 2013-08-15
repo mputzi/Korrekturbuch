@@ -49,7 +49,8 @@ public class Passwort extends JDialog {
 				// Wenn Passwort richtig:
 				// Zurück zum aufrufenden Fenster!
 				System.out.println("Passwort akzeptiert.");
-				// Passwort-Dialog abbauen
+				// Passwort-Dialog abbauen und Hauptfenster wieder freigeben
+				aufrufer.setEnabled(true);
 				Passwort.this.setVisible(false);
 		        Passwort.this.dispose();
 				}

@@ -22,12 +22,16 @@ import java.awt.event.ActionEvent;
 import java.util.*;
 import java.io.*;
 
+import korrsecur.*;
+
+
 public class PassChange extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private JPasswordField passwordFieldAlt;
 	private JPasswordField passwordFieldNeu1;
 	private JPasswordField passwordFieldNeu2;
+
 
 	/**
 	 * Launch the application.
@@ -159,11 +163,20 @@ public class PassChange extends JDialog {
 		}
 	}
 	
+
+	
 	private boolean passCheck(char[] pwd){
 		FileReader f;
 	    int c;
 	    String inStr = new String("");
 
+		File pwdDat = new File("pwd.dat");
+		if(  pwdDat.exists() && pwdDat.canWrite() && pwdDat.isFile()  ) {
+			System.out.println("Datei pwd.dat ist da, alles in Ordnung.");
+		}
+		else if (!pwdDat.exists()) return true;
+			
+			    
 	    try {
 	      f = new FileReader("pwd.dat");
 	      while ((c = f.read()) != -1) {
@@ -183,8 +196,19 @@ public class PassChange extends JDialog {
 	    // debug: Ausgabe char-Array
 	    System.out.println(in);
 	    
+	    File keyDat = new File("key.dat");
+		String decpwd = new String("");
+		try{
+			decpwd = Secur.decrypt(inStr, keyDat);
+		}
+		 catch (Exception e) {
+		        System.err.println("Caught Exception: " +  e.getMessage());	                                 
+		}
+	    
+		System.out.println(decpwd);
+		
 	    // Überprüfung, ob eingegebenes Passwort mit gespeichertem identisch
-		if (Arrays.equals(in, pwd)){
+		if (Arrays.equals(in, decpwd.toCharArray())){
 			return true;
 		} else return false;
 	}
@@ -207,6 +231,17 @@ public class PassChange extends JDialog {
 	
 	private int writePWD(char[] pwd){
 		
+		File keyDat = new File("key.dat");
+		String encpwd = new String("");
+		try{
+			encpwd = Secur.encrypt(pwd, keyDat);
+		}
+		 catch (Exception e) {
+		        System.err.println("Caught Exception: " +  e.getMessage());	                                 
+		}
+		
+		System.out.println(encpwd);
+		
 		File pwdDat = new File("pwd.dat");
 		if(  pwdDat.exists() && pwdDat.canWrite() && pwdDat.isFile()  ) {
 			System.out.println("Datei pwd.dat ist da, alles in Ordnung.");
@@ -215,7 +250,8 @@ public class PassChange extends JDialog {
 
 		    try {
 		      f1 = new FileWriter("pwd.dat");
-		      f1.write(pwd);
+		      f1.write(encpwd);
+		      f1.flush();
 		      f1.close();
 		    } catch (IOException e) {
 		      System.out.println("Fehler beim Erstellen der Datei");
@@ -233,7 +269,8 @@ public class PassChange extends JDialog {
 
 		    try {
 		      f1 = new FileWriter("pwd.dat");
-		      f1.write(pwd);
+		      f1.write(encpwd);
+		      f1.flush();
 		      f1.close();
 		    } catch (IOException e) {
 		      System.out.println("Fehler beim Erstellen der Datei");
@@ -257,6 +294,8 @@ public class PassChange extends JDialog {
 		boolean passCheck = passCheck(passwordFieldAlt.getPassword());
 		// Vergleiche, ob eingegebene neue Passwörter gleich sind.
 		boolean passEqualCheck = passEqualCheck(passwordFieldNeu1.getPassword(),passwordFieldNeu2.getPassword());
+		
+		
 		// Wenn Passwort richtig:
 		if(passCheck){
 			// Zurück zum aufrufenden Fenster!

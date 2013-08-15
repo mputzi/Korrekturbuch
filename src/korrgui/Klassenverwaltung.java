@@ -28,6 +28,7 @@ public class Klassenverwaltung extends JDialog {
 		}
 	}
 
+	
 	/**
 	 * Create the dialog.
 	 */
@@ -35,12 +36,15 @@ public class Klassenverwaltung extends JDialog {
 		initialize(); // Dialogfenster aufbauen mit "OK"- und "Cancel"-Button
 	}
 	
-	private ActionListener al_class = new ActionListener(){
+	private ActionListener CLASSal = new ActionListener(){
 		public void actionPerformed(ActionEvent e){
 			String cmd = e.getActionCommand();
 			
 			if (cmd=="OK"){
-				System.out.println("Test");
+				System.out.println("OK");
+			}
+			if (cmd=="Cancel"){
+				System.out.println("Cancel");
 			}
 			
 		}
@@ -48,6 +52,7 @@ public class Klassenverwaltung extends JDialog {
 	
 	private void initialize() {
 		//contentPanel.setTitel("Klasse öffnen");
+		setTitle("Klasse öffnen");
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setLayout(new FlowLayout());
@@ -60,12 +65,14 @@ public class Klassenverwaltung extends JDialog {
 			{
 				JButton okButton = new JButton("OK");
 				okButton.setActionCommand("OK");
+				okButton.addActionListener(CLASSal);
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
 			}
 			{
 				JButton cancelButton = new JButton("Cancel");
 				cancelButton.setActionCommand("Cancel");
+				cancelButton.addActionListener(CLASSal);
 				buttonPane.add(cancelButton);
 			}
 		}		

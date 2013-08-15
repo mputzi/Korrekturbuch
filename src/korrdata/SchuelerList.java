@@ -2,6 +2,7 @@ package korrdata;
 
 
 import java.util.*;
+import com.csvreader.CsvReader;
 
 /**
  * Class SchuelerList
@@ -88,6 +89,13 @@ public class SchuelerList {
   public void setSchuelerListFromCSV(File f)
   {
     Schuelerliste.clear();
+    
+    CsvReader csvSchuelerListe = new CsvReader(f);
+    csvSchuelerListe.readHeaders();
+    
+    
+    
+    
     Schuelerliste.addAll(liste);
     
     setAnz(Schuelerliste.size());

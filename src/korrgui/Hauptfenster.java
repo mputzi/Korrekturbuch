@@ -51,7 +51,8 @@ public class Hauptfenster {
 	private ActionListener al = new ActionListener(){
 		public void actionPerformed(ActionEvent e){
 			String cmd = e.getActionCommand();
-			System.out.println(cmd);
+			// Für Debug-Zwecke
+			//System.out.println(cmd);
 
 			if (cmd=="passwordchange"){
 				// Passwort-Änderungs-Dialog erstellen
@@ -59,7 +60,10 @@ public class Hauptfenster {
 				// Aufrufenden frame an Passwort-Änderungs-Dialog übermitteln
 				pwChgDialog.setLocationRelativeTo(frame);
 				// Passwort-Änderungs-Dialog anzeigen
-				pwChgDialog.setVisible(true);					
+				pwChgDialog.setVisible(true);
+				// Hauptfenster sperren
+				frame.setEnabled(false);
+				
 			}
 			if (cmd=="exit")
 			{

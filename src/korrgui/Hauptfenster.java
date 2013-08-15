@@ -132,11 +132,16 @@ public class Hauptfenster {
 		
 		
 		initialize(); // Menübar anlegen und Passwortabfrage starten
+		
 		mnPruefung.setVisible(false); // Menü "Prüfung" erst möglich, wenn Klasse geöffnet
 		mntmBearbeiten.setEnabled(false); // Menüpunkt "Klasse bearbeiten" und "Klasse Schließen" erst möglich, wenn Klasse geöffnet
 		mntmSchliessen.setEnabled(false);
 		
 		set_class_open(false); // Noch keine Klasse geöffnet
+		
+		/**
+		 * Willkommenstext hinzufügen
+		 */
 		
 		mainpanel = new JPanel();
 		frame.getContentPane().add(mainpanel, BorderLayout.CENTER);

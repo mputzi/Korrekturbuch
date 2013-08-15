@@ -58,7 +58,7 @@ public class Lehrer {
    * Get the value of nachname
    * @return the value of nachname
    */
-  private String getNachname ( ) {
+  private String getNachname( ) {
     return nachname;
   }
 

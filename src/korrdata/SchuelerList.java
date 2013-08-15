@@ -2,7 +2,9 @@ package korrdata;
 
 
 import java.util.*;
+import java.io.*;
 import com.csvreader.CsvReader;
+import com.csvreader.CsvWriter;
 
 /**
  * Class SchuelerList
@@ -41,7 +43,7 @@ public class SchuelerList {
    * Set the value of anz
    * @param newVar the new value of anz
    */
-  private void setAnz ( int newVar ) {
+  private void setAnz( int newVar ) {
     anz = newVar;
   }
 
@@ -49,7 +51,7 @@ public class SchuelerList {
    * Get the value of anz
    * @return the value of anz
    */
-  private int getAnz ( ) {
+  public int getAnz( ) {
     return anz;
   }
 
@@ -86,18 +88,35 @@ public class SchuelerList {
     setAnz(Schuelerliste.size());
   }
   
-  public void setSchuelerListFromCSV(File f)
+  public void setSchuelerListFromCSV(String filename)
   {
     Schuelerliste.clear();
-    
-    CsvReader csvSchuelerListe = new CsvReader(f);
+    Schueler tmp;
+
+  
+    try{
+    CsvReader csvSchuelerListe = new CsvReader(filename);
     csvSchuelerListe.readHeaders();
     
-    
-    
-    
-    Schuelerliste.addAll(liste);
-    
+    while (csvSchuelerListe.readRecord())
+	{
+		String vorname      = csvSchuelerListe.get("Vorname");
+		String nachname     = csvSchuelerListe.get("Name");
+				
+		// perform program logic here
+		System.out.println(vorname + ", " + nachname);
+		tmp = new Schueler(vorname, nachname);
+		addToSchuelerList(tmp);
+	}
+
+    csvSchuelerListe.close();
+    }
+    catch (FileNotFoundException e) {
+		e.printStackTrace();
+	} catch (IOException e) {
+		e.printStackTrace();
+	}
+     
     setAnz(Schuelerliste.size());
   }
   
@@ -113,5 +132,50 @@ public class SchuelerList {
   //
   // Other methods
   //
+  
+  public String toString(){
+	  return new String("Inhalt der Schülerliste: " + Schuelerliste);
+  }
+  
+  public void writeSchuelerListToCSV(String filename)
+  {
+
+ // before we open the file check to see if it already exists
+	    File f = new File(filename);
+ 		boolean alreadyExists = f.exists();
+ 		
+ 		if (alreadyExists){
+ 				f.delete();
+			}
+ 		
+ 		try {
+ 			// use FileWriter constructor that specifies open for appending
+ 			CsvWriter csvOutput = new CsvWriter(new FileWriter(filename, true), ',');
+ 					
+ 			
+ 			/*
+ 			// if the file didn't already exist then we need to write out the header line
+ 			if (!alreadyExists)
+ 			{*/
+ 				csvOutput.write("Vorname");
+ 				csvOutput.write("Name");
+ 				csvOutput.endRecord();
+ 			/*}
+ 			// else assume that the file already has the correct header line
+ 			*/
+ 			
+ 			for(int i = 0; i < Schuelerliste.size(); i++){
+ 			// write out a few records
+ 	 			csvOutput.write(Schuelerliste.get(i).getVorname());
+ 	 			csvOutput.write(Schuelerliste.get(i).getNachname());
+ 	 			csvOutput.endRecord();
+ 			}
+ 			
+ 			csvOutput.close();
+ 		} catch (IOException e) {
+ 			e.printStackTrace();
+ 		}
+    
+  }
 
 }

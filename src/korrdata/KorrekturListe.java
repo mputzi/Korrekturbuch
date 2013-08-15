@@ -13,7 +13,7 @@ public class KorrekturListe {
   // Fields
   //
 
-  private bool[] anwesend;
+  private boolean[] anwesend;
   private float[][] erreicht;
 
   public SchuelerList m_schueler;
@@ -36,7 +36,7 @@ public class KorrekturListe {
    * Set the value of anwesend
    * @param newVar the new value of anwesend
    */
-  private void setAnwesend ( bool[] newVar ) {
+  private void setAnwesend ( boolean[] newVar ) {
     anwesend = newVar;
   }
 
@@ -44,7 +44,7 @@ public class KorrekturListe {
    * Get the value of anwesend
    * @return the value of anwesend
    */
-  private bool[] getAnwesend ( ) {
+  private boolean[] getAnwesend ( ) {
     return anwesend;
   }
 

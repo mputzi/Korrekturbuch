@@ -20,6 +20,10 @@ public class Schueler {
   // Constructors
   //
   public Schueler () { };
+  public Schueler (String v, String n) {
+	  setVorname(v);
+	  setNachname(n);
+  };
   
   //
   // Methods
@@ -42,7 +46,7 @@ public class Schueler {
    * Get the value of vorname
    * @return the value of vorname
    */
-  private String getVorname ( ) {
+  public String getVorname ( ) {
     return vorname;
   }
 
@@ -58,7 +62,7 @@ public class Schueler {
    * Get the value of nachname
    * @return the value of nachname
    */
-  private String getNachname ( ) {
+  public String getNachname ( ) {
     return nachname;
   }
 
@@ -71,9 +75,13 @@ public class Schueler {
    * @param        vorname
    * @param        nachname
    */
-  public boolean schuelerAendern( String vorname, String nachname )
+  public int schuelerAendern( String vorname, String nachname )
   {
+	  return 0;
   }
 
+  public String toString(){
+	  return new String(getVorname() + " " + getNachname());
+  }
 
 }

@@ -15,6 +15,8 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import korrdata.*;
+
 public class TestFrame extends JFrame {
 
 	/**
@@ -34,6 +36,14 @@ public class TestFrame extends JFrame {
 				try {
 					TestFrame frame = new TestFrame();
 					frame.setVisible(true);
+					
+					
+					SchuelerList meineListe = new SchuelerList();
+					meineListe.setSchuelerListFromCSV("testcase_13g.csv");
+					System.out.println(meineListe.getAnz());
+					System.out.println(meineListe.toString());
+					meineListe.writeSchuelerListToCSV("testest.csv");
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

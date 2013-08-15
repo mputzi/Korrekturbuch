@@ -44,8 +44,7 @@ public class Passwort extends JDialog {
 				if (cmd=="OK"){
 				System.out.println("Passwort-Dialog: " + cmd);
 				// Vergleiche mit hinterlegtem Passwort
-				System.out.println("Eingegebenes Passwort: "+
-				  passwortField.getText());
+			
 				// Wenn Passwort richtig:
 				// Zurück zum aufrufenden Fenster!
 				System.out.println("Passwort akzeptiert.");

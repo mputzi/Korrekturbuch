@@ -19,8 +19,7 @@ import javax.swing.border.BevelBorder;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.util.*;
-import java.io.*;
+
 
 import korrsecur.*;
 
@@ -164,136 +163,18 @@ public class PassChange extends JDialog {
 	}
 	
 
-	
-	private boolean passCheck(char[] pwd){
-		FileReader f;
-	    int c;
-	    String inStr = new String("");
-
-		File pwdDat = new File("pwd.dat");
-		if(  pwdDat.exists() && pwdDat.canWrite() && pwdDat.isFile()  ) {
-			System.out.println("Datei pwd.dat ist da, alles in Ordnung.");
-		}
-		else if (!pwdDat.exists()) return true;
-			
-			    
-	    try {
-	      f = new FileReader("pwd.dat");
-	      while ((c = f.read()) != -1) {
-	         
-	         inStr=inStr+(char)c;
-	         // debug: Inhalt der Datei auslesen
-	         // System.out.println(inStr);
-	      }
-	      f.close();
-	    } catch (IOException e) {
-	      System.out.println("Fehler beim Lesen der Datei");
-	    }
-	    // debug: fertig gelesener String aus Datei
-	    System.out.println(inStr);
-	    // Umwandeln des gelesenen Strings in Char-Array (zum Verlgeichen)
-	    char[] in = inStr.toCharArray();
-	    // debug: Ausgabe char-Array
-	    System.out.println(in);
-	    
-	    File keyDat = new File("key.dat");
-		String decpwd = new String("");
-		try{
-			decpwd = Secur.decrypt(inStr, keyDat);
-		}
-		 catch (Exception e) {
-		        System.err.println("Caught Exception: " +  e.getMessage());	                                 
-		}
-	    
-		System.out.println(decpwd);
-		
-	    // Überprüfung, ob eingegebenes Passwort mit gespeichertem identisch
-		if (Arrays.equals(in, decpwd.toCharArray())){
-			return true;
-		} else return false;
-	}
-	
-	private boolean passEqualCheck(char[] pwd1, char[] pwd2){
-
-		if (Arrays.equals(pwd1,pwd2)){
-			return true;
-		}
-		else return false;
-	}
-	
-	/**
-	 * writePWD
-	 * Methode zum Schreiben der Passwort-Datei
-	 * 
-	 * @param pwd
-	 * @return 0
-	 */
-	
-	private int writePWD(char[] pwd){
-		
-		File keyDat = new File("key.dat");
-		String encpwd = new String("");
-		try{
-			encpwd = Secur.encrypt(pwd, keyDat);
-		}
-		 catch (Exception e) {
-		        System.err.println("Caught Exception: " +  e.getMessage());	                                 
-		}
-		
-		System.out.println(encpwd);
-		
-		File pwdDat = new File("pwd.dat");
-		if(  pwdDat.exists() && pwdDat.canWrite() && pwdDat.isFile()  ) {
-			System.out.println("Datei pwd.dat ist da, alles in Ordnung.");
-			
-			FileWriter f1;
-
-		    try {
-		      f1 = new FileWriter("pwd.dat");
-		      f1.write(encpwd);
-		      f1.flush();
-		      f1.close();
-		    } catch (IOException e) {
-		      System.out.println("Fehler beim Erstellen der Datei");
-		    }
-		    return 0;
-		}
-		else if(pwdDat.exists() && !(pwdDat.canWrite() && pwdDat.isFile())) {
-			System.out.println("kein Schreibzugriff oder keine Datei!");
-			return 1;
-		}
-		else {
-			System.out.println("Datei pwd.dat existiert nicht!");
-			
-			FileWriter f1;
-
-		    try {
-		      f1 = new FileWriter("pwd.dat");
-		      f1.write(encpwd);
-		      f1.flush();
-		      f1.close();
-		    } catch (IOException e) {
-		      System.out.println("Fehler beim Erstellen der Datei");
-		    }
-		    
-		    System.out.println("Datei pwd.dat neu angelegt.");
-		    return 0;
-			
-		}
-		
-	}
-	
 	private void actionOKButton(){
 		
-		//Ausgabe (debug only)
-		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("Eingegebenes Passwort: ");
-		stringBuilder.append(passwordFieldAlt.getPassword());		
-		System.out.println(stringBuilder.toString());
+		// Ausgabe (debug only)
+		// StringBuilder stringBuilder = new StringBuilder();
+		// stringBuilder.append("Eingegebenes Passwort: ");
+		// stringBuilder.append(passwordFieldAlt.getPassword());		
+		// System.out.println(stringBuilder.toString());
+		
 		// Vergleiche mit hinterlegtem Passwort
-		boolean passCheck = passCheck(passwordFieldAlt.getPassword());
+		boolean passCheck = Secur.passCheck(passwordFieldAlt.getPassword());
 		// Vergleiche, ob eingegebene neue Passwörter gleich sind.
-		boolean passEqualCheck = passEqualCheck(passwordFieldNeu1.getPassword(),passwordFieldNeu2.getPassword());
+		boolean passEqualCheck = Secur.passEqualCheck(passwordFieldNeu1.getPassword(),passwordFieldNeu2.getPassword());
 		
 		
 		// Wenn Passwort richtig:
@@ -305,7 +186,7 @@ public class PassChange extends JDialog {
 				System.out.println("Eingegebene Passwörter gleich");
 			
 				// Passwort abspeichern
-				writePWD(passwordFieldNeu1.getPassword());
+				Secur.writePWD(passwordFieldNeu1.getPassword());
 				// Passwort-Dialog abbauen
 				PassChange.this.setVisible(false);
 				PassChange.this.dispose();
@@ -316,6 +197,8 @@ public class PassChange extends JDialog {
 			}
 		else{
 			System.out.println("Passwort falsch");
+			
+			
 		}
 	}
 	

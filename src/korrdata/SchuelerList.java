@@ -3,7 +3,6 @@ package korrdata;
 
 import java.util.*;
 
-
 /**
  * Class SchuelerList
  */
@@ -15,12 +14,18 @@ public class SchuelerList {
 
   private int anz;
 
-  public Vector punktelisteVector = new Vector();
+  public ArrayList<Schueler> Schuelerliste = new ArrayList<Schueler>();
   
   //
   // Constructors
   //
   public SchuelerList () { };
+  
+  public SchuelerList (List<Schueler> liste) {
+	    Schuelerliste.clear();
+	    Schuelerliste.addAll(liste);
+  };
+  
   
   //
   // Methods
@@ -50,25 +55,51 @@ public class SchuelerList {
   /**
    * Add a Punkteliste object to the punktelisteVector List
    */
-  public void addPunkteliste ( KorrekturListe new_object ) {
-    punktelisteVector.add(new_object);
+  public void addToSchuelerList ( Schueler new_object ) {
+	if(Schuelerliste.contains(new_object)){
+		System.out.println("Schüler bereits in Liste enthalten!");
+		return;
+	}
+    Schuelerliste.add(new_object);
+    setAnz(Schuelerliste.size());
   }
 
   /**
    * Remove a Punkteliste object from punktelisteVector List
    */
-  public void removePunkteliste ( KorrekturListe new_object )
+  public void removeFromSchuelerList ( Schueler new_object )
   {
-    punktelisteVector.remove(new_object);
+    if(Schuelerliste.contains(new_object)){
+    	Schuelerliste.remove(new_object);
+    }
+    else{
+    	System.out.println("Schüler nicht in Liste enthalten.");
+    }
   }
-
-  /**
-   * Get the List of Punkteliste objects held by punktelisteVector
-   * @return List of Punkteliste objects held by punktelisteVector
-   */
-  public List getPunktelisteList ( ) {
-    return (List) punktelisteVector;
+  
+  public void setSchuelerList (List liste )
+  {
+    Schuelerliste.clear();
+    Schuelerliste.addAll(liste);
+    
+    setAnz(Schuelerliste.size());
   }
+  
+  public void setSchuelerListFromCSV(File f)
+  {
+    Schuelerliste.clear();
+    Schuelerliste.addAll(liste);
+    
+    setAnz(Schuelerliste.size());
+  }
+  
+//  /**
+//   * Get the List of Punkteliste objects held by punktelisteVector
+//   * @return List of Punkteliste objects held by punktelisteVector
+//   */
+//  public  getPunktelisteList ( ) {
+//    return (List) punktelisteVector;
+//  }
 
 
   //

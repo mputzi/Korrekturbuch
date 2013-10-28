@@ -19,14 +19,16 @@ import javax.swing.JList;
 import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.AbstractListModel;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.ListSelectionEvent;
 
-public class KlasseOeffnen extends JDialog {
+
+public class KlasseOeffnen extends JDialog implements ActionListener {
 
 	Frame aufrufer = new Frame();
-	private final JPanel contentPanel = new JPanel();
+	private JPanel contentPanel = new JPanel();
 	private JTextArea Zusammenfassung = new JTextArea();
-	private JList<String> Klassenliste = new JList<String> ();
-	
+	//private JList<String> Klassenliste = new JList<String> ();
 	
 
 	/**
@@ -93,9 +95,6 @@ public class KlasseOeffnen extends JDialog {
 		Zusammenfassung.setText(arg);
 	}
 	
-	public void set_Klassenliste (String[] txt){
-		//Test
-	}
 	
 	
 	private void initialize() {
@@ -111,9 +110,15 @@ public class KlasseOeffnen extends JDialog {
 			scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 			contentPanel.add(scrollPane, BorderLayout.WEST);
 			{
-				//JList Klassenliste = new JList();
+				final JList Klassenliste = new JList();
+				Klassenliste.addListSelectionListener(new ListSelectionListener() {
+					public void valueChanged(ListSelectionEvent arg0) {
+						set_Zusammenfassung(Klassenliste.getSelectedValue().toString());
+					}
+				});
+				
 				Klassenliste.setModel(new AbstractListModel() {
-					String[] values = new String[] {"Tets", "Auto", "Banane", "dksjge", "dsaökfe", "dddddjjj", "Tets", "Auto", "Banane", "dksjge", "dsaökfe", "dddddjjj", "Tets", "Auto", "Banane", "dksjge", "dsaökfe", "dddddjjj"};
+					String[] values = new String[] {"Test", "Auto", "Banane", "Zitrone"};
 					public int getSize() {
 						return values.length;
 					}

@@ -144,8 +144,12 @@ public void setKorrBuch(Korrekturbuch korrBuch) {
 	this.korrBuch = korrBuch;
 }
 
-public void setKorrBuchFromFile(Korrekturbuch korrBuch) {
-	this.korrBuch = korrBuch;
+public void setKorrBuchFromFile(String filename) {
+	//this.korrBuch = korrBuch;
+}
+
+public void writeKorrBuchToFile(String filename) {
+	
 }
 
 public String getSchuelerListFile() {
@@ -154,6 +158,11 @@ public String getSchuelerListFile() {
 public void setSchuelerListFile(String schuelerListFile) {
 	this.schuelerListFile = schuelerListFile;
 }
+
+public void writeSchuelerListToFile(String filename) {
+	schuelerL.writeSchuelerListToCSV(filename);
+}
+
 public String getKorrBuchFile() {
 	return korrBuchFile;
 }

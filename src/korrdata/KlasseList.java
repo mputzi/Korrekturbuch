@@ -115,7 +115,12 @@ public class KlasseList {
 		int sjaNumber = Integer.valueOf(sja).intValue();
 		Lehrer lehtmp = new Lehrer();
 		lehtmp.fromString(leh);
+		
 		tmp = new Klasse(bez,fac,sjaNumber,lehtmp);
+		
+		tmp.setKorrBuchFile(kbf);
+		tmp.setSchuelerListFile(slf);
+		
 		addToKlasseList(tmp);
 	}
 

@@ -169,7 +169,7 @@ public class SchuelerList {
  			
  			for(int i = 0; i < Schuelerliste.size(); i++){
  			// write out a few records
- 				csvOutput.write(Schuelerliste.get(i).getID());
+ 				csvOutput.write(Schuelerliste.get(i).getIDString());
  	 			csvOutput.write(Schuelerliste.get(i).getVorname());
  	 			csvOutput.write(Schuelerliste.get(i).getNachname());
  	 			csvOutput.endRecord();

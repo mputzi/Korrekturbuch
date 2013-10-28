@@ -50,7 +50,7 @@ public class Aufgabe {
    * Get the value of name
    * @return the value of name
    */
-  private String getName ( ) {
+  public String getName ( ) {
     return name;
   }
 
@@ -66,8 +66,16 @@ public class Aufgabe {
    * Get the value of punkte
    * @return the value of punkte
    */
-  private float getPunkte ( ) {
+public float getPunkte ( ) {
     return punkte;
+  }
+  
+  /**
+   * Get the String of punkte
+   * @return the value of punkte
+   */
+public String getPunkteString ( ) {
+    return new String(""+ punkte);
   }
 
   //

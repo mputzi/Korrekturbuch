@@ -1,7 +1,15 @@
 package korrdata;
 
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
+
+import com.csvreader.CsvReader;
+import com.csvreader.CsvWriter;
 
 
 /**
@@ -172,6 +180,102 @@ public Pruefungsarten.ART getPrArtKey() {
 public void setPrArtKey(Pruefungsarten.ART prArtKey) {
 	this.artKey = prArtKey;
 }
+/*
+public static boolean setPruefungFromFile(String filename){
+	 {
+		    	  
+		    try{
+		    CsvReader csvPruefung = new CsvReader(filename);
+		    csvPruefung.readHeaders();
+		    
+		    while (csvPruefung.readRecord())
+			{
+		    	String num          = csvPruefung.get("Nummer");
+		    	String art          = csvPruefung.get("Art");
+				String yea          = csvPruefung.get("Jahr");
+				String mon          = csvPruefung.get("Monat");
+				String day          = csvPruefung.get("Tag");
+				String anz			= csvPruefung.get("Anzahl");
+				String lis			= csvPruefung.get("Listen-Datei");
+						
+				// perform program logic here
+				System.out.println(num + ", " + art + ", " + yea + ", " + mon + ", "+ day + ", " + anz + ", " + lis);
+				int numNumber = Integer.valueOf(num).intValue();
+				int yeaNumber = Integer.valueOf(yea).intValue();
+				int monNumber = Integer.valueOf(mon).intValue();
+				int dayNumber = Integer.valueOf(day).intValue();
+				int anzNumber = Integer.valueOf(anz).intValue();
+				
+				
+			}
+    
+		    csvPruefung.close();
+		    }
+		    catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+		  }
+*/	 
+	 public void writePruefungToCSV(String filename)
+	  {
+
+	 // before we open the file check to see if it already exists
+		    File f = new File(filename);
+		    String aufgabenFilename = new String(filename.substring(0, filename.lastIndexOf('.')) + "_aufgaben.csv");
+		    
+	 		boolean alreadyExists = f.exists();
+	 		
+	 		if (alreadyExists){
+	 				f.delete();
+				}
+	 		
+	 		try {
+	 			// use FileWriter constructor that specifies open for appending
+	 			CsvWriter csvOutput = new CsvWriter(new FileWriter(filename, true), ',');
+	 					
+	 			
+	 			/*
+	 			// if the file didn't already exist then we need to write out the header line
+	 			if (!alreadyExists)
+	 			{*/
+	 				csvOutput.write("Nummer");
+	 				csvOutput.write("Art");
+	 				csvOutput.write("Jahr");
+	 				csvOutput.write("Monat");
+	 				csvOutput.write("Tag");
+	 				csvOutput.write("Anzahl");
+	 				csvOutput.write("Listen-Datei");
+	 				csvOutput.endRecord();
+	 			/*}
+	 			// else assume that the file already has the correct header line
+	 			*/
+	 				 			
+	 			// write out a few records
+	 				csvOutput.write("" + this.nummer);
+	 	 			csvOutput.write("" + this.artKey);
+	 	 			csvOutput.write("" + this.datum.get(Calendar.YEAR));
+	 	 			csvOutput.write("" + this.datum.get(Calendar.MONTH));
+	 	 			csvOutput.write("" + this.datum.get(Calendar.DAY_OF_MONTH));
+	 	 			csvOutput.write("" + this.anzTeilnehmer);
+	 	 			
+	 	 			csvOutput.write(aufgabenFilename);
+	 	 				 	 			
+	 	 			csvOutput.endRecord();
+	 			
+	 			
+	 			csvOutput.close();
+	 			
+	 		} catch (IOException e) {
+	 			e.printStackTrace();
+	 		}
+	 		
+	 		aufgabenListe.writeAufgabenListeToCSV(aufgabenFilename);
+	    
+	  }
+
 
 
 }

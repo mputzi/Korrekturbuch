@@ -1,6 +1,5 @@
 package korrdata;
 
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 public class PruefungTest {

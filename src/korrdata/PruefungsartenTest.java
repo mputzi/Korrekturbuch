@@ -1,9 +1,5 @@
 package korrdata;
 
-import java.util.Set;
-
-import korrdata.Pruefungsarten.ART;
-
 public class PruefungsartenTest {
 
 	/**

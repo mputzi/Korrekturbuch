@@ -23,7 +23,6 @@ public class Pruefung {
   // Fields
   //
 
-  private static final int Aufgabenliste = 0;
   private GregorianCalendar datum;
   private Pruefungsarten.ART artKey;
   private int nummer;

@@ -14,15 +14,18 @@ public class Klasse {
   //
 
   private String klBez;
+  private String fach;
   private int schuljahr;
-
-  private Lehrer m_lehrer;
+  private Lehrer lehrer;
+  private SchuelerList schuelerL;  
+  
+  private Korrekturbuch korrBuch;
   
   //
   // Constructors
   //
   public Klasse () { };
-  public Klasse ( String bez, int sj, Lehrer l ) { klasseAnlegen(bez,sj,l);};
+  public Klasse ( String bez, String fach ,int sj, Lehrer l ) { klasseAnlegen(bez,fach,sj,l);};
   
   //
   // Methods
@@ -91,15 +94,28 @@ public class Klasse {
    * @param sj Schuljahr
    * 
    */
-  public void klasseAnlegen( String bez, int sj, Lehrer l )
+  public void klasseAnlegen( String bez, String fach, int sj, Lehrer l )
   {
 	  setKlBez(bez);
 	  setSchuljahr(sj);
 	  setLehrer(l);
+	  setFach(fach);
   }
 
   public String toString(){
 	  return new String(getKlBez() + ", Schuljahr " + getSchuljahr() +"/"+ (getSchuljahr()+1) + ", Lehrer: " + getLehrer().toString());
   }
+public String getFach() {
+	return fach;
+}
+public void setFach(String fach) {
+	this.fach = fach;
+}
+public Korrekturbuch getKorrBuch() {
+	return korrBuch;
+}
+public void setKorrBuch(Korrekturbuch korrBuch) {
+	this.korrBuch = korrBuch;
+}
 
 }

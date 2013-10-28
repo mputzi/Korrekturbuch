@@ -123,18 +123,7 @@ public class SchuelerList {
     setAnz(Schuelerliste.size());
   }
   
-//  /**
-//   * Get the List of Punkteliste objects held by punktelisteVector
-//   * @return List of Punkteliste objects held by punktelisteVector
-//   */
-//  public  getPunktelisteList ( ) {
-//    return (List) punktelisteVector;
-//  }
 
-
-  //
-  // Other methods
-  //
   
   public String toString(){
 	  return new String("Inhalt der Schülerliste: " + Schuelerliste);

@@ -71,6 +71,10 @@ public class Hauptfenster {
 			if (cmd=="classnew")
 			{
 				set_class_open(true); // Klasse geöffnet (neu angelegt)
+				frame.setEnabled(false);
+				KlasseNeu KlasseNeuDialog = new KlasseNeu(frame); // Klasse N Dialog erstellen
+				KlasseNeuDialog.setLocationRelativeTo(frame);
+				KlasseNeuDialog.setVisible(true); // Dialog anzeigen
 			}
 			
 			if (cmd=="classimport")
@@ -99,7 +103,7 @@ public class Hauptfenster {
 			if (cmd=="Test"){}
 			if (cmd=="testopen"){
 				frame.setEnabled(false);
-				PruefungOeffnen PruefungOeffnenDialog = new PruefungOeffnen(frame); // Klasse Öffnen Dialog erstellen
+				PruefungOeffnen PruefungOeffnenDialog = new PruefungOeffnen(frame); // Prüfung Öffnen Dialog erstellen
 				PruefungOeffnenDialog.setLocationRelativeTo(frame);
 				PruefungOeffnenDialog.setVisible(true); // Dialog anzeigen
 			}
@@ -242,21 +246,16 @@ public class Hauptfenster {
 		mntmBearbeiten.addActionListener(al);
 		mnKlasse.add(mntmBearbeiten);
 
-		mnKneu = new JMenu("Neu");
-		mnKlasse.add(mnKneu);
-		
 		mntmNeuAnlegen = new JMenuItem("Neu anlegen");
 		mntmNeuAnlegen.setActionCommand("classnew");
 		mntmNeuAnlegen.addActionListener(al);
-		mnKneu.add(mntmNeuAnlegen);
-		
-		mntmKimport = new JMenuItem("Importieren (CVS)");
+		mnKlasse.add(mntmNeuAnlegen);
+				
+		/**mntmKimport = new JMenuItem("Importieren (CVS)");
 		mntmKimport.setActionCommand("classimport");
 		mntmKimport.addActionListener(al);
-		mnKneu.add(mntmKimport);
+		mnKneu.add(mntmKimport);**/
 		
-		
-
 		mntmSchliessen = new JMenuItem("Schließen");
 		mntmSchliessen.setActionCommand("classclose");
 		mntmSchliessen.addActionListener(al);

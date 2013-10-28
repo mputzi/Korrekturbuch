@@ -147,7 +147,7 @@ public class PruefungOeffnen extends JDialog implements ActionListener {
 				Zusammenfassung.setWrapStyleWord(true);
 				Zusammenfassung.setLineWrap(true);
 				Zusammenfassung.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
-				Zusammenfassung.setText("Hier wird (bei Auswahl einer Klasse) eine Zusammenfassung für die gewählte Klasse angezeigt\r\n");
+				Zusammenfassung.setText("Hier wird (bei Auswahl einer Prüfung) eine Zusammenfassung für die gewählte Prüfung angezeigt\r\n");
 			}
 		}
 		{

@@ -27,6 +27,7 @@ public class SchuelerList {
   public SchuelerList (List<Schueler> liste) {
 	    Schuelerliste.clear();
 	    Schuelerliste.addAll(liste);
+	    
   };
   
   
@@ -56,7 +57,7 @@ public class SchuelerList {
   }
 
   /**
-   * Add a Punkteliste object to the punktelisteVector List
+   * Add a Schueler to List
    */
   public void addToSchuelerList ( Schueler new_object ) {
 	if(Schuelerliste.contains(new_object)){
@@ -68,7 +69,7 @@ public class SchuelerList {
   }
 
   /**
-   * Remove a Punkteliste object from punktelisteVector List
+   * Remove a Schueler from list
    */
   public void removeFromSchuelerList ( Schueler new_object )
   {
@@ -100,12 +101,13 @@ public class SchuelerList {
     
     while (csvSchuelerListe.readRecord())
 	{
-		String vorname      = csvSchuelerListe.get("Vorname");
+		int id				= csvSchuelerListe.get("ID");
+    	String vorname      = csvSchuelerListe.get("Vorname");
 		String nachname     = csvSchuelerListe.get("Name");
 				
 		// perform program logic here
-		System.out.println(vorname + ", " + nachname);
-		tmp = new Schueler(vorname, nachname);
+		System.out.println(id + ", " + vorname + ", " + nachname);
+		tmp = new Schueler(id, vorname, nachname);
 		addToSchuelerList(tmp);
 	}
 
@@ -157,6 +159,7 @@ public class SchuelerList {
  			// if the file didn't already exist then we need to write out the header line
  			if (!alreadyExists)
  			{*/
+ 				csvOutput.write("ID");
  				csvOutput.write("Vorname");
  				csvOutput.write("Name");
  				csvOutput.endRecord();
@@ -166,6 +169,7 @@ public class SchuelerList {
  			
  			for(int i = 0; i < Schuelerliste.size(); i++){
  			// write out a few records
+ 				csvOutput.write(Schuelerliste.get(i).getID());
  	 			csvOutput.write(Schuelerliste.get(i).getVorname());
  	 			csvOutput.write(Schuelerliste.get(i).getNachname());
  	 			csvOutput.endRecord();

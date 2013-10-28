@@ -15,15 +15,23 @@ public class Schueler {
 
   private String vorname;
   private String nachname;
+  private int ID;
   
   //
   // Constructors
   //
   public Schueler () { };
   public Schueler (String v, String n) {
+	  
 	  setVorname(v);
 	  setNachname(n);
   };
+  public Schueler (int i, String v, String n) {
+	  setID(i);
+	  setVorname(v);
+	  setNachname(n);
+  };
+  
   
   //
   // Methods
@@ -66,22 +74,71 @@ public class Schueler {
     return nachname;
   }
 
+  /**
+   * Set the value of ID
+   * @param newVar the new value of ID
+   */
+  private void setID ( int newVar ) {
+    ID = newVar;
+  }
+
+  /**
+   * Get the value of ID
+   * @return the value of ID
+   */
+  public int getID ( ) {
+    return ID;
+  }
+
+  /**
+   * Get the value of ID
+   * @return the value of ID
+   */
+  public int getIDString( ) {
+    return new String(getID().toString());
+  }
+  
   //
   // Other methods
   //
 
   /**
    * @return       boolean
+   * @param        i
    * @param        vorname
    * @param        nachname
    */
-  public int schuelerAendern( String vorname, String nachname )
+  public boolean schuelerAendern(int i, String vorname, String nachname )
   {
-	  return 0;
+	  this.setID(i); 
+	  this.setVorname(vorname);
+	  this.setNachname(nachname);
+	  return true;	  
+  }
+  
+  /**
+   * @return       boolean
+   * @param        vorname
+   * @param        nachname
+   */ 
+  public boolean schuelerAendern(String vorname, String nachname )
+  {
+	  /* this.setID(i); //no ID is being set. */ 
+	  this.setVorname(vorname);
+	  this.setNachname(nachname);
+	  return true;	  
   }
 
   public String toString(){
 	  return new String(getVorname() + " " + getNachname());
+  }
+  
+  public String toString2(){
+	  return new String(getNachname() + ", " getVorname());
+  }
+  
+  public String toStringID(){
+	  return new String(getID() + ", "+ getVorname() + " " + getNachname());
   }
 
 }

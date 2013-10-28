@@ -97,7 +97,12 @@ public class Hauptfenster {
 			if (cmd=="Stegreifaufgabe"){}
 			if (cmd=="Kurzarbeit"){}
 			if (cmd=="Test"){}
-			if (cmd=="testopen"){}
+			if (cmd=="testopen"){
+				frame.setEnabled(false);
+				PruefungOeffnen PruefungOeffnenDialog = new PruefungOeffnen(frame); // Klasse Öffnen Dialog erstellen
+				PruefungOeffnenDialog.setLocationRelativeTo(frame);
+				PruefungOeffnenDialog.setVisible(true); // Dialog anzeigen
+			}
 
 			if (get_class_open()==true)
 			{

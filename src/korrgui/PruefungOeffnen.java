@@ -23,7 +23,7 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
 
 
-public class KlasseOeffnen extends JDialog implements ActionListener {
+public class PruefungOeffnen extends JDialog implements ActionListener {
 
 	Frame aufrufer = new Frame();
 	private JPanel contentPanel = new JPanel();
@@ -36,7 +36,7 @@ public class KlasseOeffnen extends JDialog implements ActionListener {
 	 */
 	public static void main(String[] args) {
 		try {
-			KlasseOeffnen dialog = new KlasseOeffnen(null);
+			PruefungOeffnen dialog = new PruefungOeffnen(null);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -48,7 +48,7 @@ public class KlasseOeffnen extends JDialog implements ActionListener {
 	/**
 	 * Create the dialog.
 	 */
-	public KlasseOeffnen(final Frame aufrufer) {
+	public PruefungOeffnen(final Frame aufrufer) {
 		setResizable(false);
 		this.aufrufer = aufrufer;
 		initialize(); // Dialogfenster aufbauen mit "OK"- und "Cancel"-Button
@@ -72,8 +72,8 @@ public class KlasseOeffnen extends JDialog implements ActionListener {
 	private void actionOKButton(){
 		// Bestätigen und die Klassenauswahl verlassen
 		// Dialog abbauen
-		KlasseOeffnen.this.setVisible(false);
-		KlasseOeffnen.this.dispose();
+		PruefungOeffnen.this.setVisible(false);
+		PruefungOeffnen.this.dispose();
 		//Wenn keine Datei ausgewählt, dann auf false, sonst auf true
 		Hauptfenster.set_class_open(auswahl);
 		 // Kontrolle wieder an Hauptfenster geben
@@ -85,8 +85,8 @@ public class KlasseOeffnen extends JDialog implements ActionListener {
 	private void actionCancelButton(){
 		// Abbrechen und die Klassenauswahl verlassen
 		// Dialog abbauen
-		KlasseOeffnen.this.setVisible(false);
-		KlasseOeffnen.this.dispose();
+		PruefungOeffnen.this.setVisible(false);
+		PruefungOeffnen.this.dispose();
 		
 		aufrufer.setEnabled(true); // Kontrolle wieder an Hauptfenster geben
 		aufrufer.setVisible(true);
@@ -99,7 +99,7 @@ public class KlasseOeffnen extends JDialog implements ActionListener {
 	
 	
 	private void initialize() {
-		setTitle("Klasse öffnen");
+		setTitle("Prüfung öffnen");
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -111,15 +111,15 @@ public class KlasseOeffnen extends JDialog implements ActionListener {
 			scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 			contentPanel.add(scrollPane, BorderLayout.WEST);
 			{
-				final JList Klassenliste = new JList();
-				Klassenliste.addListSelectionListener(new ListSelectionListener() {
+				final JList Pruefungsliste = new JList();
+				Pruefungsliste.addListSelectionListener(new ListSelectionListener() {
 					public void valueChanged(ListSelectionEvent arg0) {
-						set_Zusammenfassung(Klassenliste.getSelectedValue().toString());
+						set_Zusammenfassung(Pruefungsliste.getSelectedValue().toString());
 						auswahl=true; //Eine Klasse wurde ausgewählt
 					}
 				});
 				
-				Klassenliste.setModel(new AbstractListModel() {
+				Pruefungsliste.setModel(new AbstractListModel() {
 					String[] values = new String[] {"Test", "Auto", "Banane", "Zitrone"};
 					public int getSize() {
 						return values.length;
@@ -128,8 +128,8 @@ public class KlasseOeffnen extends JDialog implements ActionListener {
 						return values[index];
 					}
 				});
-				Klassenliste.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-				scrollPane.setViewportView(Klassenliste);
+				Pruefungsliste.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+				scrollPane.setViewportView(Pruefungsliste);
 			}
 		}
 		{

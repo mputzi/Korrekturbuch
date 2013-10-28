@@ -69,19 +69,25 @@ public class Korrekturbuch {
 	  return new String("Inhalt des Korrekturbuchs: " + Pruefungsliste);
   }
   
-  public void readDirectory(String klassenBezeichnung){
-	  File directory = new File(".");
+  class Filter implements FileFilter{
+	  private String klBez;
 	  
-	  class Filter implements FileFilter{
-		  public boolean accept(File file){
-			  String fname = file.getName();
-			  return (fname.startsWith(klassenBezeichnung) 
-					  && fname.endsWith("p.csv")
-					  );
-		  }
+	  public Filter(String klassenBezeichnung){
+		  klBez = klassenBezeichnung;
 	  }
 	  
-	  File[] files = directory.listFiles(new Filter());
+	  public boolean accept(File file){
+		  String fname = file.getName();
+		  return (fname.startsWith(klBez) 
+				  && fname.endsWith("p.csv")
+				  );
+	  }
+  }
+  
+  public void readDirectory(String klassenBezeichnung){
+	  File directory = new File(".");
+	     
+	  File[] files = directory.listFiles(new Filter(klassenBezeichnung));
 	 
 	  for(int i = 0; i<files.length; i++){
 		  System.out.println(files[i].toString());

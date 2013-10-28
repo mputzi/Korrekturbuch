@@ -17,6 +17,8 @@ public class Pruefung {
   private int nummer;
   private int anzTeilnehmer;
   
+  private AufgabeList aufgabenListe;
+  
   //
   // Constructors
   //
@@ -88,6 +90,8 @@ public class Pruefung {
    */
   public float getGesamtPunktzahl(  )
   {
+	  float gesamt = 0.0f;
+	  return gesamt;
   }
 
 
@@ -95,7 +99,9 @@ public class Pruefung {
    * @return       float
    */
   public float getDurchschnitt(  )
-  {
+  {	
+	  float durch = 0.0f;
+	  return durch;
   }
 
 
@@ -104,6 +110,8 @@ public class Pruefung {
    */
   public float getAnteil45(  )
   {
+	  float anteil = 0.0f;
+	  return anteil;
   }
 
 
@@ -112,7 +120,26 @@ public class Pruefung {
    */
   public float getAnteil12(  )
   {
+	  float anteil = 0.0f;
+	  return anteil;
   }
 
+public AufgabeList getAufgabenListe() {
+	return aufgabenListe;
+}
+
+public void setAufgabenListe(AufgabeList aufgabenListe) {
+	this.aufgabenListe = aufgabenListe;
+}
+
+public boolean addAufgabeToList(Aufgabe a){
+	aufgabenListe.addToAufgabeList(a);
+	return true;
+}
+
+
+public String toString(){
+	  return new String("Inhalt der Prüfung: " + Aufgabenliste);
+}
 
 }

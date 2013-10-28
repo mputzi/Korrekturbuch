@@ -73,5 +73,9 @@ public class Aufgabe {
   //
   // Other methods
   //
+  
+  public String toString(){
+	  return new String("Inhalt der Aufgabe: " + name + ", " + punkte + "BE");
+  }
 
 }

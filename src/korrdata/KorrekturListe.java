@@ -16,12 +16,23 @@ public class KorrekturListe {
   private boolean[] anwesend;
   private float[][] erreicht;
 
-  public SchuelerList m_schueler;
+  private SchuelerList m_schueler;
   
   //
   // Constructors
   //
   public KorrekturListe () { };
+  public KorrekturListe (SchuelerList schuelerL) {
+	  m_schueler = schuelerL;
+	  anwesend = new boolean[m_schueler.getAnz()];
+	  
+  };
+  public KorrekturListe (SchuelerList schuelerL, AufgabenList aufgabenL) {
+	  m_schueler = schuelerL;
+	  anwesend = new boolean[m_schueler.getAnz()];
+	  erreicht = new float[m_schueler.getAnz()][]
+	  
+  };
   
   //
   // Methods

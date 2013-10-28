@@ -13,16 +13,32 @@ public class Pruefung {
   // Fields
   //
 
-  private Date datum;
+  private static final int Aufgabenliste = 0;
+  private GregorianCalendar datum;
+  private Pruefungsarten.ART artKey;
   private int nummer;
   private int anzTeilnehmer;
   
   private AufgabeList aufgabenListe;
   
+    
   //
   // Constructors
   //
   public Pruefung () { };
+  public Pruefung (GregorianCalendar prDatum, Pruefungsarten.ART prArtKey, int prNummer, int anz) {
+	  datum = prDatum;
+	  artKey = prArtKey;
+	  nummer = prNummer;
+	  anzTeilnehmer = anz;
+  };
+  public Pruefung (GregorianCalendar prDatum, Pruefungsarten.ART prArtKey, int prNummer, int anz, AufgabeList prListe) {
+	  datum = prDatum;
+	  artKey = prArtKey;
+	  nummer = prNummer;
+	  anzTeilnehmer = anz;
+	  aufgabenListe = prListe;
+  };
   
   //
   // Methods
@@ -37,7 +53,7 @@ public class Pruefung {
    * Set the value of datum
    * @param newVar the new value of datum
    */
-  private void setDatum ( Date newVar ) {
+  private void setDatum ( GregorianCalendar newVar ) {
     datum = newVar;
   }
 
@@ -91,6 +107,9 @@ public class Pruefung {
   public float getGesamtPunktzahl(  )
   {
 	  float gesamt = 0.0f;
+	  
+	  //for
+	  
 	  return gesamt;
   }
 
@@ -139,7 +158,20 @@ public boolean addAufgabeToList(Aufgabe a){
 
 
 public String toString(){
-	  return new String("Inhalt der Prüfung: " + Aufgabenliste);
+	  //System.out.println("Hallo!");
+	  return new String(nummer+". " + Pruefungsarten.getDesc(artKey) +
+			  " vom " + datum.get(Calendar.DAY_OF_MONTH) + "." + (datum.get(Calendar.MONTH)+1) + "." +  datum.get(Calendar.YEAR) + "\n" +
+			  			  "Inhalt der Prüfung: " + aufgabenListe + "\n" + 
+			            "Anzahl der Teilnehmer: " + anzTeilnehmer);
 }
+
+public Pruefungsarten.ART getPrArtKey() {
+	return artKey;
+}
+
+public void setPrArtKey(Pruefungsarten.ART prArtKey) {
+	this.artKey = prArtKey;
+}
+
 
 }

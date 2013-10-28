@@ -8,6 +8,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 
+import korrdata.Pruefungsarten.ART;
+
 import com.csvreader.CsvReader;
 import com.csvreader.CsvWriter;
 
@@ -21,7 +23,6 @@ public class Pruefung {
   // Fields
   //
 
-  private static final int Aufgabenliste = 0;
   private GregorianCalendar datum;
   private Pruefungsarten.ART artKey;
   private int nummer;
@@ -69,7 +70,7 @@ public class Pruefung {
    * Get the value of datum
    * @return the value of datum
    */
-  private Date getDatum ( ) {
+  private GregorianCalendar getDatum ( ) {
     return datum;
   }
 
@@ -180,10 +181,12 @@ public Pruefungsarten.ART getPrArtKey() {
 public void setPrArtKey(Pruefungsarten.ART prArtKey) {
 	this.artKey = prArtKey;
 }
-/*
-public static boolean setPruefungFromFile(String filename){
+
+public boolean setPruefungFromFile(String filename)
 	 {
-		    	  
+			String lis = "";
+			
+	
 		    try{
 		    CsvReader csvPruefung = new CsvReader(filename);
 		    csvPruefung.readHeaders();
@@ -196,16 +199,21 @@ public static boolean setPruefungFromFile(String filename){
 				String mon          = csvPruefung.get("Monat");
 				String day          = csvPruefung.get("Tag");
 				String anz			= csvPruefung.get("Anzahl");
-				String lis			= csvPruefung.get("Listen-Datei");
+				lis			= csvPruefung.get("Listen-Datei");
 						
 				// perform program logic here
 				System.out.println(num + ", " + art + ", " + yea + ", " + mon + ", "+ day + ", " + anz + ", " + lis);
 				int numNumber = Integer.valueOf(num).intValue();
+				ART artNumber = ART.valueOf(art);
 				int yeaNumber = Integer.valueOf(yea).intValue();
 				int monNumber = Integer.valueOf(mon).intValue();
 				int dayNumber = Integer.valueOf(day).intValue();
 				int anzNumber = Integer.valueOf(anz).intValue();
 				
+				datum = new GregorianCalendar(yeaNumber,monNumber,dayNumber);
+				artKey = artNumber;
+				nummer = numNumber;
+				anzTeilnehmer = anzNumber;
 				
 			}
     
@@ -216,9 +224,13 @@ public static boolean setPruefungFromFile(String filename){
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+		    
+		    System.out.println(lis);
+		    this.aufgabenListe.setAufgabenListeFromFile(lis);
+		    return true;
 
 		  }
-*/	 
+	 
 	 public void writePruefungToCSV(String filename)
 	  {
 

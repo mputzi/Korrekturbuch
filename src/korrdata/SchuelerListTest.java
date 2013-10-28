@@ -15,6 +15,8 @@ public class SchuelerListTest {
 		System.out.println(Liste.toString());
 		Liste.writeSchuelerListToCSV("testcase_output.csv");
 		
+		
+		
 	}
 
 }

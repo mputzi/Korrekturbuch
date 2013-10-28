@@ -1,19 +1,20 @@
 package korrdata;
 
+import java.util.Collection;
 import java.util.EnumMap;
 import java.util.Set;
 
 
 
-public static class Pruefungsarten{
+public class Pruefungsarten{
 
-	public enum ART {
+	public static  enum ART {
 		SA, ST, T, KA
 	}
 	
-private EnumMap<ART, String> pruefungsMap = new EnumMap<ART, String>(ART.class);
+private static EnumMap<ART, String> pruefungsMap = new EnumMap<ART, String>(ART.class);
 
-public Pruefungsarten(){
+static {
 	pruefungsMap.put(ART.SA, "Schulaufgabe");
 	pruefungsMap.put(ART.ST, "Stegreifarbeit");
 	pruefungsMap.put(ART.T, "Test");
@@ -22,16 +23,16 @@ public Pruefungsarten(){
 
 /*
  * Prüfungsarten to String
- * @see java.lang.Object#toString()
  */
 
-public String toString(){
+public static String toStr(){
 	
 	String ret = "";
 	Set<ART> enumKeySet = pruefungsMap.keySet();
     
 	for(ART art : enumKeySet){
-        ret.concat("key : " + art + " value : " + pruefungsMap.get(art) + "\n");
+        String ret2 = ret.concat(new String("key : " + art + " value : " + pruefungsMap.get(art) + "\n"));
+        ret = new String(ret2);
     }
 	
 	return ret;
@@ -42,7 +43,7 @@ public String toString(){
  */
 
 
-public Set<ART> getKeys(){
+public static Set<ART> getKeys(){
 	return pruefungsMap.keySet();
 }
 
@@ -51,9 +52,16 @@ public Set<ART> getKeys(){
  */
 
 
-public String getDesc(ART a){
-	return new String(pruefungsMap.get(a));
+public static String getDesc(ART key){
+	return new String(pruefungsMap.get(key));
 }
+
+public static Collection<String> getValues(){
+	return (Collection<String>) pruefungsMap.values();
+}
+
+
+
 
 }
 

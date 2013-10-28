@@ -5,6 +5,9 @@ import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
@@ -30,8 +33,11 @@ import net.miginfocom.swing.MigLayout;
 import javax.swing.JTable;
 import java.awt.List;
 import java.awt.Button;
+import java.awt.Component;
+import javax.swing.Box;
 
 
+@SuppressWarnings("serial")
 public class KlasseNeu extends JDialog implements ActionListener {
 
 	Frame aufrufer = new Frame();
@@ -71,30 +77,48 @@ public class KlasseNeu extends JDialog implements ActionListener {
 			if (cmd=="Cancel"){
 				actionCancelButton();
 			}
+			if (cmd=="DEL"){
+				actionDeleteButton();
+			}
 			
 		}
 	};
-	private JTextField txtBezeichnungDerKlasse;
-	private JTextField textField;
+	
+	private ItemListener ListIL = new ItemListener(){
+		public void itemStateChanged(ItemEvent arg0){
+			Integer x = (Integer)arg0.getItem();
+			System.out.println(x);
+		}
+	};
+	
+	
+	
+	private JTextField txtBezeichnung;
+	private JTextField klasseBezeichnung;
 	private JTextField txtFach;
-	private JTextField textField_1;
+	private JTextField klasseFach;
 	private JTextField txtSchuljahr;
-	private JTextField textField_2;
+	private JTextField klasseSJ;
 	private JTextField txtLehrer;
-	private JTextField textField_3;
+	private JTextField klasseLehrer;
 	private JTextField txtSchler;
-	private JTextField textField_4;
+	private JTextField klasseAmt;
+	private JTextField klasseSchule;
 	private JTextField txtSchule;
-	private JTextField txtSchule_1;
 	private JTextField txtAmtsbez;
-	private JTextField textField_5;
+	private JTextField klasseSchuelerinput;
 	private JButton btnImportcvs;
 	private JScrollPane scrollPane;
 	private JButton btnAusgewLschen;
 	private List list;
 	private Button button;
+	private Component verticalStrut;
+	private Component verticalStrut_1;
+	private Component verticalStrut_2;
+	private Component verticalStrut_3;
 	
 	private void actionOKButton(){
+		
 		// Bestätigen und die Klassenauswahl verlassen
 		// Dialog abbauen
 		KlasseNeu.this.setVisible(false);
@@ -103,7 +127,6 @@ public class KlasseNeu extends JDialog implements ActionListener {
 		aufrufer.setEnabled(true);
 		aufrufer.setVisible(true);
 		Hauptfenster.set_class_open(true);
-		
 	}
 	
 	private void actionCancelButton(){
@@ -116,10 +139,14 @@ public class KlasseNeu extends JDialog implements ActionListener {
 		aufrufer.setVisible(true);
 	}
 	
+	private void actionDeleteButton(){
+		list.delItem(0);
+	}
+	
 		
 	private void initialize() {
 		setTitle("Klasse neu anlegen");
-		setBounds(100, 100, 577, 395);
+		setBounds(100, 100, 577, 377);
 		
 		{
 			JPanel buttonPane = new JPanel();
@@ -144,14 +171,14 @@ public class KlasseNeu extends JDialog implements ActionListener {
 			getContentPane().add(panel, BorderLayout.CENTER);
 			panel.setLayout(new MigLayout("", "[grow][][grow]", "[][][][][][][][][][][][][]"));
 			{
-				txtBezeichnungDerKlasse = new JTextField();
-				txtBezeichnungDerKlasse.setBorder(null);
-				txtBezeichnungDerKlasse.setEditable(false);
-				txtBezeichnungDerKlasse.setOpaque(false);
-				txtBezeichnungDerKlasse.setFont(new Font("Tahoma", Font.BOLD, 12));
-				txtBezeichnungDerKlasse.setText("Bezeichnung der Klasse");
-				panel.add(txtBezeichnungDerKlasse, "cell 0 0,growx");
-				txtBezeichnungDerKlasse.setColumns(10);
+				txtBezeichnung = new JTextField();
+				txtBezeichnung.setBorder(null);
+				txtBezeichnung.setEditable(false);
+				txtBezeichnung.setOpaque(false);
+				txtBezeichnung.setFont(new Font("Tahoma", Font.BOLD, 12));
+				txtBezeichnung.setText("Bezeichnung der Klasse");
+				panel.add(txtBezeichnung, "cell 0 0,growx");
+				txtBezeichnung.setColumns(10);
 			}
 			{
 				txtSchuljahr = new JTextField();
@@ -173,21 +200,25 @@ public class KlasseNeu extends JDialog implements ActionListener {
 				txtSchler.setColumns(10);
 			}
 			{
-				textField = new JTextField();
-				textField.setFont(new Font("Tahoma", Font.PLAIN, 12));
-				panel.add(textField, "cell 0 1,growx");
-				textField.setColumns(10);
+				klasseBezeichnung = new JTextField();
+				klasseBezeichnung.setFont(new Font("Tahoma", Font.PLAIN, 12));
+				panel.add(klasseBezeichnung, "cell 0 1,growx");
+				klasseBezeichnung.setColumns(10);
 			}
 			{
-				textField_2 = new JTextField();
-				textField_2.setFont(new Font("Tahoma", Font.PLAIN, 12));
-				panel.add(textField_2, "cell 1 1,growx");
-				textField_2.setColumns(10);
+				klasseSJ = new JTextField();
+				klasseSJ.setFont(new Font("Tahoma", Font.PLAIN, 12));
+				panel.add(klasseSJ, "cell 1 1,growx");
+				klasseSJ.setColumns(10);
 			}
 			{
-				textField_5 = new JTextField();
-				panel.add(textField_5, "flowx,cell 2 1,growx");
-				textField_5.setColumns(10);
+				klasseSchuelerinput = new JTextField();
+				panel.add(klasseSchuelerinput, "flowx,cell 2 1,growx");
+				klasseSchuelerinput.setColumns(10);
+			}
+			{
+				verticalStrut = Box.createVerticalStrut(20);
+				panel.add(verticalStrut, "cell 0 2");
 			}
 			{
 				scrollPane = new JScrollPane();
@@ -196,7 +227,32 @@ public class KlasseNeu extends JDialog implements ActionListener {
 				panel.add(scrollPane, "cell 2 2 1 10,grow");
 				{
 					list = new List();
+					list.addItemListener(ListIL);
 					list.setMultipleSelections(false);
+					list.add("Martin");
+					list.add("Rainer");
+					list.add("Albert");
+					list.add("Martin");
+					list.add("Rainer");
+					list.add("Albert");
+					list.add("Martin");
+					list.add("Rainer");
+					list.add("Albert");
+					list.add("Martin");
+					list.add("Rainer");
+					list.add("Albert");
+					list.add("Martin");
+					list.add("Rainer");
+					list.add("Albert");
+					list.add("Martin");
+					list.add("Rainer");
+					list.add("Albert");
+					list.add("Martin");
+					list.add("Rainer");
+					list.add("Albert");
+					list.add("Martin");
+					list.add("Rainer");
+					list.add("Albert");
 					scrollPane.setViewportView(list);
 				}
 			}
@@ -211,10 +267,14 @@ public class KlasseNeu extends JDialog implements ActionListener {
 				txtFach.setColumns(10);
 			}
 			{
-				textField_1 = new JTextField();
-				textField_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
-				panel.add(textField_1, "flowx,cell 0 4,growx");
-				textField_1.setColumns(10);
+				klasseFach = new JTextField();
+				klasseFach.setFont(new Font("Tahoma", Font.PLAIN, 12));
+				panel.add(klasseFach, "flowx,cell 0 4,growx");
+				klasseFach.setColumns(10);
+			}
+			{
+				verticalStrut_1 = Box.createVerticalStrut(20);
+				panel.add(verticalStrut_1, "cell 0 5");
 			}
 			{
 				txtLehrer = new JTextField();
@@ -237,43 +297,55 @@ public class KlasseNeu extends JDialog implements ActionListener {
 				txtAmtsbez.setColumns(10);
 			}
 			{
-				textField_3 = new JTextField();
-				textField_3.setFont(new Font("Tahoma", Font.PLAIN, 12));
-				panel.add(textField_3, "cell 0 7,growx");
-				textField_3.setColumns(10);
+				klasseLehrer = new JTextField();
+				klasseLehrer.setFont(new Font("Tahoma", Font.PLAIN, 12));
+				panel.add(klasseLehrer, "cell 0 7,growx");
+				klasseLehrer.setColumns(10);
 			}
 			{
-				textField_4 = new JTextField();
-				textField_4.setFont(new Font("Tahoma", Font.PLAIN, 12));
-				panel.add(textField_4, "cell 1 7,growx");
-				textField_4.setColumns(10);
+				klasseAmt = new JTextField();
+				klasseAmt.setFont(new Font("Tahoma", Font.PLAIN, 12));
+				panel.add(klasseAmt, "cell 1 7,growx");
+				klasseAmt.setColumns(10);
 			}
 			{
-				txtSchule_1 = new JTextField();
-				txtSchule_1.setOpaque(false);
-				txtSchule_1.setEditable(false);
-				txtSchule_1.setFont(new Font("Tahoma", Font.BOLD, 12));
-				txtSchule_1.setBorder(null);
-				txtSchule_1.setText("Schule");
-				panel.add(txtSchule_1, "cell 0 9,growx");
-				txtSchule_1.setColumns(10);
+				verticalStrut_2 = Box.createVerticalStrut(20);
+				panel.add(verticalStrut_2, "cell 0 8");
 			}
 			{
 				txtSchule = new JTextField();
-				txtSchule.setFont(new Font("Tahoma", Font.PLAIN, 12));
-				panel.add(txtSchule, "cell 0 10 2 1,growx");
+				txtSchule.setOpaque(false);
+				txtSchule.setEditable(false);
+				txtSchule.setFont(new Font("Tahoma", Font.BOLD, 12));
+				txtSchule.setBorder(null);
+				txtSchule.setText("Schule");
+				panel.add(txtSchule, "cell 0 9,growx");
 				txtSchule.setColumns(10);
 			}
 			{
+				klasseSchule = new JTextField();
+				klasseSchule.setFont(new Font("Tahoma", Font.PLAIN, 12));
+				panel.add(klasseSchule, "cell 0 10 2 1,growx");
+				klasseSchule.setColumns(10);
+			}
+			{
 				btnImportcvs = new JButton("Importiere Schülernamen (CVS)");
+				btnImportcvs.setEnabled(false);
 				btnImportcvs.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 					}
 				});
+				{
+					verticalStrut_3 = Box.createVerticalStrut(20);
+					panel.add(verticalStrut_3, "cell 0 11");
+				}
 				panel.add(btnImportcvs, "cell 0 12,alignx right");
 			}
 			{
 				btnAusgewLschen = new JButton("ausgew. löschen");
+				btnAusgewLschen.setActionCommand("DEL");
+				btnAusgewLschen.addActionListener(CLASSal);
+				btnAusgewLschen.setEnabled(false);
 				panel.add(btnAusgewLschen, "cell 2 12,alignx center");
 			}
 			{
@@ -281,5 +353,5 @@ public class KlasseNeu extends JDialog implements ActionListener {
 				panel.add(button, "cell 2 1,alignx right");
 			}
 		}
-	} 
+	}
 }

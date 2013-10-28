@@ -16,8 +16,7 @@ public class Klasse {
   private String klBez;
   private String fach;
   private int schuljahr;
-  
- // private String lehrerFile;
+
   private Lehrer lehrer;
   
   private String schuelerListFile;
@@ -33,8 +32,7 @@ public class Klasse {
   public Klasse ( String bez, String fach ,int sj) { klasseAnlegen(bez,fach,sj);};
   public Klasse ( String bez, String fach ,int sj, Lehrer L) { klasseAnlegen(bez,fach,sj,L);};
   public Klasse ( String bez, String fach ,int sj, String SLFile) { klasseAnlegen(bez,fach,sj, SLFile);};
-  //public Klasse ( String bez, String fach ,int sj, Lehrer l ) { klasseAnlegen(bez,fach,sj,l);};
-  
+   
   //
   // Methods
   //
@@ -126,20 +124,9 @@ public class Klasse {
 	  setKlBez(bez);
 	  setSchuljahr(sj);
 	  setFach(fach);
-	//  setLehrerFile(LFile);
 	  setSchuelerListFile(SLFile);
 	  setKorrBuchFile(new String(bez + "_" + fach + "_" + sj + "_KB.csv"));
   }
-  
-  
-  /*
-  public void klasseAnlegen( String bez, String fach, int sj, Lehrer l )
-  {
-	  setKlBez(bez);
-	  setSchuljahr(sj);
-	  setLehrer(l);
-	  setFach(fach);
-  }*/
 
   public String toString(){
 	  return new String(getKlBez() + ", Schuljahr " + getSchuljahr() +"/"+ (getSchuljahr()+1) + ", Lehrer: " + getLehrer().toString());
@@ -157,14 +144,9 @@ public void setKorrBuch(Korrekturbuch korrBuch) {
 	this.korrBuch = korrBuch;
 }
 
-/*
-public String getLehrerFile() {
-	return lehrerFile;
+public void setKorrBuchFromFile(Korrekturbuch korrBuch) {
+	this.korrBuch = korrBuch;
 }
-public void setLehrerFile(String lehrerFile) {
-	this.lehrerFile = lehrerFile;
-}
-*/
 
 public String getSchuelerListFile() {
 	return schuelerListFile;

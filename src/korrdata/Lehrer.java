@@ -17,8 +17,7 @@ public class Lehrer {
   private String amtsbez;
   private String schule;
 
-  public ArrayList<Klasse> klasseList = new ArrayList<Klasse>();
-  
+ 
   //
   // Constructors
   //
@@ -58,7 +57,7 @@ public class Lehrer {
    * Get the value of nachname
    * @return the value of nachname
    */
-  private String getNachname( ) {
+  public String getNachname( ) {
     return nachname;
   }
 
@@ -74,7 +73,7 @@ public class Lehrer {
    * Get the value of amtsbez
    * @return the value of amtsbez
    */
-  private String getAmtsbez ( ) {
+  public String getAmtsbez ( ) {
     return amtsbez;
   }
 
@@ -90,31 +89,8 @@ public class Lehrer {
    * Get the value of schule
    * @return the value of schule
    */
-  private String getSchule ( ) {
+  public String getSchule ( ) {
     return schule;
-  }
-
-  /**
-   * Add a Klasse object to the klasseVector List
-   */
-  public void addKlasse ( Klasse new_object ) {
-    klasseList.add(new_object);
-  }
-
-  /**
-   * Remove a Klasse object from klasseVector List
-   */
-  public void removeKlasse ( Klasse new_object )
-  {
-    klasseVector.remove(new_object);
-  }
-
-  /**
-   * Get the List of Klasse objects held by klasseVector
-   * @return List of Klasse objects held by klasseVector
-   */
-  public ArrayList<Klasse> getKlasseList() {
-    return  klasseList;
   }
 
 
@@ -123,8 +99,15 @@ public class Lehrer {
   //
   
   public String toString(){
-	  return new String(amtsbez + " " + nachname + ", " + schule);
+	  return new String(amtsbez + " " + nachname + " " + schule);
   }
 
+  public void fromString(String input){
+	  String[] strarr = input.split("\\s+");
+	  setAmtsbez(strarr[0]);
+	  setNachname(strarr[1]);
+	  setSchule(strarr[2]);
+	  
+  }
   
 }

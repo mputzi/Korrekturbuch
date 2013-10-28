@@ -16,17 +16,23 @@ public class Klasse {
   private String klBez;
   private String fach;
   private int schuljahr;
+
   private Lehrer lehrer;
+  
+  private String schuelerListFile;
   private SchuelerList schuelerL;  
   
+  private String korrBuchFile;
   private Korrekturbuch korrBuch;
   
   //
   // Constructors
   //
   public Klasse () { };
-  public Klasse ( String bez, String fach ,int sj, Lehrer l ) { klasseAnlegen(bez,fach,sj,l);};
-  
+  public Klasse ( String bez, String fach ,int sj) { klasseAnlegen(bez,fach,sj);};
+  public Klasse ( String bez, String fach ,int sj, Lehrer L) { klasseAnlegen(bez,fach,sj,L);};
+  public Klasse ( String bez, String fach ,int sj, String SLFile) { klasseAnlegen(bez,fach,sj, SLFile);};
+   
   //
   // Methods
   //
@@ -48,7 +54,7 @@ public class Klasse {
    * Get the value of klBez
    * @return the value of klBez
    */
-  private String getKlBez ( ) {
+  public String getKlBez ( ) {
     return klBez;
   }
 
@@ -64,7 +70,7 @@ public class Klasse {
    * Get the value of schuljahr
    * @return the value of schuljahr
    */
-  private int getSchuljahr ( ) {
+  public int getSchuljahr ( ) {
     return schuljahr;
   }
 
@@ -73,7 +79,7 @@ public class Klasse {
    * @param newVar the new value of m_lehrer
    */
   public void setLehrer ( Lehrer newVar ) {
-    m_lehrer = newVar;
+   lehrer = newVar;
   }
 
   /**
@@ -81,7 +87,7 @@ public class Klasse {
    * @return the value of m_lehrer
    */
   public Lehrer getLehrer ( ) {
-    return m_lehrer;
+    return lehrer;
   }
 
   //
@@ -94,12 +100,32 @@ public class Klasse {
    * @param sj Schuljahr
    * 
    */
-  public void klasseAnlegen( String bez, String fach, int sj, Lehrer l )
+  public void klasseAnlegen( String bez, String fach, int sj)
   {
 	  setKlBez(bez);
 	  setSchuljahr(sj);
-	  setLehrer(l);
 	  setFach(fach);
+	  setSchuelerListFile(new String(bez + "_" + fach + "_" + sj + "_SL.csv"));
+	  setKorrBuchFile(new String(bez + "_" + fach + "_" + sj + "_KB.csv"));
+  }
+  
+  public void klasseAnlegen( String bez, String fach, int sj, Lehrer L)
+  {
+	  setKlBez(bez);
+	  setSchuljahr(sj);
+	  setFach(fach);
+	  setSchuelerListFile(new String(bez + "_" + fach + "_" + sj + "_SL.csv"));
+	  setKorrBuchFile(new String(bez + "_" + fach + "_" + sj + "_KB.csv"));
+	  setLehrer(L);
+  }
+  
+  public void klasseAnlegen( String bez, String fach, int sj, String SLFile)
+  {
+	  setKlBez(bez);
+	  setSchuljahr(sj);
+	  setFach(fach);
+	  setSchuelerListFile(SLFile);
+	  setKorrBuchFile(new String(bez + "_" + fach + "_" + sj + "_KB.csv"));
   }
 
   public String toString(){
@@ -116,6 +142,32 @@ public Korrekturbuch getKorrBuch() {
 }
 public void setKorrBuch(Korrekturbuch korrBuch) {
 	this.korrBuch = korrBuch;
+}
+
+public void setKorrBuchFromFile(String filename) {
+	//this.korrBuch = korrBuch;
+}
+
+public void writeKorrBuchToFile(String filename) {
+	
+}
+
+public String getSchuelerListFile() {
+	return schuelerListFile;
+}
+public void setSchuelerListFile(String schuelerListFile) {
+	this.schuelerListFile = schuelerListFile;
+}
+
+public void writeSchuelerListToFile(String filename) {
+	schuelerL.writeSchuelerListToCSV(filename);
+}
+
+public String getKorrBuchFile() {
+	return korrBuchFile;
+}
+public void setKorrBuchFile(String korrBuchFile) {
+	this.korrBuchFile = korrBuchFile;
 }
 
 }

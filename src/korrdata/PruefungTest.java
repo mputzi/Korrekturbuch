@@ -33,7 +33,7 @@ public class PruefungTest {
 		// Ausgeben
 		System.out.println(meinePruefung.toString());
 		// Schreiben
-		meinePruefung.writePruefungToCSV("prueftest.csv");
+		meinePruefung.writePruefungToCSV("8a_prueftest_p.csv");
 		
 		// Lesen von Datei
 		// Init
@@ -41,7 +41,7 @@ public class PruefungTest {
 		AufgabeList aufgabenliste2 = new AufgabeList();
 		meinePruefung2.setAufgabenListe(aufgabenliste2);
 		// Lesen
-		meinePruefung2.setPruefungFromFile("prueftest.csv");
+		meinePruefung2.setPruefungFromFile("8a_prueftest_p.csv");
 		// Ausgeben
 		System.out.println(meinePruefung2.toString());
 		

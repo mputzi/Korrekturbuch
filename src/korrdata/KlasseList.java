@@ -92,8 +92,7 @@ public class KlasseList {
   {
     Klassenliste.clear();
     Klasse tmp;
-
-  
+ 
     try{
     CsvReader csvKlasseListe = new CsvReader(filename);
     csvKlasseListe.readHeaders();
@@ -102,14 +101,22 @@ public class KlasseList {
 	{
 		String bez			= csvKlasseListe.get("Bezeichnung");
     	String fac     		= csvKlasseListe.get("Fach");
-		String sja    		= csvKlasseListe.get("Schuljach");
-		
+		String sja    		= csvKlasseListe.get("Schuljahr");
+		String leh			= csvKlasseListe.get("Lehrer");
+		String slf			= csvKlasseListe.get("Schuelerliste-Datei");
+		String kbf			= csvKlasseListe.get("Korrekturbuch-Datei");
 				
 		// perform program logic here
-		System.out.println(id + ", " + vorname + ", " + nachname);
-		int idNumber = Integer.valueOf(id).intValue();
-		tmp = new Schueler(idNumber, vorname, nachname);
-		addToSchuelerList(tmp);
+		// Debugging
+		System.out.println(bez + ", " + fac + ", " + sja + ", " +
+						   leh + ", " + slf + ", " + kbf);
+		
+		// internal
+		int sjaNumber = Integer.valueOf(sja).intValue();
+		Lehrer lehtmp = new Lehrer();
+		lehtmp.fromString(leh);
+		tmp = new Klasse(bez,fac,sjaNumber,lehtmp);
+		addToKlasseList(tmp);
 	}
 
     csvKlasseListe.close();
@@ -123,16 +130,15 @@ public class KlasseList {
     setAnz(Klassenliste.size());
   }
   
-
-  
+ 
   public String toString(){
 	  return new String("Inhalt der Klassenliste: " + Klassenliste);
   }
-  /*
-  public void writeSchuelerListToCSV(String filename)
+  
+  public void writeKlasseListToCSV(String filename)
   {
-
- // before we open the file check to see if it already exists
+	  	  
+    // before we open the file check to see if it already exists
 	    File f = new File(filename);
  		boolean alreadyExists = f.exists();
  		
@@ -145,23 +151,28 @@ public class KlasseList {
  			CsvWriter csvOutput = new CsvWriter(new FileWriter(filename, true), ',');
  					
  			
- 			/*
- 			// if the file didn't already exist then we need to write out the header line
- 			if (!alreadyExists)
- 			{*//*
- 				csvOutput.write("ID");
- 				csvOutput.write("Vorname");
- 				csvOutput.write("Name");
+ 			//if the file didn't already exist then we need to write out the header line
+ 			//if (!alreadyExists)
+ 			{
+ 				csvOutput.write("Bezeichnung");
+ 				csvOutput.write("Fach");
+ 				csvOutput.write("Schuljahr");
+ 				csvOutput.write("Lehrer");
+ 				csvOutput.write("Schuelerliste-Datei");
+ 				csvOutput.write("Korrekturbuch-Datei");
  				csvOutput.endRecord();
- 			/*}
+ 			}
  			// else assume that the file already has the correct header line
- 			*/
- 			/*
- 			for(int i = 0; i < Schuelerliste.size(); i++){
+ 			
+ 			for(int i = 0; i < Klassenliste.size(); i++){
  			// write out a few records
- 				csvOutput.write(Schuelerliste.get(i).getIDString());
- 	 			csvOutput.write(Schuelerliste.get(i).getVorname());
- 	 			csvOutput.write(Schuelerliste.get(i).getNachname());
+ 				csvOutput.write(Klassenliste.get(i).getKlBez());
+ 	 			csvOutput.write(Klassenliste.get(i).getFach());
+ 	 			csvOutput.write("" + Klassenliste.get(i).getSchuljahr());
+ 	 			csvOutput.write(Klassenliste.get(i).getLehrer().toString());
+ 	 			csvOutput.write(Klassenliste.get(i).getSchuelerListFile());
+ 	 			csvOutput.write(Klassenliste.get(i).getKorrBuchFile());
+ 	 			
  	 			csvOutput.endRecord();
  			}
  			
@@ -171,5 +182,5 @@ public class KlasseList {
  		}
     
   }
-*/
+
 }

@@ -101,13 +101,14 @@ public class SchuelerList {
     
     while (csvSchuelerListe.readRecord())
 	{
-		int id				= csvSchuelerListe.get("ID");
+		String id			= csvSchuelerListe.get("ID");
     	String vorname      = csvSchuelerListe.get("Vorname");
 		String nachname     = csvSchuelerListe.get("Name");
 				
 		// perform program logic here
 		System.out.println(id + ", " + vorname + ", " + nachname);
-		tmp = new Schueler(id, vorname, nachname);
+		int idNumber = Integer.valueOf(id).intValue();
+		tmp = new Schueler(idNumber, vorname, nachname);
 		addToSchuelerList(tmp);
 	}
 

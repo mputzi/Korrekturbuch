@@ -94,8 +94,8 @@ public class Schueler {
    * Get the value of ID
    * @return the value of ID
    */
-  public int getIDString( ) {
-    return new String(getID().toString());
+  public String getIDString( ) {
+    return new String("" + getID());
   }
   
   //
@@ -129,15 +129,15 @@ public class Schueler {
 	  return true;	  
   }
 
-  public String toString(){
+  public String toString3(){
 	  return new String(getVorname() + " " + getNachname());
   }
   
   public String toString2(){
-	  return new String(getNachname() + ", " getVorname());
+	  return new String(getNachname() + ", " + getVorname());
   }
   
-  public String toStringID(){
+  public String toString(){
 	  return new String(getID() + ", "+ getVorname() + " " + getNachname());
   }
 

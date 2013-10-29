@@ -32,8 +32,8 @@ public class KlasseOeffnen extends JDialog implements ActionListener {
 	private JTextArea Zusammenfassung = new JTextArea();
 	private boolean auswahl=false; //Klasse ausgewählt?
 	
-	private JList<String> Klassenliste = new JList<String>();
-	private DefaultListModel <String> klass_list = new DefaultListModel<String>();
+	private JList Klassenliste = new JList();
+	private DefaultListModel klass_list = new DefaultListModel();
 	
 	private JButton okButton;
 	

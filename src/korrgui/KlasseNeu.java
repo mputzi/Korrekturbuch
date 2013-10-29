@@ -1,7 +1,9 @@
 package korrgui;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.Frame;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -12,11 +14,9 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.DefaultListModel;
 import javax.swing.JTextArea;
-import java.awt.ComponentOrientation;
-import java.awt.Dimension;
 import javax.swing.UIManager;
-import java.awt.Font;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
 import javax.swing.ListSelectionModel;
@@ -24,20 +24,15 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.AbstractListModel;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
-import java.awt.GridLayout;
 import javax.swing.JTextField;
-import java.awt.GridBagLayout;
 import javax.swing.BoxLayout;
-import java.awt.GridBagConstraints;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JTable;
-import java.awt.List;
-import java.awt.Button;
-import java.awt.Component;
+import java.util.Collections;
+
 import javax.swing.Box;
 
 
-@SuppressWarnings("serial")
 public class KlasseNeu extends JDialog implements ActionListener {
 
 	Frame aufrufer = new Frame();
@@ -80,16 +75,26 @@ public class KlasseNeu extends JDialog implements ActionListener {
 			if (cmd=="DEL"){
 				actionDeleteButton();
 			}
-			
+			if (cmd=="CSV"){
+				actionCSVButton();
+			}
+			if (cmd=="ADD"){
+				actionHinzuButton();
+			}
 		}
 	};
 	
-	private ItemListener ListIL = new ItemListener(){
-		public void itemStateChanged(ItemEvent arg0){
-			Integer x = (Integer)arg0.getItem();
-			System.out.println(x);
+	private ListSelectionListener ListSL = new ListSelectionListener(){
+		public void valueChanged(ListSelectionEvent arg0){
+			btnAusgewLschen.setEnabled(true); //Ein Element der Liste wurde ausgewählt -> somit kann man es auch löschen
 		}
 	};
+	
+	/**private ItemListener ListIL = new ItemListener(){
+		public void itemStateChanged(ItemEvent arg0){
+			btnAusgewLschen.setEnabled(true); //Ein Element der Liste wurde ausgewählt -> somit kann man es auch löschen
+		}
+	};**/
 	
 	
 	
@@ -110,12 +115,13 @@ public class KlasseNeu extends JDialog implements ActionListener {
 	private JButton btnImportcvs;
 	private JScrollPane scrollPane;
 	private JButton btnAusgewLschen;
-	private List list;
-	private Button button;
 	private Component verticalStrut;
 	private Component verticalStrut_1;
 	private Component verticalStrut_2;
 	private Component verticalStrut_3;
+	private JButton btnhinzu;
+	private JList <String> liste;
+	private DefaultListModel <String> name_list;
 	
 	private void actionOKButton(){
 		
@@ -140,7 +146,21 @@ public class KlasseNeu extends JDialog implements ActionListener {
 	}
 	
 	private void actionDeleteButton(){
-		list.delItem(0);
+		name_list.remove(liste.getSelectedIndex());
+		btnAusgewLschen.setEnabled(false);
+	}
+	
+	private void actionHinzuButton(){
+		name_list.addElement(klasseSchuelerinput.getText());
+		
+		liste.setSelectedIndex(name_list.indexOf(klasseSchuelerinput.getText()));
+		klasseSchuelerinput.setText("");
+		
+		
+	}
+	
+	private void actionCSVButton(){
+		//CSV-Import-Fenster aufmachen
 	}
 	
 		
@@ -157,7 +177,7 @@ public class KlasseNeu extends JDialog implements ActionListener {
 				okButton.setActionCommand("OK");
 				okButton.addActionListener(CLASSal);
 				buttonPane.add(okButton);
-				getRootPane().setDefaultButton(okButton);
+				//getRootPane().setDefaultButton(okButton);
 			}
 			{
 				JButton cancelButton = new JButton("Cancel");
@@ -226,34 +246,16 @@ public class KlasseNeu extends JDialog implements ActionListener {
 				scrollPane.setBorder(UIManager.getBorder("ScrollPane.border"));
 				panel.add(scrollPane, "cell 2 2 1 10,grow");
 				{
-					list = new List();
-					list.addItemListener(ListIL);
-					list.setMultipleSelections(false);
-					list.add("Martin");
-					list.add("Rainer");
-					list.add("Albert");
-					list.add("Martin");
-					list.add("Rainer");
-					list.add("Albert");
-					list.add("Martin");
-					list.add("Rainer");
-					list.add("Albert");
-					list.add("Martin");
-					list.add("Rainer");
-					list.add("Albert");
-					list.add("Martin");
-					list.add("Rainer");
-					list.add("Albert");
-					list.add("Martin");
-					list.add("Rainer");
-					list.add("Albert");
-					list.add("Martin");
-					list.add("Rainer");
-					list.add("Albert");
-					list.add("Martin");
-					list.add("Rainer");
-					list.add("Albert");
-					scrollPane.setViewportView(list);
+					liste = new JList<String>();
+					liste.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+					liste.addListSelectionListener(ListSL);
+					name_list = new DefaultListModel<String>();
+					liste.setModel(name_list);
+					name_list.addElement("Test");
+					name_list.addElement("Albert");
+					name_list.addElement("Martin");
+					name_list.addElement("Berta");
+					scrollPane.setViewportView(liste);
 				}
 			}
 			{
@@ -329,17 +331,15 @@ public class KlasseNeu extends JDialog implements ActionListener {
 				klasseSchule.setColumns(10);
 			}
 			{
-				btnImportcvs = new JButton("Importiere Schülernamen (CVS)");
+				btnImportcvs = new JButton("Importiere Schülernamen (CSV)");
 				btnImportcvs.setEnabled(false);
-				btnImportcvs.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent arg0) {
-					}
-				});
-				{
-					verticalStrut_3 = Box.createVerticalStrut(20);
-					panel.add(verticalStrut_3, "cell 0 11");
-				}
+				btnImportcvs.setActionCommand("CSV");
+				btnImportcvs.addActionListener(CLASSal);
 				panel.add(btnImportcvs, "cell 0 12,alignx right");
+			}
+			{
+				verticalStrut_3 = Box.createVerticalStrut(20);
+				panel.add(verticalStrut_3, "cell 0 11");
 			}
 			{
 				btnAusgewLschen = new JButton("ausgew. löschen");
@@ -349,8 +349,10 @@ public class KlasseNeu extends JDialog implements ActionListener {
 				panel.add(btnAusgewLschen, "cell 2 12,alignx center");
 			}
 			{
-				button = new Button("hinzu");
-				panel.add(button, "cell 2 1,alignx right");
+				btnhinzu = new JButton("(hinzu)");
+				btnhinzu.setActionCommand("ADD");
+				btnhinzu.addActionListener(CLASSal);
+				panel.add(btnhinzu, "cell 2 1,alignx right");
 			}
 		}
 	}

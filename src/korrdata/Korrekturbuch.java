@@ -72,6 +72,7 @@ public class Korrekturbuch {
 	}
 	Pruefungsliste.add(new_object);
     setPrAnz(Pruefungsliste.size());
+
   }
   
    /**
@@ -333,7 +334,7 @@ public class Korrekturbuch {
 
  public void neuePruefung(int day, int mon, int yea, int nummer, Pruefungsarten.ART art, int teiln){
 	 
-	 System.out.println("-- Neue Prüfung anlegen! --");
+	 //System.out.println("-- Neue Prüfung anlegen! --");
 	 
 	 GregorianCalendar d = new GregorianCalendar(yea,mon,day);
 	 
@@ -341,22 +342,24 @@ public class Korrekturbuch {
 	 
 	 this.addToKorrekturbuch(tmp);
 	 
+	 // Zusammenbau des neuen Dateinamens
+	 File[] files = this.readDirectory(getKlassenBezeichnung());
 	 String neuPrFilename;
 	 String altPrFilename;
-	 
-	 File[] files = this.readDirectory(getKlassenBezeichnung());
-	 
+	 // letzter benutzter Dateiname
 	 altPrFilename = new String(files[0].getName());
-	 System.out.println(altPrFilename);
-	 
+	 //System.out.println(altPrFilename);
+	 // Aufsplitten des letzten alten Dateinamens
 	 String[] bausteine = altPrFilename.split("[p_]");
-	 
+	 // Zusammmenbau des neuen Dateinamens
 	 neuPrFilename = new String(bausteine[0] +"_"+ bausteine[1] +
 			 "_" + bausteine[2] + "_p"+
 			 (Integer.valueOf(bausteine[4]).intValue()+1) + "_p" + ".csv");
-	 System.out.println(neuPrFilename);
+	 //System.out.println(neuPrFilename);
 	 
+	 // Schreiben der neuen Prüfung in neue Datei
 	 tmp.writePruefungToCSV(neuPrFilename);
+	 
  }
  
 }

@@ -10,16 +10,17 @@ public class Klasse {
   // Fields
   //
 
-  private String klBez;
-  private String fach;
-  private int schuljahr;
+  private String klBez = "";
+  private String fach = "";
+  private int schuljahr = 0;
 
-  private Lehrer lehrer;
+  private Lehrer lehrer = new Lehrer();
   
-  private String schuelerListFile;
-  private SchuelerList schuelerL;  
+  private String schuelerListFile = "";
+  private SchuelerList schuelerL;
+  private int schuelerzahl = 0;
   
-  private String korrBuchFile;
+  private String korrBuchFile  ="";
   private Korrekturbuch korrBuch;
   
   //
@@ -141,13 +142,14 @@ public void setKorrBuch(Korrekturbuch korrBuch) {
 	this.korrBuch = korrBuch;
 }
 
+/*
 public void setKorrBuchFromFile(String filename) {
 	//this.korrBuch = korrBuch;
 }
 
 public void writeKorrBuchToFile(String filename) {
 	
-}
+}*/
 
 public String getSchuelerListFile() {
 	return schuelerListFile;
@@ -166,5 +168,7 @@ public String getKorrBuchFile() {
 public void setKorrBuchFile(String korrBuchFile) {
 	this.korrBuchFile = korrBuchFile;
 }
+
+public int read
 
 }

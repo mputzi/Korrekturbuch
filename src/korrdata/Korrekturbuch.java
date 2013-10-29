@@ -24,7 +24,7 @@ public class Korrekturbuch {
   //
   private String klassenBezeichnung;
   
-  private Klasse KBKlasse;
+  private Klasse KBKlasse = new Klasse();
   
   private int anz;
   public ArrayList<Pruefung> Pruefungsliste = new ArrayList<Pruefung>();
@@ -51,6 +51,7 @@ public class Korrekturbuch {
   
   public Korrekturbuch (Klasse kl) {
 	  this.setKlassenBezeichnung(kl.getKlBez());
+	  this.setKBKlasse(kl);
 	  if(this.fillKorrekturbuch()){
 		  System.out.println("Prüfungen vorhanden!");
 	  }
@@ -204,7 +205,7 @@ public class Korrekturbuch {
   //
   public String toString(){
 	  return new String("Inhalt des Korrekturbuchs: " + "Klasse "+ 
-              this.getKlassenBezeichnung() + Pruefungsliste);
+              this.getKBKlasse().toString() + Pruefungsliste);
   }
   
   
@@ -241,14 +242,15 @@ public class Korrekturbuch {
   
    // Speichern der nötigen Informationen des Korrekturbuchs
   public void writeKorrekturBuch(){
-	  Klasse tmp = this.getKBKlasse();
-	  
+	  Klasse tmp = new Klasse(); 
+	  tmp =  this.getKBKlasse();
+	  //System.out.println("Schreiben!!");
 	  this.writeKorrekturbuchToCSV(new String(
 		tmp.getKorrBuchFile()
 		));
   }
   
-  public void writeKorrekturbuchToCSV(String filename)
+ private void writeKorrekturbuchToCSV(String filename)
   {
 
  // before we open the file check to see if it already exists
@@ -287,27 +289,19 @@ public class Korrekturbuch {
  				csvOutput.write("" + tmp.getKlBez());
  	 			csvOutput.write("" + tmp.getFach());
  	 			csvOutput.write("" + tmp.getSchuljahr());
- 	 			csvOutput.write("" + tmp.);
- 	 			csvOutput.write("" + this.datum.get(Calendar.DAY_OF_MONTH));
- 	 			csvOutput.write("" + this.anzTeilnehmer);
- 	 			
- 	 			csvOutput.write(aufgabenFilename);
- 	 				 	 			
+ 	 			csvOutput.write("" + tmp.getLehrer().toString());
+ 	 			csvOutput.write("" + this.getAnz());
+ 	 			csvOutput.write("" );
+	 			 				 	 			
  	 			csvOutput.endRecord();
- 			
- 			
- 			csvOutput.close();
+
+ 	 			csvOutput.close();
  			
  		} catch (IOException e) {
  			e.printStackTrace();
  		}
- 		
- 		aufgabenListe.writeAufgabenListeToCSV(aufgabenFilename);
     
   }
-  
-  
-  
 
 }
   

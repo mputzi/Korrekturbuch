@@ -35,6 +35,7 @@ public class KlasseOeffnen extends JDialog implements ActionListener {
 	private JList<String> Klassenliste = new JList<String>();
 	private DefaultListModel <String> klass_list = new DefaultListModel<String>();
 	
+	private JButton okButton;
 	
 	
 	/**
@@ -79,6 +80,7 @@ public class KlasseOeffnen extends JDialog implements ActionListener {
 		public void valueChanged(ListSelectionEvent arg0) {
 			set_Zusammenfassung(Klassenliste.getSelectedValue().toString());
 			auswahl=true; //Eine Klasse wurde ausgewählt
+			okButton.setEnabled(true);
 		}
 	};
 	
@@ -159,11 +161,12 @@ public class KlasseOeffnen extends JDialog implements ActionListener {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("OK");
+				okButton = new JButton("OK");
 				okButton.setActionCommand("OK");
 				okButton.addActionListener(CLASSal);
 				buttonPane.add(okButton);
-				getRootPane().setDefaultButton(okButton);
+				okButton.setEnabled(false);
+				//getRootPane().setDefaultButton(okButton);
 			}
 			{
 				JButton cancelButton = new JButton("Cancel");

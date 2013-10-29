@@ -169,6 +169,7 @@ public class KlasseNeu extends JDialog implements ActionListener {
 		// Dialog abbauen
 		KlasseNeu.this.setVisible(false);
 		KlasseNeu.this.dispose();
+		Hauptfenster.set_class_open(true);
 		// Kontrolle wieder an Hauptfenster geben
 		aufrufer.setEnabled(true);
 		aufrufer.setVisible(true);

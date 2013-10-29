@@ -20,13 +20,19 @@ import javax.swing.JScrollPane;
 import javax.swing.JList;
 import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
-import javax.swing.AbstractListModel;
+//import javax.swing.AbstractListModel;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
+
+import korrdata.KlasseList;
 
 
 public class KlasseOeffnen extends JDialog implements ActionListener {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	Frame aufrufer = new Frame();
 	private JPanel contentPanel = new JPanel();
 	private JTextArea Zusammenfassung = new JTextArea();
@@ -36,6 +42,8 @@ public class KlasseOeffnen extends JDialog implements ActionListener {
 	private DefaultListModel klass_list = new DefaultListModel();
 	
 	private JButton okButton;
+	
+	private KlasseList meineKlassenliste = new KlasseList();
 	
 	
 	/**
@@ -78,7 +86,12 @@ public class KlasseOeffnen extends JDialog implements ActionListener {
 	
 	private ListSelectionListener ListSL = new ListSelectionListener(){
 		public void valueChanged(ListSelectionEvent arg0) {
-			set_Zusammenfassung(Klassenliste.getSelectedValue().toString());
+			//set_Zusammenfassung(Klassenliste.getSelectedValue().toString());
+			
+			int i = Klassenliste.getSelectedIndex();
+					
+			String outStr = new String(meineKlassenliste.Klassenliste.get(i).toString());
+			set_Zusammenfassung(outStr);
 			auswahl=true; //Eine Klasse wurde ausgewählt
 			okButton.setEnabled(true);
 		}
@@ -117,6 +130,13 @@ public class KlasseOeffnen extends JDialog implements ActionListener {
 	
 	private void initialize() {
 		
+		// Einbindung der Daten aus der Klassenliste-Datei
+		meineKlassenliste.setKlasseListFromCSV("klassenliste.csv");
+		
+		for (int i = 0; i<meineKlassenliste.Klassenliste.size(); i++){
+			klass_list.addElement(meineKlassenliste.Klassenliste.get(i).getKlBez() + " " + meineKlassenliste.Klassenliste.get(i).getFach());
+		}
+		
 		
 		setTitle("Klasse öffnen");
 		setBounds(100, 100, 450, 300);
@@ -133,8 +153,8 @@ public class KlasseOeffnen extends JDialog implements ActionListener {
 				Klassenliste.addListSelectionListener(ListSL);
 				Klassenliste.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 				Klassenliste.setModel(klass_list);
-				klass_list.addElement("Test");
-				klass_list.addElement("Hans");
+				//klass_list.addElement("Test");
+				//klass_list.addElement("Hans");
 				scrollPane.setViewportView(Klassenliste);
 			}
 		}
@@ -175,5 +195,12 @@ public class KlasseOeffnen extends JDialog implements ActionListener {
 				buttonPane.add(cancelButton);
 			}
 		}		
+	}
+
+
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		// TODO Auto-generated method stub
+		
 	} 
 }

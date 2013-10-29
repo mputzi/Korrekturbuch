@@ -31,7 +31,7 @@ public class Korrekturbuch {
   public class PruefungComparator implements Comparator<Pruefung>{
 	  @Override
 	  public int compare(Pruefung pr1, Pruefung pr2){
-		  return (pr2.getIdNum()- pr1.getIdNum());
+		  return (pr1.getIdNum()- pr2.getIdNum());
 	  }
   }
   

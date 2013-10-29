@@ -20,7 +20,7 @@ import javax.swing.SortOrder;
 import javax.swing.UIManager;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
-import org.jdesktop.swingx.JXList;
+//import org.jdesktop.swingx.JXList;
 import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.AbstractListModel;

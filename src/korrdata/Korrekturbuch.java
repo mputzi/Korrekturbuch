@@ -246,7 +246,7 @@ public class Korrekturbuch {
 	  tmp =  this.getKBKlasse();
 	  //System.out.println("Schreiben!!");
 	  this.writeKorrekturbuchToCSV(new String(
-		tmp.getKorrBuchFile()
+		tmp.getKorrBuchFilename()
 		));
   }
   
@@ -255,7 +255,7 @@ public class Korrekturbuch {
 
  // before we open the file check to see if it already exists
 	    File f = new File(filename);
-	    String KBFilename = new String(filename);
+	   // String KBFilename = new String(filename);
 	    
  		boolean alreadyExists = f.exists();
  		
@@ -291,7 +291,7 @@ public class Korrekturbuch {
  	 			csvOutput.write("" + tmp.getSchuljahr());
  	 			csvOutput.write("" + tmp.getLehrer().toString());
  	 			csvOutput.write("" + this.getAnz());
- 	 			csvOutput.write("" );
+ 	 			csvOutput.write("" + tmp.getSchuelerzahl());
 	 			 				 	 			
  	 			csvOutput.endRecord();
 

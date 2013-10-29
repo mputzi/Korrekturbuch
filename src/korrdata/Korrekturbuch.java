@@ -238,13 +238,22 @@ public class Korrekturbuch {
 	  return files;
   }
   
-  // Speichern der nötigen Informationen des Korrekturbuchs
+  
+   // Speichern der nötigen Informationen des Korrekturbuchs
+  public void writeKorrekturBuch(){
+	  Klasse tmp = this.getKBKlasse();
+	  
+	  this.writeKorrekturbuchToCSV(new String(
+		tmp.getKorrBuchFile()
+		));
+  }
+  
   public void writeKorrekturbuchToCSV(String filename)
   {
 
  // before we open the file check to see if it already exists
 	    File f = new File(filename);
-	    String KBFilename = new String(filename.substring(0, filename.lastIndexOf('.')) + "_aufgaben.csv");
+	    String KBFilename = new String(filename);
 	    
  		boolean alreadyExists = f.exists();
  		
@@ -261,23 +270,24 @@ public class Korrekturbuch {
  			// if the file didn't already exist then we need to write out the header line
  			if (!alreadyExists)
  			{*/
- 				csvOutput.write("Nummer");
- 				csvOutput.write("Art");
- 				csvOutput.write("Jahr");
- 				csvOutput.write("Monat");
- 				csvOutput.write("Tag");
- 				csvOutput.write("Anzahl");
- 				csvOutput.write("Listen-Datei");
+ 				csvOutput.write("Klasse");
+ 				csvOutput.write("Fach");
+ 				csvOutput.write("Schuljahr");
+ 				csvOutput.write("Lehrer");
+ 				csvOutput.write("Pruefungszahl");
+ 				csvOutput.write("Schuelerzahl");
  				csvOutput.endRecord();
  			/*}
  			// else assume that the file already has the correct header line
  			*/
- 				 			
+ 			
+ 				Klasse tmp = this.getKBKlasse();
+ 				
  			// write out a few records
- 				csvOutput.write("" + this.nummer);
- 	 			csvOutput.write("" + this.artKey);
- 	 			csvOutput.write("" + this.datum.get(Calendar.YEAR));
- 	 			csvOutput.write("" + this.datum.get(Calendar.MONTH));
+ 				csvOutput.write("" + tmp.getKlBez());
+ 	 			csvOutput.write("" + tmp.getFach());
+ 	 			csvOutput.write("" + tmp.getSchuljahr());
+ 	 			csvOutput.write("" + tmp.);
  	 			csvOutput.write("" + this.datum.get(Calendar.DAY_OF_MONTH));
  	 			csvOutput.write("" + this.anzTeilnehmer);
  	 			

@@ -14,6 +14,8 @@ import java.awt.ComponentOrientation;
 import java.awt.Dimension;
 import javax.swing.UIManager;
 import java.awt.Font;
+
+import javax.swing.DefaultListModel;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
 import javax.swing.ListSelectionModel;
@@ -30,7 +32,11 @@ public class KlasseOeffnen extends JDialog implements ActionListener {
 	private JTextArea Zusammenfassung = new JTextArea();
 	private boolean auswahl=false; //Klasse ausgewählt?
 	
-
+	private JList<String> Klassenliste = new JList<String>();
+	private DefaultListModel <String> klass_list = new DefaultListModel<String>();
+	
+	
+	
 	/**
 	 * Launch the application.
 	 */
@@ -69,6 +75,15 @@ public class KlasseOeffnen extends JDialog implements ActionListener {
 		}
 	};
 	
+	private ListSelectionListener ListSL = new ListSelectionListener(){
+		public void valueChanged(ListSelectionEvent arg0) {
+			set_Zusammenfassung(Klassenliste.getSelectedValue().toString());
+			auswahl=true; //Eine Klasse wurde ausgewählt
+		}
+	};
+	
+
+	
 	private void actionOKButton(){
 		// Bestätigen und die Klassenauswahl verlassen
 		// Dialog abbauen
@@ -99,6 +114,8 @@ public class KlasseOeffnen extends JDialog implements ActionListener {
 	
 	
 	private void initialize() {
+		
+		
 		setTitle("Klasse öffnen");
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
@@ -111,24 +128,11 @@ public class KlasseOeffnen extends JDialog implements ActionListener {
 			scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 			contentPanel.add(scrollPane, BorderLayout.WEST);
 			{
-				final JList Klassenliste = new JList();
-				Klassenliste.addListSelectionListener(new ListSelectionListener() {
-					public void valueChanged(ListSelectionEvent arg0) {
-						set_Zusammenfassung(Klassenliste.getSelectedValue().toString());
-						auswahl=true; //Eine Klasse wurde ausgewählt
-					}
-				});
-				
-				Klassenliste.setModel(new AbstractListModel() {
-					String[] values = new String[] {"Test", "Auto", "Banane", "Zitrone"};
-					public int getSize() {
-						return values.length;
-					}
-					public Object getElementAt(int index) {
-						return values[index];
-					}
-				});
+				Klassenliste.addListSelectionListener(ListSL);
 				Klassenliste.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+				Klassenliste.setModel(klass_list);
+				klass_list.addElement("Test");
+				klass_list.addElement("Hans");
 				scrollPane.setViewportView(Klassenliste);
 			}
 		}

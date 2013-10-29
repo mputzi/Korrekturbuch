@@ -27,7 +27,7 @@ public class KorrekturbuchTest {
 		kb.writeKorrekturBuch();
 		*/
 		
-		kb.neuePruefung(4, 4, 1999, 2, Pruefungsarten.ART.T, 4);
+		//kb.neuePruefung(4, 4, 1999, 2, Pruefungsarten.ART.T, 4);
 		
 		kb.printPruefungen();
 	}

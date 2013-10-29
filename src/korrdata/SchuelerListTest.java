@@ -13,7 +13,7 @@ public class SchuelerListTest {
 		//Liste.addToSchuelerList(new Schueler(1,"Martin","Mustermann"));
 		Liste.setSchuelerListFromCSV("testcase_13g.csv");
 		System.out.println(Liste.toString());
-		Liste.writeSchuelerListToCSV("testcase_output.csv");
+		Liste.writeSchuelerListToCSV("8a_Mathematik_2013_SL.csv");
 		
 		
 		

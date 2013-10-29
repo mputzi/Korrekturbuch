@@ -32,9 +32,9 @@ public class KlasseListTest {
 		//Nur der Lehrer:
 		System.out.println(meineKlassenliste2.Klassenliste.get(0).getLehrer().toString());
 		//Korrekturbuch-Datei:
-		System.out.println(meineKlassenliste2.Klassenliste.get(0).getKorrBuchFile());
+		System.out.println(meineKlassenliste2.Klassenliste.get(0).getKorrBuchFilename());
 		//Schülerliste-Datei:
-		System.out.println(meineKlassenliste2.Klassenliste.get(0).getSchuelerListFile());
+		System.out.println(meineKlassenliste2.Klassenliste.get(0).getSchuelerListFilename());
 	
 		
 	}

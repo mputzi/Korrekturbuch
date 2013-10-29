@@ -81,7 +81,7 @@ public class KlasseList {
     }
   }
   
-  public void setKlasseList (List liste )
+  public void setKlasseList (List<Klasse> liste )
   {
     Klassenliste.clear();
     Klassenliste.addAll(liste);
@@ -119,8 +119,8 @@ public class KlasseList {
 		
 		tmp = new Klasse(bez,fac,sjaNumber,lehtmp);
 		
-		tmp.setKorrBuchFile(kbf);
-		tmp.setSchuelerListFile(slf);
+		tmp.setKorrBuchFilename(kbf);
+		tmp.setSchuelerListFilename(slf);
 		
 		addToKlasseList(tmp);
 	}
@@ -176,8 +176,8 @@ public class KlasseList {
  	 			csvOutput.write(Klassenliste.get(i).getFach());
  	 			csvOutput.write("" + Klassenliste.get(i).getSchuljahr());
  	 			csvOutput.write(Klassenliste.get(i).getLehrer().toString());
- 	 			csvOutput.write(Klassenliste.get(i).getSchuelerListFile());
- 	 			csvOutput.write(Klassenliste.get(i).getKorrBuchFile());
+ 	 			csvOutput.write(Klassenliste.get(i).getSchuelerListFilename());
+ 	 			csvOutput.write(Klassenliste.get(i).getKorrBuchFilename());
  	 			
  	 			csvOutput.endRecord();
  			}

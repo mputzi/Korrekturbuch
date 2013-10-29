@@ -24,9 +24,9 @@ public class Korrekturbuch {
   //
   private String klassenBezeichnung;
   
-  private Klasse KBKlasse;
+  private Klasse KBKlasse = new Klasse();
   
-  private int anz;
+  private int prAnz;
   public ArrayList<Pruefung> Pruefungsliste = new ArrayList<Pruefung>();
   
   //
@@ -51,6 +51,7 @@ public class Korrekturbuch {
   
   public Korrekturbuch (Klasse kl) {
 	  this.setKlassenBezeichnung(kl.getKlBez());
+	  this.setKBKlasse(kl);
 	  if(this.fillKorrekturbuch()){
 		  System.out.println("Prüfungen vorhanden!");
 	  }
@@ -70,7 +71,8 @@ public class Korrekturbuch {
 		return;
 	}
 	Pruefungsliste.add(new_object);
-    setAnz(Pruefungsliste.size());
+    setPrAnz(Pruefungsliste.size());
+
   }
   
    /**
@@ -79,7 +81,7 @@ public class Korrekturbuch {
     public void removeFromKorrekturbuch ( Pruefung new_object ) {
  	if(Pruefungsliste.contains(new_object)){
  		Pruefungsliste.remove(new_object);
- 		setAnz(Pruefungsliste.size());
+ 		setPrAnz(Pruefungsliste.size());
  	}
  	else{
     	System.out.println("Prüfung nicht in Liste enthalten.");
@@ -91,7 +93,7 @@ public class Korrekturbuch {
     	Pruefungsliste.clear();
     	Pruefungsliste.addAll(liste);
       
-      setAnz(Pruefungsliste.size());
+      setPrAnz(Pruefungsliste.size());
     }
    
     public boolean setKorrekturbuchFromFiles(File[] files)
@@ -158,39 +160,34 @@ public class Korrekturbuch {
     		}
 
     	}  
-      setAnz(Pruefungsliste.size());
+      setPrAnz(Pruefungsliste.size());
       return true;
     }
+    
+//
+  // Accessor methods
+  //
     
     public Klasse getKBKlasse() {
 		return KBKlasse;
 	}
 
-	public void setKBKlasse(Klasse kBKlasse) {
+	private void setKBKlasse(Klasse kBKlasse) {
 		KBKlasse = kBKlasse;
 	}
-
-	public boolean fillKorrekturbuch(){
-    	return this.setKorrekturbuchFromFiles(this.readDirectory(getKlassenBezeichnung()));
-    }
-    
-  //
-  // Accessor methods
-  //
    /**
     * Set the value of anz
     * @param newVar the new value of anz
     */
-   private void setAnz( int newVar ) {
-     anz = newVar;
+   private void setPrAnz( int newVar ) {
+     prAnz = newVar;
    }
-
-   /**
+	/**
     * Get the value of anz
     * @return the value of anz
     */
-   public int getAnz( ) {
-     return anz;
+   public int getPrAnz( ) {
+     return prAnz;
    }
    
    public String getKlassenBezeichnung() {
@@ -199,16 +196,48 @@ public class Korrekturbuch {
    private void setKlassenBezeichnung(String klassenBezeichnung) {
 		this.klassenBezeichnung = klassenBezeichnung;
 	}
+   
+   public Lehrer getLehrer()
+   {
+	   return this.getKBKlasse().getLehrer();
+   }
+
+   public String getLehrerString()
+   {
+	   return new String(this.getKBKlasse().getLehrer().toString());
+   }
+   
+   public int getSchuelerAnz(){
+	   return this.getKBKlasse().getSchuelerzahl();
+   }
+   
+   public int getSchuljahr(){
+	   return this.getKBKlasse().getSchuljahr();
+   }
+   
+   public String getFach()
+   {
+	   return new String(this.getKBKlasse().getFach());
+   }
+   
+   
   //
   // Other methods
   //
   public String toString(){
-	  return new String("Inhalt des Korrekturbuchs: " + "Klasse "+ 
-              this.getKlassenBezeichnung() + Pruefungsliste);
+	  return new String("Inhalt des Korrekturbuchs:\n" + "Klasse "+ 
+              this.getKBKlasse().toString() +
+              ", Anzahl der Prüfungen: " + this.getPrAnz() + "\n"
+              + Pruefungsliste);
   }
   
   
-  // Filter für Dateien
+  public boolean fillKorrekturbuch(){
+	return this.setKorrekturbuchFromFiles(this.readDirectory(getKlassenBezeichnung()));
+}
+
+
+// Filter für Dateien
   class Filter implements FileFilter{
 	  private String klBez;
 	  
@@ -219,7 +248,8 @@ public class Korrekturbuch {
 	  public boolean accept(File file){
 		  String fname = file.getName();
 		  return (fname.startsWith(klBez) 
-				  && fname.endsWith("p.csv")
+				  && fname.endsWith("_p.csv")
+				  //&& fname.contains("_p")
 				  );
 	  }
   }
@@ -230,21 +260,31 @@ public class Korrekturbuch {
 	  File directory = new File(".");
 	     
 	  File[] files = directory.listFiles(new Filter(klassenBezeichnung));
-	 
+	  /*
 	  for(int i = 0; i<files.length; i++){
 		  System.out.println(files[i].toString());
 	  }
-	  
+	  */
 	  return files;
   }
   
-  // Speichern der nötigen Informationen des Korrekturbuchs
-  public void writeKorrekturbuchToCSV(String filename)
+  
+   // Speichern der nötigen Informationen des Korrekturbuchs
+  public void writeKorrekturBuch(){
+	  Klasse tmp = new Klasse(); 
+	  tmp =  this.getKBKlasse();
+	  //System.out.println("Schreiben!!");
+	  this.writeKorrekturbuchToCSV(new String(
+		tmp.getKorrBuchFilename()
+		));
+  }
+  
+ private void writeKorrekturbuchToCSV(String filename)
   {
 
  // before we open the file check to see if it already exists
 	    File f = new File(filename);
-	    String KBFilename = new String(filename.substring(0, filename.lastIndexOf('.')) + "_aufgaben.csv");
+	   // String KBFilename = new String(filename);
 	    
  		boolean alreadyExists = f.exists();
  		
@@ -261,44 +301,67 @@ public class Korrekturbuch {
  			// if the file didn't already exist then we need to write out the header line
  			if (!alreadyExists)
  			{*/
- 				csvOutput.write("Nummer");
- 				csvOutput.write("Art");
- 				csvOutput.write("Jahr");
- 				csvOutput.write("Monat");
- 				csvOutput.write("Tag");
- 				csvOutput.write("Anzahl");
- 				csvOutput.write("Listen-Datei");
+ 				csvOutput.write("Klasse");
+ 				csvOutput.write("Fach");
+ 				csvOutput.write("Schuljahr");
+ 				csvOutput.write("Lehrer");
+ 				csvOutput.write("Pruefungszahl");
+ 				csvOutput.write("Schuelerzahl");
  				csvOutput.endRecord();
  			/*}
  			// else assume that the file already has the correct header line
  			*/
- 				 			
+ 			
+ 				Klasse tmp = this.getKBKlasse();
+ 				
  			// write out a few records
- 				csvOutput.write("" + this.nummer);
- 	 			csvOutput.write("" + this.artKey);
- 	 			csvOutput.write("" + this.datum.get(Calendar.YEAR));
- 	 			csvOutput.write("" + this.datum.get(Calendar.MONTH));
- 	 			csvOutput.write("" + this.datum.get(Calendar.DAY_OF_MONTH));
- 	 			csvOutput.write("" + this.anzTeilnehmer);
- 	 			
- 	 			csvOutput.write(aufgabenFilename);
- 	 				 	 			
+ 				csvOutput.write("" + tmp.getKlBez());
+ 	 			csvOutput.write("" + tmp.getFach());
+ 	 			csvOutput.write("" + tmp.getSchuljahr());
+ 	 			csvOutput.write("" + tmp.getLehrer().toString());
+ 	 			csvOutput.write("" + this.getPrAnz());
+ 	 			csvOutput.write("" + tmp.getSchuelerzahl());
+	 			 				 	 			
  	 			csvOutput.endRecord();
- 			
- 			
- 			csvOutput.close();
+
+ 	 			csvOutput.close();
  			
  		} catch (IOException e) {
  			e.printStackTrace();
  		}
- 		
- 		aufgabenListe.writeAufgabenListeToCSV(aufgabenFilename);
     
   }
-  
-  
-  
 
+ public void neuePruefung(int day, int mon, int yea, int nummer, Pruefungsarten.ART art, int teiln){
+	 
+	 //System.out.println("-- Neue Prüfung anlegen! --");
+	 
+	 GregorianCalendar d = new GregorianCalendar(yea,mon,day);
+	 
+	 Pruefung tmp = new Pruefung(d, art, nummer, teiln);
+	 
+	 this.addToKorrekturbuch(tmp);
+	 
+	 // Zusammenbau des neuen Dateinamens
+	 File[] files = this.readDirectory(getKlassenBezeichnung());
+	 String neuPrFilename;
+	 String altPrFilename;
+	 // letzter benutzter Dateiname
+	 altPrFilename = new String(files[0].getName());
+	 //System.out.println(altPrFilename);
+	 // Aufsplitten des letzten alten Dateinamens
+	 String[] bausteine = altPrFilename.split("[p_]");
+	 // Zusammmenbau des neuen Dateinamens
+	 neuPrFilename = new String(bausteine[0] +"_"+ bausteine[1] +
+			 "_" + bausteine[2] + "_p"+
+			 (Integer.valueOf(bausteine[4]).intValue()+1) + "_p" + ".csv");
+	 //System.out.println(neuPrFilename);
+	 
+	 // Schreiben der neuen Prüfung in neue Datei
+	 tmp.writePruefungToCSV(neuPrFilename);
+	 
+ }
+ 
 }
   
   

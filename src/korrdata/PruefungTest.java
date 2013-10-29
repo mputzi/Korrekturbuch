@@ -33,7 +33,7 @@ public class PruefungTest {
 		// Ausgeben
 		System.out.println(meinePruefung.toString());
 		// Schreiben
-		meinePruefung.writePruefungToCSV("8a_prueftest_p.csv");
+		meinePruefung.writePruefungToCSV("8a_Ma_2013_p1_p.csv");
 		
 		
 		// Schreiben zweiter Datei
@@ -59,7 +59,7 @@ public class PruefungTest {
 		// Ausgeben
 		System.out.println(meinePruefung2.toString());
 		// Schreiben
-		meinePruefung.writePruefungToCSV("8a_prueftest2_p.csv");
+		meinePruefung2.writePruefungToCSV("8a_Ma_2013_p2_p.csv");
 		
 		// Lesen von Datei
 		// Init
@@ -67,7 +67,7 @@ public class PruefungTest {
 		AufgabeList aufgabenliste3 = new AufgabeList();
 		meinePruefung3.setAufgabenListe(aufgabenliste3);
 		// Lesen
-		meinePruefung3.setPruefungFromFile("8a_prueftest_p.csv");
+		meinePruefung3.setPruefungFromFile("8a_Ma_2013_p1_p.csv");
 		// Ausgeben
 		System.out.println(meinePruefung3.toString());
 		

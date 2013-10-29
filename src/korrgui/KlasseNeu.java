@@ -16,21 +16,36 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.DefaultListModel;
 import javax.swing.JTextArea;
+import javax.swing.SortOrder;
 import javax.swing.UIManager;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
+import org.jdesktop.swingx.JXList;
 import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.AbstractListModel;
+import javax.swing.event.ListDataEvent;
+import javax.swing.event.ListDataListener;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.JTextField;
 import javax.swing.BoxLayout;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JTable;
+
+import java.text.Collator;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.TreeSet;
 
 import javax.swing.Box;
+import java.awt.event.ContainerAdapter;
+import java.awt.event.ContainerEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
+import java.io.*;
 
 
 public class KlasseNeu extends JDialog implements ActionListener {
@@ -90,11 +105,34 @@ public class KlasseNeu extends JDialog implements ActionListener {
 		}
 	};
 	
-	/**private ItemListener ListIL = new ItemListener(){
-		public void itemStateChanged(ItemEvent arg0){
-			btnAusgewLschen.setEnabled(true); //Ein Element der Liste wurde ausgewählt -> somit kann man es auch löschen
+	private ListDataListener ListDL = new ListDataListener(){
+		public void contentsChanged(ListDataEvent arg0) {
+			//
 		}
-	};**/
+
+		public void intervalAdded(ListDataEvent arg0) {
+			//Beim Update der Liste diese gleich neu sortieren
+			name_list.removeListDataListener(ListDL); //Listener deaktivieren, da sonst rekursiver Aufruf!
+			name_list_neu = new TreeSet<String>();
+			//System.out.print(name_list);System.out.println(name_list_neu);
+			for (int i=0; i<name_list.getSize(); i++){
+				name_list_neu.add((String) name_list.getElementAt(i));
+			};
+			//System.out.print(name_list);System.out.println(name_list_neu);
+			name_list.clear();
+			//System.out.print(name_list);System.out.println(name_list_neu);
+			while (name_list_neu.size()!=0){
+				name_list.addElement((String) name_list_neu.pollFirst());
+			};
+			//System.out.print(name_list);System.out.println(name_list_neu);
+			name_list.addListDataListener(ListDL);
+		}
+
+		public void intervalRemoved(ListDataEvent arg0) {
+			//
+		}
+	};
+	
 	
 	
 	
@@ -120,8 +158,10 @@ public class KlasseNeu extends JDialog implements ActionListener {
 	private Component verticalStrut_2;
 	private Component verticalStrut_3;
 	private JButton btnhinzu;
-	private JList <String> liste;
-	private DefaultListModel <String> name_list;
+	private DefaultListModel name_list = new DefaultListModel();
+	private JList liste = new JList(name_list);
+	private TreeSet<String> name_list_neu;
+	
 	
 	private void actionOKButton(){
 		
@@ -129,6 +169,7 @@ public class KlasseNeu extends JDialog implements ActionListener {
 		// Dialog abbauen
 		KlasseNeu.this.setVisible(false);
 		KlasseNeu.this.dispose();
+		Hauptfenster.set_class_open(true);
 		// Kontrolle wieder an Hauptfenster geben
 		aufrufer.setEnabled(true);
 		aufrufer.setVisible(true);
@@ -159,8 +200,23 @@ public class KlasseNeu extends JDialog implements ActionListener {
 		
 	}
 	
+	
 	private void actionCSVButton(){
-		//CSV-Import-Fenster aufmachen
+		// Die Datei schueler.csv wird importiert, sofern vorhanden
+		File datei = new File("schueler.csv");
+		if (datei.exists()){
+			try {
+			name_list.clear();
+			FileReader fr = new FileReader(datei);
+			BufferedReader in = new BufferedReader(fr);
+			String zeile=null;
+			while ((zeile = in.readLine()) != null) {
+				name_list.addElement(zeile);
+			} }
+			catch (IOException e) { e.printStackTrace(); }
+		}
+		btnAusgewLschen.setEnabled(false);
+		
 	}
 	
 		
@@ -233,6 +289,14 @@ public class KlasseNeu extends JDialog implements ActionListener {
 			}
 			{
 				klasseSchuelerinput = new JTextField();
+				klasseSchuelerinput.addKeyListener(new KeyAdapter() {
+					public void keyPressed(KeyEvent e) {
+						if (e.getKeyCode()==10){
+							actionHinzuButton();
+						}
+					}
+				});
+				
 				panel.add(klasseSchuelerinput, "flowx,cell 2 1,growx");
 				klasseSchuelerinput.setColumns(10);
 			}
@@ -246,15 +310,13 @@ public class KlasseNeu extends JDialog implements ActionListener {
 				scrollPane.setBorder(UIManager.getBorder("ScrollPane.border"));
 				panel.add(scrollPane, "cell 2 2 1 10,grow");
 				{
-					liste = new JList<String>();
-					liste.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 					liste.addListSelectionListener(ListSL);
-					name_list = new DefaultListModel<String>();
-					liste.setModel(name_list);
+					name_list.addListDataListener(ListDL);
 					name_list.addElement("Test");
 					name_list.addElement("Albert");
 					name_list.addElement("Martin");
 					name_list.addElement("Berta");
+									
 					scrollPane.setViewportView(liste);
 				}
 			}
@@ -333,6 +395,10 @@ public class KlasseNeu extends JDialog implements ActionListener {
 			{
 				btnImportcvs = new JButton("Importiere Schülernamen (CSV)");
 				btnImportcvs.setEnabled(false);
+				File datei = new File("schueler.csv");
+				if (datei.exists()){
+					btnImportcvs.setEnabled(true);
+				}
 				btnImportcvs.setActionCommand("CSV");
 				btnImportcvs.addActionListener(CLASSal);
 				panel.add(btnImportcvs, "cell 0 12,alignx right");
@@ -349,7 +415,7 @@ public class KlasseNeu extends JDialog implements ActionListener {
 				panel.add(btnAusgewLschen, "cell 2 12,alignx center");
 			}
 			{
-				btnhinzu = new JButton("(hinzu)");
+				btnhinzu = new JButton("(hinzu!)");
 				btnhinzu.setActionCommand("ADD");
 				btnhinzu.addActionListener(CLASSal);
 				panel.add(btnhinzu, "cell 2 1,alignx right");

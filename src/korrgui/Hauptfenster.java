@@ -70,7 +70,7 @@ public class Hauptfenster {
 
 			if (cmd=="classnew")
 			{
-				set_class_open(true); // Klasse geöffnet (neu angelegt)
+				//set_class_open(true); // Klasse geöffnet (neu angelegt)
 				frame.setEnabled(false);
 				KlasseNeu KlasseNeuDialog = new KlasseNeu(frame); // Klasse N Dialog erstellen
 				KlasseNeuDialog.setLocationRelativeTo(frame);

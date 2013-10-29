@@ -12,8 +12,9 @@ public class KorrekturbuchTest {
 		Klasse k = new Klasse("8a", "Mathematik", 2013, l);
 				
 		Korrekturbuch kb = new Korrekturbuch(k);
-		System.out.println(kb.toString());
 		
+		System.out.println(kb.toString());
+		/*
 		//Ausgabe des Fachs des Korrekturbuchs
 		System.out.println(kb.getFach());
 		
@@ -24,6 +25,10 @@ public class KorrekturbuchTest {
 		
 		//Speichern des Korrekturbuchs
 		kb.writeKorrekturBuch();
+		*/
+		
+		//kb.neuePruefung(2, 12, 1988, 1, Pruefungsarten.ART.KA, 7);
+		
 	}
 
 }

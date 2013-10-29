@@ -28,7 +28,7 @@ public class Pruefung {
   private int nummer;
   private int anzTeilnehmer;
   
-  private AufgabeList aufgabenListe;
+  private AufgabeList aufgabenListe = new AufgabeList();
   
     
   //

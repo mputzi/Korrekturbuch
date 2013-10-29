@@ -247,7 +247,8 @@ public class Korrekturbuch {
 	  public boolean accept(File file){
 		  String fname = file.getName();
 		  return (fname.startsWith(klBez) 
-				  && fname.endsWith("p.csv")
+				  && fname.endsWith("_p.csv")
+				  //&& fname.contains("_p")
 				  );
 	  }
   }
@@ -258,11 +259,11 @@ public class Korrekturbuch {
 	  File directory = new File(".");
 	     
 	  File[] files = directory.listFiles(new Filter(klassenBezeichnung));
-	 
+	  /*
 	  for(int i = 0; i<files.length; i++){
 		  System.out.println(files[i].toString());
 	  }
-	  
+	  */
 	  return files;
   }
   
@@ -332,8 +333,30 @@ public class Korrekturbuch {
 
  public void neuePruefung(int day, int mon, int yea, int nummer, Pruefungsarten.ART art, int teiln){
 	 
+	 System.out.println("-- Neue Prüfung anlegen! --");
 	 
+	 GregorianCalendar d = new GregorianCalendar(yea,mon,day);
 	 
+	 Pruefung tmp = new Pruefung(d, art, nummer, teiln);
+	 
+	 this.addToKorrekturbuch(tmp);
+	 
+	 String neuPrFilename;
+	 String altPrFilename;
+	 
+	 File[] files = this.readDirectory(getKlassenBezeichnung());
+	 
+	 altPrFilename = new String(files[0].getName());
+	 System.out.println(altPrFilename);
+	 
+	 String[] bausteine = altPrFilename.split("[p_]");
+	 
+	 neuPrFilename = new String(bausteine[0] +"_"+ bausteine[1] +
+			 "_" + bausteine[2] + "_p"+
+			 (Integer.valueOf(bausteine[4]).intValue()+1) + "_p" + ".csv");
+	 System.out.println(neuPrFilename);
+	 
+	 tmp.writePruefungToCSV(neuPrFilename);
  }
  
 }

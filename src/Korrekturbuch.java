@@ -2,6 +2,10 @@
  * 
  */
 
+import korrdata;
+import korrgui;
+import korrsecur;
+
 /**
  * @author martin
  *
@@ -13,7 +17,8 @@ public class Korrekturbuch {
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-
+		Hauptfenster myWindow = new Hauptfenster;
+		
 	}
 
 }

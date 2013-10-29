@@ -98,40 +98,40 @@ public class AufgabeList {
 	  return new String("Inhalt der Aufgabenliste: " + Aufgabenliste);
   }
   
-  
-  public  boolean setAufgabenListeFromFile(String filename){
-		
-			 Aufgabenliste.clear();
-			 Aufgabe tmp;
-			 System.out.println("Lese Aufgabenliste"); 
-			 
-			 try{
-				CsvReader csvAufgabenListe = new CsvReader(filename);
-				csvAufgabenListe.readHeaders();
-			    
-			    while (csvAufgabenListe.readRecord())
-				{
-					String name			= csvAufgabenListe.get("Name");
-			    	String be           = csvAufgabenListe.get("Punkte");
-						
-					// perform program logic here
-					System.out.println(name + ", " + be);
-					float beFloat = Float.valueOf(be).floatValue();
-					tmp = new Aufgabe(name, beFloat);
-					addToAufgabeList(tmp);
-				}
 
-			    csvAufgabenListe.close();
-			    }
-			    catch (FileNotFoundException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			     
-			    setAnz(Aufgabenliste.size());
-				return true;
-			  }
+  public boolean setAufgabenListeFromFile(String filename){
+
+	  this.Aufgabenliste.clear();
+	  Aufgabe tmp;
+	  System.out.println("Lese Aufgabenliste"); 
+
+	  try{
+		  CsvReader csvAufgabenListe = new CsvReader(filename);
+		  csvAufgabenListe.readHeaders();
+
+		  while (csvAufgabenListe.readRecord())
+		  {
+			  String name			= csvAufgabenListe.get("Name");
+			  String be           = csvAufgabenListe.get("Punkte");
+
+			  // perform program logic here
+			  System.out.println(name + ", " + be);
+			  float beFloat = Float.valueOf(be).floatValue();
+			  tmp = new Aufgabe(name, beFloat);
+			  this.addToAufgabeList(tmp);
+		  }
+
+		  csvAufgabenListe.close();
+	  }
+	  catch (FileNotFoundException e) {
+		  e.printStackTrace();
+	  } catch (IOException e) {
+		  e.printStackTrace();
+	  }
+
+	  this.setAnz(Aufgabenliste.size());
+	  return true;
+  }
 		 
 		 public void writeAufgabenListeToCSV(String filename)
 		  {

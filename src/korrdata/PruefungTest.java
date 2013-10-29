@@ -35,15 +35,41 @@ public class PruefungTest {
 		// Schreiben
 		meinePruefung.writePruefungToCSV("8a_prueftest_p.csv");
 		
-		// Lesen von Datei
+		
+		// Schreiben zweiter Datei
 		// Init
-		Pruefung meinePruefung2 = new Pruefung(d, Pruefungsarten.ART.T, 2, 10 );
+		GregorianCalendar d2 = new GregorianCalendar(2013,10,28);
+		Pruefungsarten.ART art2 = Pruefungsarten.ART.KA;
+				
+		Pruefung meinePruefung2 = new Pruefung(d2, art2, 2, 32 );
+		
+		Aufgabe neueAufgabeb = new Aufgabe("1", 5f);
+		Aufgabe neueAufgabe2b = new Aufgabe("2", 6f);
+		Aufgabe neueAufgabe3b = new Aufgabe("3", 7f);
+		Aufgabe neueAufgabe4b = new Aufgabe("4", 2f);
+		
 		AufgabeList aufgabenliste2 = new AufgabeList();
+		aufgabenliste2.addToAufgabeList(neueAufgabeb);
+		aufgabenliste2.addToAufgabeList(neueAufgabe2b);
+		aufgabenliste2.addToAufgabeList(neueAufgabe3b);
+		aufgabenliste2.addToAufgabeList(neueAufgabe4b);
+		
 		meinePruefung2.setAufgabenListe(aufgabenliste2);
-		// Lesen
-		meinePruefung2.setPruefungFromFile("8a_prueftest_p.csv");
+		
 		// Ausgeben
 		System.out.println(meinePruefung2.toString());
+		// Schreiben
+		meinePruefung.writePruefungToCSV("8a_prueftest2_p.csv");
+		
+		// Lesen von Datei
+		// Init
+		Pruefung meinePruefung3 = new Pruefung(d, Pruefungsarten.ART.T, 2, 10 );
+		AufgabeList aufgabenliste3 = new AufgabeList();
+		meinePruefung3.setAufgabenListe(aufgabenliste3);
+		// Lesen
+		meinePruefung3.setPruefungFromFile("8a_prueftest_p.csv");
+		// Ausgeben
+		System.out.println(meinePruefung3.toString());
 		
 		
 	}

@@ -160,6 +160,12 @@ public void setAufgabenListe(AufgabeList aufgabenListe) {
 	this.aufgabenListe = aufgabenListe;
 }
 
+public void setAufgabenListeFromFile(String filename) {
+	System.out.println(filename);
+	aufgabenListe = new AufgabeList();
+	this.aufgabenListe.setAufgabenListeFromFile(filename);
+}
+
 public boolean addAufgabeToList(Aufgabe a){
 	aufgabenListe.addToAufgabeList(a);
 	return true;

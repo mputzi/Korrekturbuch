@@ -28,7 +28,12 @@ public class Korrekturbuch {
   private int prAnz = 0;
   public ArrayList<Pruefung> Pruefungsliste = new ArrayList<Pruefung>();
   
-
+  public class PruefungComparator implements Comparator<Pruefung>{
+	  @Override
+	  public int compare(Pruefung pr1, Pruefung pr2){
+		  return (pr2.getIdNum()- pr1.getIdNum());
+	  }
+  }
   
   //
   // Constructors
@@ -38,6 +43,8 @@ public class Korrekturbuch {
   public Korrekturbuch (List<Pruefung> liste) {
 	  Pruefungsliste.clear();
 	  Pruefungsliste.addAll(liste);
+	 
+	  Collections.sort(Pruefungsliste,new PruefungComparator());
   };
   
   public Korrekturbuch (String klassenBezeichnung) {
@@ -48,6 +55,7 @@ public class Korrekturbuch {
 	  else{
 		  System.out.println("Keine Prüfungen vorhanden!");
 	  }
+	  Collections.sort(Pruefungsliste,new PruefungComparator());
   };
   
   public Korrekturbuch (Klasse kl) {
@@ -59,6 +67,7 @@ public class Korrekturbuch {
 	  else{
 		  System.out.println("Keine Prüfungen vorhanden!");
 	  }
+	  Collections.sort(Pruefungsliste,new PruefungComparator());
   };
   //
   // Methods
@@ -73,7 +82,7 @@ public class Korrekturbuch {
 	}
 	Pruefungsliste.add(new_object);
     setPrAnz(Pruefungsliste.size());
-
+    Collections.sort(Pruefungsliste,new PruefungComparator());
   }
   
    /**
@@ -330,8 +339,6 @@ public class Korrekturbuch {
 	 System.out.println("-- Prüfung löschen! --");
 	 Pruefung tmp = this.getPruefungByID(ID);	 
 	 this.removeFromKorrekturbuch(tmp);
-	 
-
 	 
  }
  */

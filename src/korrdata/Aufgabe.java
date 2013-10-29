@@ -1,7 +1,5 @@
 package korrdata;
 
-import java.util.*;
-
 
 /**
  * Class aufgabe

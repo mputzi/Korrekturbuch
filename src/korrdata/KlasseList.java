@@ -74,6 +74,7 @@ public class KlasseList {
   {
     if(Klassenliste.contains(new_object)){
     	Klassenliste.remove(new_object);
+    	setAnz(Klassenliste.size());
     }
     else{
     	System.out.println("Klasse nicht in Liste enthalten.");

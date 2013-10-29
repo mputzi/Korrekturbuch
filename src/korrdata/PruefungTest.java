@@ -59,7 +59,7 @@ public class PruefungTest {
 		// Ausgeben
 		System.out.println(meinePruefung2.toString());
 		// Schreiben
-		meinePruefung.writePruefungToCSV("8a_prueftest2_p.csv");
+		meinePruefung2.writePruefungToCSV("8a_prueftest2_p.csv");
 		
 		// Lesen von Datei
 		// Init

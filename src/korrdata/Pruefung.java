@@ -175,9 +175,9 @@ public boolean addAufgabeToList(Aufgabe a){
 public String toString(){
 	  //System.out.println("Hallo!");
 	  return new String(nummer+". " + Pruefungsarten.getDesc(artKey) +
-			  " vom " + datum.get(Calendar.DAY_OF_MONTH) + "." + (datum.get(Calendar.MONTH)+1) + "." +  datum.get(Calendar.YEAR) + "\n" +
-			  			  "Inhalt der Prüfung: " + aufgabenListe + "\n" + 
-			            "Anzahl der Teilnehmer: " + anzTeilnehmer);
+			  " vom " + datum.get(Calendar.DAY_OF_MONTH) + "." + (datum.get(Calendar.MONTH)+1) + "." +  datum.get(Calendar.YEAR) + 
+			  			  " Inhalt der Prüfung: " + aufgabenListe +  
+			            " Anzahl der Teilnehmer: " + anzTeilnehmer);
 }
 
 public Pruefungsarten.ART getPrArtKey() {

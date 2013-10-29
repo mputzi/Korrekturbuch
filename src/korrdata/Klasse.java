@@ -142,6 +142,7 @@ public class Klasse {
 
 	public String toString(){
 		return new String(getKlBez() +
+	", Fach " 	+ getFach() +
 	", Schuljahr " 	+ getSchuljahr() +"/"+ (getSchuljahr()+1) + 
 	", Lehrer: " + getLehrer().toString() +
 	", Schülerzahl: " + getSchuelerzahl());

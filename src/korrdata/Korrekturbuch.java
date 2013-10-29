@@ -26,7 +26,7 @@ public class Korrekturbuch {
   
   private Klasse KBKlasse = new Klasse();
   
-  private int anz;
+  private int prAnz;
   public ArrayList<Pruefung> Pruefungsliste = new ArrayList<Pruefung>();
   
   //
@@ -71,7 +71,7 @@ public class Korrekturbuch {
 		return;
 	}
 	Pruefungsliste.add(new_object);
-    setAnz(Pruefungsliste.size());
+    setPrAnz(Pruefungsliste.size());
   }
   
    /**
@@ -80,7 +80,7 @@ public class Korrekturbuch {
     public void removeFromKorrekturbuch ( Pruefung new_object ) {
  	if(Pruefungsliste.contains(new_object)){
  		Pruefungsliste.remove(new_object);
- 		setAnz(Pruefungsliste.size());
+ 		setPrAnz(Pruefungsliste.size());
  	}
  	else{
     	System.out.println("Prüfung nicht in Liste enthalten.");
@@ -92,7 +92,7 @@ public class Korrekturbuch {
     	Pruefungsliste.clear();
     	Pruefungsliste.addAll(liste);
       
-      setAnz(Pruefungsliste.size());
+      setPrAnz(Pruefungsliste.size());
     }
    
     public boolean setKorrekturbuchFromFiles(File[] files)
@@ -159,39 +159,34 @@ public class Korrekturbuch {
     		}
 
     	}  
-      setAnz(Pruefungsliste.size());
+      setPrAnz(Pruefungsliste.size());
       return true;
     }
+    
+//
+  // Accessor methods
+  //
     
     public Klasse getKBKlasse() {
 		return KBKlasse;
 	}
 
-	public void setKBKlasse(Klasse kBKlasse) {
+	private void setKBKlasse(Klasse kBKlasse) {
 		KBKlasse = kBKlasse;
 	}
-
-	public boolean fillKorrekturbuch(){
-    	return this.setKorrekturbuchFromFiles(this.readDirectory(getKlassenBezeichnung()));
-    }
-    
-  //
-  // Accessor methods
-  //
    /**
     * Set the value of anz
     * @param newVar the new value of anz
     */
-   private void setAnz( int newVar ) {
-     anz = newVar;
+   private void setPrAnz( int newVar ) {
+     prAnz = newVar;
    }
-
-   /**
+	/**
     * Get the value of anz
     * @return the value of anz
     */
-   public int getAnz( ) {
-     return anz;
+   public int getPrAnz( ) {
+     return prAnz;
    }
    
    public String getKlassenBezeichnung() {
@@ -200,16 +195,48 @@ public class Korrekturbuch {
    private void setKlassenBezeichnung(String klassenBezeichnung) {
 		this.klassenBezeichnung = klassenBezeichnung;
 	}
+   
+   public Lehrer getLehrer()
+   {
+	   return this.getKBKlasse().getLehrer();
+   }
+
+   public String getLehrerString()
+   {
+	   return new String(this.getKBKlasse().getLehrer().toString());
+   }
+   
+   public int getSchuelerAnz(){
+	   return this.getKBKlasse().getSchuelerzahl();
+   }
+   
+   public int getSchuljahr(){
+	   return this.getKBKlasse().getSchuljahr();
+   }
+   
+   public String getFach()
+   {
+	   return new String(this.getKBKlasse().getFach());
+   }
+   
+   
   //
   // Other methods
   //
   public String toString(){
-	  return new String("Inhalt des Korrekturbuchs: " + "Klasse "+ 
-              this.getKBKlasse().toString() + Pruefungsliste);
+	  return new String("Inhalt des Korrekturbuchs:\n" + "Klasse "+ 
+              this.getKBKlasse().toString() +
+              ", Anzahl der Prüfungen: " + this.getPrAnz() + "\n"
+              + Pruefungsliste);
   }
   
   
-  // Filter für Dateien
+  public boolean fillKorrekturbuch(){
+	return this.setKorrekturbuchFromFiles(this.readDirectory(getKlassenBezeichnung()));
+}
+
+
+// Filter für Dateien
   class Filter implements FileFilter{
 	  private String klBez;
 	  
@@ -290,7 +317,7 @@ public class Korrekturbuch {
  	 			csvOutput.write("" + tmp.getFach());
  	 			csvOutput.write("" + tmp.getSchuljahr());
  	 			csvOutput.write("" + tmp.getLehrer().toString());
- 	 			csvOutput.write("" + this.getAnz());
+ 	 			csvOutput.write("" + this.getPrAnz());
  	 			csvOutput.write("" + tmp.getSchuelerzahl());
 	 			 				 	 			
  	 			csvOutput.endRecord();
@@ -303,6 +330,12 @@ public class Korrekturbuch {
     
   }
 
+ public void neuePruefung(int day, int mon, int yea, int nummer, Pruefungsarten.ART art, int teiln){
+	 
+	 
+	 
+ }
+ 
 }
   
   

@@ -12,10 +12,10 @@ public class PruefungTest {
 		
 		// Schreiben in Datei
 		// Init
-		GregorianCalendar d = new GregorianCalendar(2013,10,28);
+		Calendar d = new GregorianCalendar(2013,10,28);
 		Pruefungsarten.ART art = Pruefungsarten.ART.SA;
 				
-		Pruefung meinePruefung = new Pruefung(d, art, 1, 35 );
+		//Pruefung meinePruefung = new Pruefung(0. d, art, 1, 35, 1);
 		
 		Aufgabe neueAufgabe = new Aufgabe("1a", 3.0f);
 		Aufgabe neueAufgabe2 = new Aufgabe("1b", 1.5f);
@@ -41,7 +41,7 @@ public class PruefungTest {
 		GregorianCalendar d2 = new GregorianCalendar(2013,10,28);
 		Pruefungsarten.ART art2 = Pruefungsarten.ART.KA;
 				
-		Pruefung meinePruefung2 = new Pruefung(d2, art2, 2, 32 );
+		Pruefung meinePruefung2 = new Pruefung(d2, art2, 2, 32, 2 );
 		
 		Aufgabe neueAufgabeb = new Aufgabe("1", 5f);
 		Aufgabe neueAufgabe2b = new Aufgabe("2", 6f);
@@ -63,7 +63,7 @@ public class PruefungTest {
 		
 		// Lesen von Datei
 		// Init
-		Pruefung meinePruefung3 = new Pruefung(d, Pruefungsarten.ART.T, 2, 10 );
+		Pruefung meinePruefung3 = new Pruefung(d, Pruefungsarten.ART.T, 2, 10, 3 );
 		AufgabeList aufgabenliste3 = new AufgabeList();
 		meinePruefung3.setAufgabenListe(aufgabenliste3);
 		// Lesen

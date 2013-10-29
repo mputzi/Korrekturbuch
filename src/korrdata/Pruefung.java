@@ -23,46 +23,66 @@ public class Pruefung {
   // Fields
   //
 
-  private GregorianCalendar datum;
+  private Calendar datum;
   private Pruefungsarten.ART artKey;
   private int nummer;
+  private int idNum;
   private int anzTeilnehmer;
   
   private AufgabeList aufgabenListe = new AufgabeList();
+  
+  private String prFilename ="";
   
     
   //
   // Constructors
   //
   public Pruefung () { };
-  public Pruefung (GregorianCalendar prDatum, Pruefungsarten.ART prArtKey, int prNummer, int anz) {
-	  datum = prDatum;
-	  artKey = prArtKey;
-	  nummer = prNummer;
-	  anzTeilnehmer = anz;
+  public Pruefung (int idNum, Calendar prDatum, Pruefungsarten.ART prArtKey, int prNummer, int anz) {
+	  this.setDatum(prDatum);
+	  this.setPrArtKey(prArtKey);
+	  this.setNummer(prNummer);
+	  this.setAnzTeilnehmer(anz);
+	  this.setIdNum(idNum);
   };
-  public Pruefung (GregorianCalendar prDatum, Pruefungsarten.ART prArtKey, int prNummer, int anz, AufgabeList prListe) {
-	  datum = prDatum;
-	  artKey = prArtKey;
-	  nummer = prNummer;
-	  anzTeilnehmer = anz;
-	  aufgabenListe = prListe;
+  public Pruefung (int idNum, Calendar prDatum, Pruefungsarten.ART prArtKey, int prNummer, int anz, AufgabeList prListe) {
+	  this.setDatum(prDatum);
+	  this.setPrArtKey(prArtKey);
+	  this.setNummer(prNummer);
+	  this.setAnzTeilnehmer(anz);
+	  this.setIdNum(idNum);
+	  this.setAufgabenListe(prListe);
   };
   
   //
   // Methods
   //
 
+  public void autosetFilename(Korrekturbuch kb){
+	  this.setPrFilename(new String(
+			  kb.getKlassenBezeichnung() + "_" + kb.getFach() + "_" +
+			  kb.getSchuljahr() + "_P" + this.getIdNum() + "pr.csv"
+			  ));
+  }
+  
 
   //
   // Accessor methods
   //
 
-  /**
+  
+  
+  public String getPrFilename() {
+	return prFilename;
+}
+  private void setPrFilename(String prFilename) {
+	this.prFilename = prFilename;
+}
+/**
    * Set the value of datum
    * @param newVar the new value of datum
    */
-  private void setDatum ( GregorianCalendar newVar ) {
+  private void setDatum ( Calendar newVar ) {
     datum = newVar;
   }
 
@@ -70,10 +90,18 @@ public class Pruefung {
    * Get the value of datum
    * @return the value of datum
    */
-  private GregorianCalendar getDatum ( ) {
+  private Calendar getDatum ( ) {
     return datum;
   }
 
+	public int getIdNum() {
+		return idNum;
+	}
+	public void setIdNum(int idNum) {
+		this.idNum = idNum;
+	}
+  
+  
   /**
    * Set the value of nummer
    * @param newVar the new value of nummer
@@ -174,10 +202,10 @@ public boolean addAufgabeToList(Aufgabe a){
 
 public String toString(){
 	  //System.out.println("Hallo!");
-	  return new String(nummer+". " + Pruefungsarten.getDesc(artKey) +
-			  " vom " + datum.get(Calendar.DAY_OF_MONTH) + "." + (datum.get(Calendar.MONTH)+1) + "." +  datum.get(Calendar.YEAR) + 
+	  return new String(this.getIdNum()+"; " + this.getNummer()+". " + Pruefungsarten.getDesc(this.getPrArtKey()) +
+			  " vom " + this.getDatum().get(Calendar.DAY_OF_MONTH) + "." + (this.getDatum().get(Calendar.MONTH)+1) + "." +  this.getDatum().get(Calendar.YEAR) + 
 			  			  " Inhalt der Prüfung: " + aufgabenListe +  
-			            " Anzahl der Teilnehmer: " + anzTeilnehmer);
+			            " Anzahl der Teilnehmer: " + this.getAnzTeilnehmer());
 }
 
 public Pruefungsarten.ART getPrArtKey() {
@@ -186,6 +214,10 @@ public Pruefungsarten.ART getPrArtKey() {
 
 public void setPrArtKey(Pruefungsarten.ART prArtKey) {
 	this.artKey = prArtKey;
+}
+
+public boolean setPruefungFromFile(){
+	return this.setPruefungFromFile(this.getPrFilename());
 }
 
 public boolean setPruefungFromFile(String filename)
@@ -199,6 +231,7 @@ public boolean setPruefungFromFile(String filename)
 		    
 		    while (csvPruefung.readRecord())
 			{
+		    	String idn			= csvPruefung.get("ID");
 		    	String num          = csvPruefung.get("Nummer");
 		    	String art          = csvPruefung.get("Art");
 				String yea          = csvPruefung.get("Jahr");
@@ -208,19 +241,22 @@ public boolean setPruefungFromFile(String filename)
 				lis			= csvPruefung.get("Listen-Datei");
 						
 				// perform program logic here
-				System.out.println(num + ", " + art + ", " + yea + ", " + mon + ", "+ day + ", " + anz + ", " + lis);
+				System.out.println("+++ Neue Prüfung aus Datei: " + filename);
+				System.out.println(idn + ", " + num + ", " + art + ", " + yea + ", " + mon + ", "+ day + ", " + anz + ", " + lis);
+				int idnNumber = Integer.valueOf(idn).intValue();
 				int numNumber = Integer.valueOf(num).intValue();
-				ART artNumber = ART.valueOf(art);
+				ART artKey = ART.valueOf(art);
 				int yeaNumber = Integer.valueOf(yea).intValue();
 				int monNumber = Integer.valueOf(mon).intValue();
 				int dayNumber = Integer.valueOf(day).intValue();
 				int anzNumber = Integer.valueOf(anz).intValue();
 				
-				datum = new GregorianCalendar(yeaNumber,monNumber,dayNumber);
-				artKey = artNumber;
-				nummer = numNumber;
-				anzTeilnehmer = anzNumber;
-				
+				this.setIdNum(idnNumber);
+				this.setDatum(new GregorianCalendar(yeaNumber,monNumber,dayNumber));
+				this.setPrArtKey(artKey);
+				this.setNummer(numNumber);
+				this.setAnzTeilnehmer(anzNumber);
+								
 			}
     
 		    csvPruefung.close();
@@ -237,7 +273,16 @@ public boolean setPruefungFromFile(String filename)
 
 		  }
 	 
-	 public void writePruefungToCSV(String filename)
+	 public void writePruefungToCSV(){
+		 if (this.getPrFilename()!=""){
+		 this.writePruefungToCSV(this.getPrFilename());}
+		 else{
+			 System.out.println("Schreiben in Datei nicht erflogreich: Dateiname fehlt.");
+		 }
+	 }
+	 
+
+	 private void writePruefungToCSV(String filename)
 	  {
 
 	 // before we open the file check to see if it already exists
@@ -259,7 +304,8 @@ public boolean setPruefungFromFile(String filename)
 	 			// if the file didn't already exist then we need to write out the header line
 	 			if (!alreadyExists)
 	 			{*/
-	 				csvOutput.write("Nummer");
+	 				csvOutput.write("ID");
+	 			    csvOutput.write("Nummer");
 	 				csvOutput.write("Art");
 	 				csvOutput.write("Jahr");
 	 				csvOutput.write("Monat");
@@ -272,12 +318,13 @@ public boolean setPruefungFromFile(String filename)
 	 			*/
 	 				 			
 	 			// write out a few records
-	 				csvOutput.write("" + this.nummer);
-	 	 			csvOutput.write("" + this.artKey);
-	 	 			csvOutput.write("" + this.datum.get(Calendar.YEAR));
-	 	 			csvOutput.write("" + this.datum.get(Calendar.MONTH));
-	 	 			csvOutput.write("" + this.datum.get(Calendar.DAY_OF_MONTH));
-	 	 			csvOutput.write("" + this.anzTeilnehmer);
+	 				csvOutput.write("" + this.getIdNum());
+	 				csvOutput.write("" + this.getNummer());
+	 	 			csvOutput.write("" + this.getPrArtKey());
+	 	 			csvOutput.write("" + this.getDatum().get(Calendar.YEAR));
+	 	 			csvOutput.write("" + this.getDatum().get(Calendar.MONTH));
+	 	 			csvOutput.write("" + this.getDatum().get(Calendar.DAY_OF_MONTH));
+	 	 			csvOutput.write("" + this.getAnzTeilnehmer());
 	 	 			
 	 	 			csvOutput.write(aufgabenFilename);
 	 	 				 	 			
@@ -293,7 +340,6 @@ public boolean setPruefungFromFile(String filename)
 	 		aufgabenListe.writeAufgabenListeToCSV(aufgabenFilename);
 	    
 	  }
-
 
 
 }

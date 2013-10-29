@@ -23,11 +23,12 @@ public class Korrekturbuch {
   // Fields
   //
   private String klassenBezeichnung;
-  
   private Klasse KBKlasse = new Klasse();
   
-  private int prAnz;
+  private int prAnz = 0;
   public ArrayList<Pruefung> Pruefungsliste = new ArrayList<Pruefung>();
+  
+
   
   //
   // Constructors
@@ -103,62 +104,12 @@ public class Korrekturbuch {
     	}
     	
     	Pruefungsliste.clear();
-    	Pruefung tmp;
-    	
-    	String lis;
-    	GregorianCalendar datum;
-    	Pruefungsarten.ART artKey;
-    	int nummer;
-    	int anzTeilnehmer;
-    	
-    	
+    	    	
     	for(int i = 0; i<files.length; i++){
-    		try{
-    			CsvReader csvPruefung = new CsvReader(files[i].toString());
-    			csvPruefung.readHeaders();
-
-    			while (csvPruefung.readRecord())
-    		  	{
-    				lis = "";
-    				
-    				String num          = csvPruefung.get("Nummer");
-    		    	String art          = csvPruefung.get("Art");
-    				String yea          = csvPruefung.get("Jahr");
-    				String mon          = csvPruefung.get("Monat");
-    				String day          = csvPruefung.get("Tag");
-    				String anz			= csvPruefung.get("Anzahl");
-    				lis					= csvPruefung.get("Listen-Datei");
-    						
-    				// perform program logic here
-    				System.out.println(num + ", " + art + ", " + yea + ", " + mon + ", "+ day + ", " + anz + ", " + lis);
-    				int numNumber = Integer.valueOf(num).intValue();
-    				ART artNumber = ART.valueOf(art);
-    				int yeaNumber = Integer.valueOf(yea).intValue();
-    				int monNumber = Integer.valueOf(mon).intValue();
-    				int dayNumber = Integer.valueOf(day).intValue();
-    				int anzNumber = Integer.valueOf(anz).intValue();
-    				
-    				datum = new GregorianCalendar(yeaNumber,monNumber,dayNumber);
-    				artKey = artNumber;
-    				nummer = numNumber;
-    				anzTeilnehmer = anzNumber;
-    		  		
-    		  		tmp = new Pruefung(datum, artKey, nummer, anzTeilnehmer);
-    		  		System.out.println("Aufgabeliste: " + lis);
-    		  		tmp.setAufgabenListeFromFile(lis);
-    		  		  		  		
-    		  		addToKorrekturbuch(tmp);
-    		  		
-    		  	}
-    			csvPruefung.close();
-   			
-    		}
-    		catch (FileNotFoundException e) {
-    			e.printStackTrace();
-    		} catch (IOException e) {
-    			e.printStackTrace();
-    		}
-
+    		Pruefung tmp = new Pruefung();
+    		tmp.setPruefungFromFile(files[i].toString());
+    		addToKorrekturbuch(tmp);
+    		
     	}  
       setPrAnz(Pruefungsliste.size());
       return true;
@@ -219,7 +170,10 @@ public class Korrekturbuch {
    {
 	   return new String(this.getKBKlasse().getFach());
    }
-   
+   /*
+   public Pruefung getPruefungByID(int id){
+	   return Pruefungsliste.
+   }*/
    
   //
   // Other methods
@@ -248,8 +202,8 @@ public class Korrekturbuch {
 	  public boolean accept(File file){
 		  String fname = file.getName();
 		  return (fname.startsWith(klBez) 
-				  && fname.endsWith("_p.csv")
-				  //&& fname.contains("_p")
+				  && fname.endsWith("pr.csv")
+				  && fname.contains("_P")
 				  );
 	  }
   }
@@ -334,34 +288,62 @@ public class Korrekturbuch {
 
  public void neuePruefung(int day, int mon, int yea, int nummer, Pruefungsarten.ART art, int teiln){
 	 
-	 //System.out.println("-- Neue Prüfung anlegen! --");
+	 System.out.println("-+- Neue Prüfung anlegen! -+-");
 	 
-	 GregorianCalendar d = new GregorianCalendar(yea,mon,day);
-	 
-	 Pruefung tmp = new Pruefung(d, art, nummer, teiln);
-	 
-	 this.addToKorrekturbuch(tmp);
-	 
+	 // ID der letzten Prüfung bestimmen
+	 int ID = this.Pruefungsliste.size();
+	 	 	 
+	 /*
 	 // Zusammenbau des neuen Dateinamens
 	 File[] files = this.readDirectory(getKlassenBezeichnung());
 	 String neuPrFilename;
 	 String altPrFilename;
 	 // letzter benutzter Dateiname
 	 altPrFilename = new String(files[0].getName());
-	 //System.out.println(altPrFilename);
+	 System.out.println(altPrFilename);
 	 // Aufsplitten des letzten alten Dateinamens
 	 String[] bausteine = altPrFilename.split("[p_]");
 	 // Zusammmenbau des neuen Dateinamens
+	 
+	 int neuID =  Integer.valueOf(bausteine[4]).intValue()+1;
+	 
 	 neuPrFilename = new String(bausteine[0] +"_"+ bausteine[1] +
 			 "_" + bausteine[2] + "_p"+
-			 (Integer.valueOf(bausteine[4]).intValue()+1) + "_p" + ".csv");
-	 //System.out.println(neuPrFilename);
+			 (neuID) + "_p" + ".csv");
+	 */ 
+
+	 Calendar d = new GregorianCalendar(yea,mon,day);
+	 
+	 Pruefung tmp = new Pruefung(ID, d, art, nummer, teiln);
+	 tmp.autosetFilename(this);
+	 
+	 System.out.println("Neue Prüfung: " + tmp.getPrFilename());
+	 
+	 this.addToKorrekturbuch(tmp);
 	 
 	 // Schreiben der neuen Prüfung in neue Datei
-	 tmp.writePruefungToCSV(neuPrFilename);
+	 tmp.writePruefungToCSV();	 
+ }
+/* 
+ public void removePruefung(int ID){
+	 
+	 System.out.println("-- Prüfung löschen! --");
+	 Pruefung tmp = this.getPruefungByID(ID);	 
+	 this.removeFromKorrekturbuch(tmp);
+	 
+
 	 
  }
+ */
  
+ public void printPruefungen(){
+	System.out.println("----------");
+	for(int i = 0; i < this.Pruefungsliste.size(); i++){
+	    System.out.println(this.Pruefungsliste.get(i).toString());
+	}	
+	System.out.println("----------");	
+ }
+
 }
   
   

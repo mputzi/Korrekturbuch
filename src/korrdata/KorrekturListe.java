@@ -1,7 +1,6 @@
 package korrdata;
 
 
-import java.util.*;
 
 
 /**
@@ -30,7 +29,7 @@ public class KorrekturListe {
   
   public KorrekturListe (Pruefung parent_pr) {
 	  this.setPr(parent_pr);
-	  
+	  //this.setSchuelerList(this.getPr().getKb().getKBKlasse().);
 	 // this.setSchuelerList(parent_pr.g);
   };
   
@@ -177,10 +176,11 @@ public void setPr(Pruefung pr) {
 
   /**
    */
+  /*
   public float[] getListAnteilBE(  )
   {
-	  //return new float[];
-  }
+	  return new float[];
+  }*/
 
   public int getAnwesendNumber(){
 	  int cnt = 0;

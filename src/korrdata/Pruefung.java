@@ -29,6 +29,7 @@ public class Pruefung {
   private int idNum;
   private int anzTeilnehmer;
   
+  private Korrekturbuch kb = new Korrekturbuch();
   private AufgabeList aufgabenListe = new AufgabeList();
   private KorrekturListe korrekturliste = new KorrekturListe(this);
   
@@ -139,7 +140,13 @@ public class Pruefung {
   // Other methods
   //
 
-  public KorrekturListe getKorrekturliste() {
+  public Korrekturbuch getKb() {
+	return kb;
+}
+public void setKb(Korrekturbuch kb) {
+	this.kb = kb;
+}
+public KorrekturListe getKorrekturliste() {
 	return korrekturliste;
 }
 public void setKorrekturliste(KorrekturListe korrekturliste) {

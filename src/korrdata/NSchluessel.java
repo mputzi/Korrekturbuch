@@ -10,7 +10,13 @@ public class NSchluessel {
   //
   // Fields
   //
-
+  public static final float EINS = 0.85f;
+  public static final float ZWEI = 0.7f;
+  public static final float DREI = 0.55f;
+  public static final float VIER = 0.4f;
+  public static final float FUENF = 0.2f;
+  public static final float SECHS = 0.0f;
+	
   private int[] noten;
   private boolean grenzePos;
   private float[] grenzen;
@@ -18,8 +24,19 @@ public class NSchluessel {
   //
   // Constructors
   //
-  public NSchluessel () { };
-  
+  //public NSchluessel () { };
+  public NSchluessel () {
+	  int[] notenI = new int[6];
+	  for (int i=0; i<notenI.length; i++){
+		  notenI[i]=i;
+	  }
+	  this.setNoten(notenI);
+	  
+	  float[] grenzenI = {EINS, ZWEI, DREI, VIER, FUENF, SECHS};
+	  this.setGrenzen(grenzenI);
+	  
+	  this.setGrenzePos(false);
+  };
   //
   // Methods
   //
@@ -85,9 +102,30 @@ public class NSchluessel {
    * @return       int
    * @param        anteil
    */
-  public int getNote( float anteil = 0 )
+  public int getNote( float anteil )
   {
+	  
+	  int[] nL = this.getNoten();
+	  float[] gL = this.getGrenzen();
+	  boolean G = this.getGrenzePos();
+
+	  if(G){
+		  for(int i =0; i<nL.length; i++){
+			  if(anteil >= gL[i]){
+				  return nL[i];
+			  }
+		  }
+	  }
+	  else{
+		  for(int i =0; i<nL.length; i++){
+			  if(anteil > gL[i]){
+				  return nL[i];
+			  }
+		  }  
+	  }
+
+	  return -1;
   }
-
-
 }
+
+

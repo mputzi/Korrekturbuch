@@ -29,7 +29,8 @@ public class KorrekturListe {
   
   public KorrekturListe (Pruefung parent_pr) {
 	  this.setPr(parent_pr);
-	  System.out.println("Korrekturliste zur Prüfung " + this.getPr().getIdNum() + "wird erstellt.");
+	  System.out.println("KL: Korrekturliste zur Prüfung " + this.getPr().getIdNum() + " wird erstellt.");
+	  System.out.println("KL: " + this.getPr().getKb().toString());
 	  this.setSchuelerList(this.getPr().getKb().getKBKlasse().getSchuelerL());
 	  //System.out.println(this.getSchuelerNameAt(0));
 	  this.setAnwesendList(new boolean[this.getSchuelerList().getAnz()]);

@@ -61,6 +61,9 @@ public class Korrekturbuch {
   public Korrekturbuch (Klasse kl) {
 	  this.setKlassenBezeichnung(kl.getKlBez());
 	  this.setKBKlasse(kl);
+	  
+	  System.out.println("KB: Erstelle Korrekturbuch zur Klasse " + this.getKBKlasse());
+	  
 	  if(this.fillKorrekturbuch()){
 		  System.out.println("Prüfungen vorhanden!");
 	  }
@@ -77,11 +80,11 @@ public class Korrekturbuch {
    */
    public void addToKorrekturbuch ( Pruefung new_object ) {
 	if(getPruefungsliste().contains(new_object)){
-		System.out.println("Prüfung bereits in Liste enthalten!");
+		System.out.println("KB: Prüfung bereits in Liste enthalten!");
 		return;
 	}
 	getPruefungsliste().add(new_object);
-	new_object.setKb(this);
+	
     setPrAnz(getPruefungsliste().size());
     Collections.sort(getPruefungsliste(),new PruefungComparator());
   }
@@ -117,6 +120,7 @@ public class Korrekturbuch {
     	    	
     	for(int i = 0; i<files.length; i++){
     		Pruefung tmp = new Pruefung();
+    		tmp.setKb(this);
     		tmp.setPruefungFromFile(files[i].toString());
     		addToKorrekturbuch(tmp);
     		
@@ -197,7 +201,7 @@ public Lehrer getLehrer()
   // Other methods
   //
   public String toString(){
-	  return new String("Inhalt des Korrekturbuchs:\n" + "Klasse "+ 
+	  return new String("KB: Inhalt des Korrekturbuchs:\n" + "Klasse "+ 
               this.getKBKlasse().toString() +
               ", Anzahl der Prüfungen: " + this.getPrAnz() + "\n"
               + this.getKBKlasse().getSchuelerL().toString() + "\n"
@@ -307,7 +311,7 @@ public Lehrer getLehrer()
 
  public void neuePruefung(int day, int mon, int yea, int nummer, Pruefungsarten.ART art, int teiln){
 	 
-	 System.out.println("-+- Neue Prüfung anlegen! -+-");
+	 System.out.println("KB: -+- Neue Prüfung anlegen! -+-");
 	 
 	 // ID der letzten Prüfung bestimmen
 	 int ID = this.getPruefungsliste().size();
@@ -336,7 +340,7 @@ public Lehrer getLehrer()
 	 Pruefung tmp = new Pruefung(ID, d, art, nummer, teiln);
 	 tmp.autosetFilename(this);
 	 
-	 System.out.println("Neue Prüfung: " + tmp.getPrFilename());
+	 System.out.println("KB: "+"Neue Prüfung: " + tmp.getPrFilename());
 	 
 	 this.addToKorrekturbuch(tmp);
 	 
@@ -354,11 +358,11 @@ public Lehrer getLehrer()
  */
  
  public void printPruefungen(){
-	System.out.println("----------");
+	System.out.println("KB: ----------");
 	for(int i = 0; i < this.getPruefungsliste().size(); i++){
-	    System.out.println(this.getPruefungsliste().get(i).toString());
+	    System.out.println("KB: "+ this.getPruefungsliste().get(i).toString());
 	}	
-	System.out.println("----------");	
+	System.out.println("KB: ----------");	
  }
 
 }

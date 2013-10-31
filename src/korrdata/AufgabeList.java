@@ -65,7 +65,7 @@ public class AufgabeList {
    */
   public void addToAufgabeList ( Aufgabe new_object ) {
 	if(Aufgabenliste.contains(new_object)){
-		System.out.println("Aufgabe bereits in Liste enthalten!");
+		System.out.println("AL: Aufgabe bereits in Liste enthalten!");
 		return;
 	}
     Aufgabenliste.add(new_object);
@@ -81,7 +81,7 @@ public class AufgabeList {
     	Aufgabenliste.remove(new_object);
     }
     else{
-    	System.out.println("Aufgabe nicht in Liste enthalten.");
+    	System.out.println("AL: Aufgabe nicht in Liste enthalten.");
     }
   }
   
@@ -95,7 +95,7 @@ public class AufgabeList {
   
   
   public String toString(){
-	  return new String("Inhalt der Aufgabenliste: " + Aufgabenliste);
+	  return new String("AL: Inhalt der Aufgabenliste: " + Aufgabenliste);
   }
   
 
@@ -103,7 +103,7 @@ public class AufgabeList {
 
 	  this.Aufgabenliste.clear();
 	  Aufgabe tmp;
-	  System.out.println("Lese Aufgabenliste"); 
+	  System.out.println("AL: Lese Aufgabenliste"); 
 
 	  try{
 		  CsvReader csvAufgabenListe = new CsvReader(filename);
@@ -130,6 +130,8 @@ public class AufgabeList {
 	  }
 
 	  this.setAnz(Aufgabenliste.size());
+	  if(this.getAnz()==0) System.out.println("AL: Aufgabenliste leer!");
+	  
 	  return true;
   }
 		 

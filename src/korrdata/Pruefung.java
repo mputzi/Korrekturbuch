@@ -31,7 +31,7 @@ public class Pruefung {
   
   private Korrekturbuch kb = new Korrekturbuch();
   private AufgabeList aufgabenListe = new AufgabeList();
-  private KorrekturListe korrekturliste = new KorrekturListe(this);
+  private KorrekturListe korrekturliste;
   
   private String prFilename ="";
   
@@ -218,7 +218,7 @@ public boolean addAufgabeToList(Aufgabe a){
 
 public String toString(){
 	  //System.out.println("Hallo!");
-	  return new String(this.getIdNum()+"; " + this.getNummer()+". " + Pruefungsarten.getDesc(this.getPrArtKey()) +
+	  return new String("PR:" + this.getIdNum()+"; " + this.getNummer()+". " + Pruefungsarten.getDesc(this.getPrArtKey()) +
 			  " vom " + this.getDatum().get(Calendar.DAY_OF_MONTH) + "." + (this.getDatum().get(Calendar.MONTH)+1) + "." +  this.getDatum().get(Calendar.YEAR) + 
 			  			  " Inhalt der Prüfung: " + aufgabenListe +  
 			            " Anzahl der Teilnehmer: " + this.getAnzTeilnehmer());
@@ -257,8 +257,8 @@ public boolean setPruefungFromFile(String filename)
 				lis			= csvPruefung.get("Listen-Datei");
 						
 				// perform program logic here
-				System.out.println("+++ Neue Prüfung aus Datei: " + filename);
-				System.out.println(idn + ", " + num + ", " + art + ", " + yea + ", " + mon + ", "+ day + ", " + anz + ", " + lis);
+				System.out.println("PR: +++ Neue Prüfung aus Datei: " + filename);
+				System.out.println("PR: " + idn + ", " + num + ", " + art + ", " + yea + ", " + mon + ", "+ day + ", " + anz + ", " + lis);
 				int idnNumber = Integer.valueOf(idn).intValue();
 				int numNumber = Integer.valueOf(num).intValue();
 				ART artKey = ART.valueOf(art);
@@ -283,7 +283,7 @@ public boolean setPruefungFromFile(String filename)
 				e.printStackTrace();
 			}
 		    
-		    System.out.println(lis);
+		    System.out.println("PR: Aufgabenliste in Datei " + lis);
 		    this.aufgabenListe.setAufgabenListeFromFile(lis);
 		    this.setKorrekturliste(new KorrekturListe(this));
 		    return true;
@@ -294,7 +294,7 @@ public boolean setPruefungFromFile(String filename)
 		 if (this.getPrFilename()!=""){
 		 this.writePruefungToCSV(this.getPrFilename());}
 		 else{
-			 System.out.println("Schreiben in Datei nicht erflogreich: Dateiname fehlt.");
+			 System.out.println("PR: Schreiben in Datei nicht erflogreich: Dateiname fehlt.");
 		 }
 	 }
 	 

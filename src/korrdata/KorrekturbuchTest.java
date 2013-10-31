@@ -14,7 +14,7 @@ public class KorrekturbuchTest {
 		Korrekturbuch kb = new Korrekturbuch(k);
 		
 		System.out.println(kb.toString());
-		//System.out.println(kb.getKBKlasse().getSchuelerL().toString());
+		
 		/*
 		//Ausgabe des Fachs des Korrekturbuchs
 		System.out.println(kb.getFach());
@@ -34,6 +34,8 @@ public class KorrekturbuchTest {
 		//Speichern des Korrekturbuchs
 		//		kb.writeKorrekturBuch();
 		
+		System.out.println(kb.getKBKlasse().getSchuelerL().toString());
+		System.out.println(kb.getPruefungsliste().get(0).getKb().getKBKlasse().getSchuelerL().toString());
 		System.out.println(kb.getPruefungsliste().get(0).getKorrekturliste().getSchuelerList().toString());
 	}
 

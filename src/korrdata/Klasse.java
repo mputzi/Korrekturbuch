@@ -121,6 +121,8 @@ public class Klasse {
 		setKorrBuchFilename(new String(bez + "_" + fach + "_" + sj + "_KB.csv"));
 		this.readSchuelerListFromFile();
 		this.readSchuelerAnz();
+		
+		System.out.println("K: Neue Klasse "+ this.getKlBez() +"/" + this.getFach() + " wird erstellt.");
 	}
 
 	public void klasseAnlegen( String bez, String fach, int sj, Lehrer L)
@@ -133,6 +135,7 @@ public class Klasse {
 		setLehrer(L);
 		this.readSchuelerListFromFile();
 		this.readSchuelerAnz();
+		System.out.println("K: Neue Klasse "+ this.getKlBez() +"/" + this.getFach() + " wird erstellt.");
 	}
 
 	public void klasseAnlegen( String bez, String fach, int sj, String SLFile)
@@ -144,10 +147,11 @@ public class Klasse {
 		setKorrBuchFilename(new String(bez + "_" + fach + "_" + sj + "_KB.csv"));
 		this.readSchuelerListFromFile();
 		this.readSchuelerAnz();
+		System.out.println("K: Neue Klasse "+ this.getKlBez() +"/" + this.getFach() + " wird erstellt.");
 	}
 
 	public String toString(){
-		return new String(getKlBez() +
+		return new String("K: " + getKlBez() +
 	", Fach " 	+ getFach() +
 	", Schuljahr " 	+ getSchuljahr() +"/"+ (getSchuljahr()+1) + 
 	", Lehrer: " + getLehrer().toString() +

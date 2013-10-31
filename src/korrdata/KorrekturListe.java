@@ -13,6 +13,8 @@ public class KorrekturListe {
   // Fields
   //
   
+  private Pruefung pr;
+	
   private String[] aufgabenL;
   private float[] erreichbar;
   private boolean[] anwesendL;
@@ -24,16 +26,26 @@ public class KorrekturListe {
   //
   // Constructors
   //
-  public KorrekturListe () { };
+  public KorrekturListe () {};
+  
+  public KorrekturListe (Pruefung parent_pr) {
+	  this.setPr(parent_pr);
+	  
+	 // this.setSchuelerList(parent_pr.g);
+  };
+  
   public KorrekturListe (SchuelerList schuelerL) {
-	  m_schueler = schuelerL;
-	  anwesendL = new boolean[m_schueler.getAnz()];
+	  this.setSchuelerList(schuelerL);
+	  this.setAnwesendList(new boolean[m_schueler.getAnz()]);
+	  this.fillAnwesendList(true);
 	  
   };
   public KorrekturListe (SchuelerList schuelerL, AufgabeList aufgabenL) {
-	  m_schueler = schuelerL;
+	  
+	  this.setSchuelerList(schuelerL);
 	  this.setAnwesendList(new boolean[m_schueler.getAnz()]);
-	  erreicht = new float[m_schueler.getAnz()][aufgabenL.getAnz()];
+	  this.fillAnwesendList(true);
+	  this.setErreichtL(new float[m_schueler.getAnz()][aufgabenL.getAnz()]);
 	  
   };
   
@@ -64,7 +76,13 @@ public class KorrekturListe {
 	    }
 	  }
 
-  /**
+  public Pruefung getPr() {
+	return pr;
+}
+public void setPr(Pruefung pr) {
+	this.pr = pr;
+}
+/**
    * Get the value of anwesendL
    * @return the value of anwesendL
    */
@@ -131,6 +149,7 @@ public class KorrekturListe {
 	public void setAufgabenL(String[] aufgabenL) {
 		this.aufgabenL = aufgabenL;
 	}
+	
 	public float[] getErreichbar() {
 		return erreichbar;
 	}

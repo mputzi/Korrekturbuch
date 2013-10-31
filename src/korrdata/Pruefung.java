@@ -30,6 +30,7 @@ public class Pruefung {
   private int anzTeilnehmer;
   
   private AufgabeList aufgabenListe = new AufgabeList();
+  private KorrekturListe korrekturliste = new KorrekturListe(this);
   
   private String prFilename ="";
   
@@ -45,13 +46,13 @@ public class Pruefung {
 	  this.setAnzTeilnehmer(anz);
 	  this.setIdNum(idNum);
   };
-  public Pruefung (int idNum, Calendar prDatum, Pruefungsarten.ART prArtKey, int prNummer, int anz, AufgabeList prListe) {
+  public Pruefung (int idNum, Calendar prDatum, Pruefungsarten.ART prArtKey, int prNummer, int anz, AufgabeList aListe) {
 	  this.setDatum(prDatum);
 	  this.setPrArtKey(prArtKey);
 	  this.setNummer(prNummer);
 	  this.setAnzTeilnehmer(anz);
 	  this.setIdNum(idNum);
-	  this.setAufgabenListe(prListe);
+	  this.setAufgabenListe(aListe);
   };
   
   //
@@ -138,7 +139,13 @@ public class Pruefung {
   // Other methods
   //
 
-  /**
+  public KorrekturListe getKorrekturliste() {
+	return korrekturliste;
+}
+public void setKorrekturliste(KorrekturListe korrekturliste) {
+	this.korrekturliste = korrekturliste;
+}
+/**
    * @return       float
    */
   public float getGesamtPunktzahl(  )

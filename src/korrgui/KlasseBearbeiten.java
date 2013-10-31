@@ -5,7 +5,6 @@ import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Frame;
-import java.awt.Dialog.ModalityType;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JButton;
@@ -28,10 +27,8 @@ import javax.swing.Box;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-import java.io.*;
 
-
-public class KlasseNeu extends JDialog implements ActionListener {
+public class KlasseBearbeiten extends JDialog implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	Frame aufrufer = new Frame();
@@ -42,7 +39,7 @@ public class KlasseNeu extends JDialog implements ActionListener {
 	 */
 	public static void main(String[] args) {
 		try {
-			KlasseNeu dialog = new KlasseNeu(null);
+			KlasseBearbeiten dialog = new KlasseBearbeiten(null);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -54,12 +51,26 @@ public class KlasseNeu extends JDialog implements ActionListener {
 	/**
 	 * Create the dialog.
 	 */
-	public KlasseNeu(final Frame aufrufer) {
+	public KlasseBearbeiten(final Frame aufrufer) {
 		setModalityType(ModalityType.APPLICATION_MODAL);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setResizable(false);
 		this.aufrufer = aufrufer;
 		initialize(); // Dialogfenster aufbauen mit "OK"- und "Cancel"-Button
+		
+		/**
+		 * Testdaten einfügen
+		 */
+		name_list.addElement("Max Mustermann");
+		klasseBezeichnung.setText("8b");
+		klasseFach.setText("Physik");
+		klasseSJ.setText("2013/14");
+		klasseLehrer.setText("Völkl R.");
+		klasseAmt.setText("StR");
+		klasseSchule.setText("Stiftland-Gymnasium");
+		
+		
+		
 	}
 	
 	private ActionListener CLASSal = new ActionListener(){
@@ -75,9 +86,6 @@ public class KlasseNeu extends JDialog implements ActionListener {
 			}
 			if (cmd=="DEL"){
 				actionDeleteButton();
-			}
-			if (cmd=="CSV"){
-				actionCSVButton();
 			}
 			if (cmd=="ADD"){
 				actionHinzuButton();
@@ -136,7 +144,6 @@ public class KlasseNeu extends JDialog implements ActionListener {
 	private JTextField txtSchule;
 	private JTextField txtAmtsbez;
 	private JTextField klasseSchuelerinput;
-	private JButton btnImportcsv;
 	private JScrollPane scrollPane;
 	private JButton btnAusgewLschen;
 	private Component verticalStrut;
@@ -153,8 +160,8 @@ public class KlasseNeu extends JDialog implements ActionListener {
 		
 		// Bestätigen und die Klassenauswahl verlassen
 		// Dialog abbauen
-		KlasseNeu.this.setVisible(false);
-		KlasseNeu.this.dispose();
+		KlasseBearbeiten.this.setVisible(false);
+		KlasseBearbeiten.this.dispose();
 		Hauptfenster.set_class_open(true);
 		// Kontrolle wieder an Hauptfenster geben
 		//aufrufer.setEnabled(true);
@@ -165,8 +172,8 @@ public class KlasseNeu extends JDialog implements ActionListener {
 	private void actionCancelButton(){
 		// Abbrechen und die Klassenauswahl verlassen
 		// Dialog abbauen
-		KlasseNeu.this.setVisible(false);
-		KlasseNeu.this.dispose();
+		KlasseBearbeiten.this.setVisible(false);
+		KlasseBearbeiten.this.dispose();
 		
 		//aufrufer.setEnabled(true); // Kontrolle wieder an Hauptfenster geben
 		//aufrufer.setVisible(true);
@@ -187,27 +194,9 @@ public class KlasseNeu extends JDialog implements ActionListener {
 	}
 	
 	
-	private void actionCSVButton(){
-		// Die Datei schueler.csv wird importiert, sofern vorhanden
-		File datei = new File("schueler.csv");
-		if (datei.exists()){
-			try {
-			name_list.clear();
-			FileReader fr = new FileReader(datei);
-			BufferedReader in = new BufferedReader(fr);
-			String zeile=null;
-			while ((zeile = in.readLine()) != null) {
-				name_list.addElement(zeile);
-			} }
-			catch (IOException e) { e.printStackTrace(); }
-		}
-		btnAusgewLschen.setEnabled(false);
-		
-	}
-	
 		
 	private void initialize() {
-		setTitle("Klasse neu anlegen");
+		setTitle("Klasse bearbeiten");
 		setBounds(100, 100, 580, 390);
 		
 		{
@@ -301,8 +290,8 @@ public class KlasseNeu extends JDialog implements ActionListener {
 				{
 					liste.addListSelectionListener(ListSL);
 					name_list.addListDataListener(ListDL);
-					name_list.addElement("Max Mustermann");
-								
+					//name_list.addElement("Max Mustermann");
+									
 					scrollPane.setViewportView(liste);
 				}
 			}
@@ -377,18 +366,6 @@ public class KlasseNeu extends JDialog implements ActionListener {
 				klasseSchule.setFont(new Font("Tahoma", Font.PLAIN, 12));
 				panel.add(klasseSchule, "cell 0 10 2 1,growx");
 				klasseSchule.setColumns(10);
-			}
-			{
-				btnImportcsv = new JButton("Importiere Schülernamen (CSV)");
-				btnImportcsv.setToolTipText("<html>Schüler werden aus 'schueler.csv' hinzugefügt.<br>Diese Datei wird zeilenweise gelesen und muss also nur 'Name Vorname' enthalten.<br>Dabei werden bereits vorhandene Namen überschrieben!</html>");
-				btnImportcsv.setEnabled(false);
-				File datei = new File("schueler.csv");
-				if (datei.exists()){
-					btnImportcsv.setEnabled(true);
-				}
-				btnImportcsv.setActionCommand("CSV");
-				btnImportcsv.addActionListener(CLASSal);
-				panel.add(btnImportcsv, "cell 0 12,alignx right");
 			}
 			{
 				verticalStrut_3 = Box.createVerticalStrut(20);

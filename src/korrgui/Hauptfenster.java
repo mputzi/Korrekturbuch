@@ -94,7 +94,11 @@ public class Hauptfenster {
 				KlasseOeffnenDialog.setVisible(true); // Dialog anzeigen
 				
 			}
-			if (cmd=="classedit"){}
+			if (cmd=="classedit"){
+				KlasseBearbeiten KlasseBearbeitenDialog = new KlasseBearbeiten(frame); // Klasse Neu Dialog erstellen
+				KlasseBearbeitenDialog.setLocationRelativeTo(frame);
+				KlasseBearbeitenDialog.setVisible(true); // Dialog anzeigen
+			}
 			if (cmd=="classclose")
 			{
 				set_class_open(false); // Klasse geschlossen

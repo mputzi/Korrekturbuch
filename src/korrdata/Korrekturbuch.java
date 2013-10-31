@@ -26,7 +26,7 @@ public class Korrekturbuch {
   private Klasse KBKlasse = new Klasse();
   
   private int prAnz = 0;
-  public ArrayList<Pruefung> Pruefungsliste = new ArrayList<Pruefung>();
+  private ArrayList<Pruefung> Pruefungsliste = new ArrayList<Pruefung>();
   
   public class PruefungComparator implements Comparator<Pruefung>{
 	  @Override
@@ -41,10 +41,10 @@ public class Korrekturbuch {
   public Korrekturbuch () { };
   
   public Korrekturbuch (List<Pruefung> liste) {
-	  Pruefungsliste.clear();
-	  Pruefungsliste.addAll(liste);
+	  getPruefungsliste().clear();
+	  getPruefungsliste().addAll(liste);
 	 
-	  Collections.sort(Pruefungsliste,new PruefungComparator());
+	  Collections.sort(getPruefungsliste(),new PruefungComparator());
   };
   
   public Korrekturbuch (String klassenBezeichnung) {
@@ -55,7 +55,7 @@ public class Korrekturbuch {
 	  else{
 		  System.out.println("Keine Prüfungen vorhanden!");
 	  }
-	  Collections.sort(Pruefungsliste,new PruefungComparator());
+	  Collections.sort(getPruefungsliste(),new PruefungComparator());
   };
   
   public Korrekturbuch (Klasse kl) {
@@ -67,7 +67,7 @@ public class Korrekturbuch {
 	  else{
 		  System.out.println("Keine Prüfungen vorhanden!");
 	  }
-	  Collections.sort(Pruefungsliste,new PruefungComparator());
+	  Collections.sort(getPruefungsliste(),new PruefungComparator());
   };
   //
   // Methods
@@ -76,22 +76,23 @@ public class Korrekturbuch {
    * Add a Pruefung to Korrekturbuch
    */
    public void addToKorrekturbuch ( Pruefung new_object ) {
-	if(Pruefungsliste.contains(new_object)){
+	if(getPruefungsliste().contains(new_object)){
 		System.out.println("Prüfung bereits in Liste enthalten!");
 		return;
 	}
-	Pruefungsliste.add(new_object);
-    setPrAnz(Pruefungsliste.size());
-    Collections.sort(Pruefungsliste,new PruefungComparator());
+	getPruefungsliste().add(new_object);
+	new_object.setKb(this);
+    setPrAnz(getPruefungsliste().size());
+    Collections.sort(getPruefungsliste(),new PruefungComparator());
   }
   
    /**
     * Remove a Pruefung to Korrekturbuch
     */
     public void removeFromKorrekturbuch ( Pruefung new_object ) {
- 	if(Pruefungsliste.contains(new_object)){
- 		Pruefungsliste.remove(new_object);
- 		setPrAnz(Pruefungsliste.size());
+ 	if(getPruefungsliste().contains(new_object)){
+ 		getPruefungsliste().remove(new_object);
+ 		setPrAnz(getPruefungsliste().size());
  	}
  	else{
     	System.out.println("Prüfung nicht in Liste enthalten.");
@@ -100,10 +101,10 @@ public class Korrekturbuch {
    
     public void setKorrekturbuch (List<Pruefung> liste )
     {
-    	Pruefungsliste.clear();
-    	Pruefungsliste.addAll(liste);
+    	getPruefungsliste().clear();
+    	getPruefungsliste().addAll(liste);
       
-      setPrAnz(Pruefungsliste.size());
+      setPrAnz(getPruefungsliste().size());
     }
    
     public boolean setKorrekturbuchFromFiles(File[] files)
@@ -112,7 +113,7 @@ public class Korrekturbuch {
     		return false;
     	}
     	
-    	Pruefungsliste.clear();
+    	getPruefungsliste().clear();
     	    	
     	for(int i = 0; i<files.length; i++){
     		Pruefung tmp = new Pruefung();
@@ -120,7 +121,7 @@ public class Korrekturbuch {
     		addToKorrekturbuch(tmp);
     		
     	}  
-      setPrAnz(Pruefungsliste.size());
+      setPrAnz(getPruefungsliste().size());
       return true;
     }
     
@@ -157,7 +158,15 @@ public class Korrekturbuch {
 		this.klassenBezeichnung = klassenBezeichnung;
 	}
    
-   public Lehrer getLehrer()
+   public ArrayList<Pruefung> getPruefungsliste() {
+	return Pruefungsliste;
+}
+
+public void setPruefungsliste(ArrayList<Pruefung> pruefungsliste) {
+	Pruefungsliste = pruefungsliste;
+}
+
+public Lehrer getLehrer()
    {
 	   return this.getKBKlasse().getLehrer();
    }
@@ -191,7 +200,8 @@ public class Korrekturbuch {
 	  return new String("Inhalt des Korrekturbuchs:\n" + "Klasse "+ 
               this.getKBKlasse().toString() +
               ", Anzahl der Prüfungen: " + this.getPrAnz() + "\n"
-              + Pruefungsliste);
+              + this.getKBKlasse().getSchuelerL().toString() + "\n"
+              + this.getPruefungsliste());
   }
   
   
@@ -300,7 +310,7 @@ public class Korrekturbuch {
 	 System.out.println("-+- Neue Prüfung anlegen! -+-");
 	 
 	 // ID der letzten Prüfung bestimmen
-	 int ID = this.Pruefungsliste.size();
+	 int ID = this.getPruefungsliste().size();
 	 	 	 
 	 /*
 	 // Zusammenbau des neuen Dateinamens
@@ -345,8 +355,8 @@ public class Korrekturbuch {
  
  public void printPruefungen(){
 	System.out.println("----------");
-	for(int i = 0; i < this.Pruefungsliste.size(); i++){
-	    System.out.println(this.Pruefungsliste.get(i).toString());
+	for(int i = 0; i < this.getPruefungsliste().size(); i++){
+	    System.out.println(this.getPruefungsliste().get(i).toString());
 	}	
 	System.out.println("----------");	
  }

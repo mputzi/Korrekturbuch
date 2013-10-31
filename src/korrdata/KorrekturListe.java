@@ -29,22 +29,26 @@ public class KorrekturListe {
   
   public KorrekturListe (Pruefung parent_pr) {
 	  this.setPr(parent_pr);
-	  //this.setSchuelerList(this.getPr().getKb().getKBKlasse().);
-	 // this.setSchuelerList(parent_pr.g);
+	  System.out.println("Korrekturliste zur Prüfung " + this.getPr().getIdNum() + "wird erstellt.");
+	  this.setSchuelerList(this.getPr().getKb().getKBKlasse().getSchuelerL());
+	  //System.out.println(this.getSchuelerNameAt(0));
+	  this.setAnwesendList(new boolean[this.getSchuelerList().getAnz()]);
+	  this.fillAnwesendList(true);
+	  this.setErreichtL(new float[this.getSchuelerList().getAnz()][this.getPr().getAufgabenListe().getAnz()]);
   };
   
   public KorrekturListe (SchuelerList schuelerL) {
 	  this.setSchuelerList(schuelerL);
-	  this.setAnwesendList(new boolean[m_schueler.getAnz()]);
+	  this.setAnwesendList(new boolean[this.getSchuelerList().getAnz()]);
 	  this.fillAnwesendList(true);
 	  
   };
   public KorrekturListe (SchuelerList schuelerL, AufgabeList aufgabenL) {
 	  
 	  this.setSchuelerList(schuelerL);
-	  this.setAnwesendList(new boolean[m_schueler.getAnz()]);
+	  this.setAnwesendList(new boolean[this.getSchuelerList().getAnz()]);
 	  this.fillAnwesendList(true);
-	  this.setErreichtL(new float[m_schueler.getAnz()][aufgabenL.getAnz()]);
+	  this.setErreichtL(new float[this.getSchuelerList().getAnz()][aufgabenL.getAnz()]);
 	  
   };
   
@@ -116,6 +120,8 @@ public void setPr(Pruefung pr) {
    * @param newVar the new value of m_schueler
    */
   public void setSchuelerList ( SchuelerList newVar ) {
+	  System.out.println("KL: SChülerliste in Korrekturliste gesetzt.");
+	  System.out.println("KL: " + newVar.toString());
     m_schueler = newVar;
   }
 
@@ -188,6 +194,16 @@ public void setPr(Pruefung pr) {
 		if(this.getAnwesendAtIndex(i)==true) cnt++;  
 	  }
 	  return cnt;
+  }
+  
+  public String toString(){
+	  return new String("++ Korrekturliste zur Prüfung " + this.getPr().toString() + "++\n" + 
+			  	"Schüler: " + this.getSchuelerList().toString() + 
+			  	"Anwesenheit: " + this.getAnwesendList().toString()  
+			  	//+ "Aufgaben: " + this.getAufgabenL().toString() + 
+			  	//"Erreichbar: " + this.getErreichbar().toString() +
+			  	//"Erreicht: " + this.getErreichtL().toString()
+			  	);
   }
 
 }

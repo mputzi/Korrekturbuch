@@ -46,6 +46,7 @@ public class Pruefung {
 	  this.setNummer(prNummer);
 	  this.setAnzTeilnehmer(anz);
 	  this.setIdNum(idNum);
+	  this.setKorrekturliste(new KorrekturListe(this));
   };
   public Pruefung (int idNum, Calendar prDatum, Pruefungsarten.ART prArtKey, int prNummer, int anz, AufgabeList aListe) {
 	  this.setDatum(prDatum);
@@ -54,6 +55,7 @@ public class Pruefung {
 	  this.setAnzTeilnehmer(anz);
 	  this.setIdNum(idNum);
 	  this.setAufgabenListe(aListe);
+	  this.setKorrekturliste(new KorrekturListe(this));
   };
   
   //
@@ -283,6 +285,7 @@ public boolean setPruefungFromFile(String filename)
 		    
 		    System.out.println(lis);
 		    this.aufgabenListe.setAufgabenListeFromFile(lis);
+		    this.setKorrekturliste(new KorrekturListe(this));
 		    return true;
 
 		  }

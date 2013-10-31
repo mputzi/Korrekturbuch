@@ -13,7 +13,8 @@ public class KorrekturbuchTest {
 				
 		Korrekturbuch kb = new Korrekturbuch(k);
 		
-		//System.out.println(kb.toString());
+		System.out.println(kb.toString());
+		//System.out.println(kb.getKBKlasse().getSchuelerL().toString());
 		/*
 		//Ausgabe des Fachs des Korrekturbuchs
 		System.out.println(kb.getFach());
@@ -23,13 +24,17 @@ public class KorrekturbuchTest {
 		kb.Pruefungsliste.get(0).getAufgabenListe().Aufgabenliste.get(0).getName()
 		);
 		
-		//Speichern des Korrekturbuchs
-		kb.writeKorrekturBuch();
+		
 		*/
 		
-		//kb.neuePruefung(4, 4, 1999, 2, Pruefungsarten.ART.T, 4);
+		//kb.neuePruefung(4, 3, 1999, 1, Pruefungsarten.ART.T, 5);
 		
 		kb.printPruefungen();
+		
+		//Speichern des Korrekturbuchs
+		//		kb.writeKorrekturBuch();
+		
+		System.out.println(kb.getPruefungsliste().get(0).getKorrekturliste().getSchuelerList().toString());
 	}
 
 }

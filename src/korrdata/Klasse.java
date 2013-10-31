@@ -202,17 +202,10 @@ public void writeKorrBuchToFile(String filename) {
 	private void readSchuelerAnz(){
 		int anz = 0;
 		
-		SchuelerList SList = new SchuelerList();
-		File f = new File(this.getSchuelerListFilename());
- 		if(!f.exists()){ this.setSchuelerzahl(anz);}
- 		else{
-		
-		SList.setSchuelerListFromCSV(this.getSchuelerListFilename());
-		
-		anz = SList.getAnz();
-		
+		anz = this.getSchuelerL().getAnz();
+				
 		this.setSchuelerzahl(anz);
- 		}
+ 		
 	}
 
 }

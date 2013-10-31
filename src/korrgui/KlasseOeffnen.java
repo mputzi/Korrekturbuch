@@ -14,7 +14,6 @@ import java.awt.ComponentOrientation;
 import java.awt.Dimension;
 import javax.swing.UIManager;
 import java.awt.Font;
-
 import javax.swing.DefaultListModel;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
@@ -64,6 +63,8 @@ public class KlasseOeffnen extends JDialog implements ActionListener {
 	 * Create the dialog.
 	 */
 	public KlasseOeffnen(final Frame aufrufer) {
+		setModalityType(ModalityType.APPLICATION_MODAL);
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setResizable(false);
 		this.aufrufer = aufrufer;
 		initialize(); // Dialogfenster aufbauen mit "OK"- und "Cancel"-Button
@@ -86,8 +87,10 @@ public class KlasseOeffnen extends JDialog implements ActionListener {
 	
 	private ListSelectionListener ListSL = new ListSelectionListener(){
 		public void valueChanged(ListSelectionEvent arg0) {
-			//set_Zusammenfassung(Klassenliste.getSelectedValue().toString());
-			
+			/**
+			 * Sobald eine Klasse aus der Liste (links) ausgewählt ist, wird die entsprechende Zusammenfassung geladen
+			 * und im Infofenster (rechts) angezeigt. Außerdem wird festgehalten, dass eine Klasse ausgewählt wurde.
+			 */
 			int i = Klassenliste.getSelectedIndex();
 					
 			String outStr = new String(meineKlassenliste.Klassenliste.get(i).toString());
@@ -106,9 +109,9 @@ public class KlasseOeffnen extends JDialog implements ActionListener {
 		KlasseOeffnen.this.dispose();
 		//Wenn keine Datei ausgewählt, dann auf false, sonst auf true
 		Hauptfenster.set_class_open(auswahl);
-		 // Kontrolle wieder an Hauptfenster geben
-		aufrufer.setEnabled(true);
-		aufrufer.setVisible(true);
+		// Kontrolle wieder an Hauptfenster geben
+		//aufrufer.setEnabled(true);
+		//aufrufer.setVisible(true);
 		
 	}
 	
@@ -118,8 +121,8 @@ public class KlasseOeffnen extends JDialog implements ActionListener {
 		KlasseOeffnen.this.setVisible(false);
 		KlasseOeffnen.this.dispose();
 		
-		aufrufer.setEnabled(true); // Kontrolle wieder an Hauptfenster geben
-		aufrufer.setVisible(true);
+		//aufrufer.setEnabled(true); // Kontrolle wieder an Hauptfenster geben
+		//aufrufer.setVisible(true);
 	}
 	
 	public void set_Zusammenfassung (String arg){
@@ -202,5 +205,6 @@ public class KlasseOeffnen extends JDialog implements ActionListener {
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
 		
-	} 
+	}
+
 }

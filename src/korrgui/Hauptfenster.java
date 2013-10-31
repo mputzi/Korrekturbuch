@@ -16,16 +16,24 @@ import javax.swing.JTextPane;
 
 public class Hauptfenster {
 
-	static private JFrame frame;
-	static Hauptfenster window;
+	/**
+	 * mnPruefung, mntmBearbeiten und mntmSchliessen als static, da sonst setActive, ... nicht einfach umsetzbar sind.
+	 */ 
+	
+	private JFrame frame;
+	//private Hauptfenster window;
 
-	static private JMenu mnDatei, mnKlasse, mnKneu, mnPruefung, mnNeu, mnHilfe;
-	static private JMenuItem mntmPasswortAendern, mntmBeenden;
-	static private JMenuItem mntmBearbeiten, mntmOeffnen, mntmNeuAnlegen, mntmSchliessen, mntmKimport;
-	static private JMenuItem mntmSchulaufgabe, mntmStegreifaufgabe, mntmKurzarbeit, mntmTest, mntmPOeffnen;
-	static private JMenuBar menuBar;
+	
+	private static JMenu mnPruefung;
+	private static JMenuItem mntmBearbeiten, mntmSchliessen;
+	
+	private JMenu mnDatei, mnKlasse, mnNeu, mnHilfe;
+	private JMenuItem mntmPasswortAendern, mntmBeenden;
+	private JMenuItem mntmOeffnen, mntmNeuAnlegen;
+	private JMenuItem mntmSchulaufgabe, mntmStegreifaufgabe, mntmKurzarbeit, mntmTest, mntmPOeffnen;
+	private JMenuBar menuBar;
 
-	static private JPanel mainpanel;
+	private JPanel mainpanel;
 	private JTextPane welcome;
 
 
@@ -71,21 +79,16 @@ public class Hauptfenster {
 			if (cmd=="classnew")
 			{
 				//set_class_open(true); // Klasse geöffnet (neu angelegt)
-				frame.setEnabled(false);
-				KlasseNeu KlasseNeuDialog = new KlasseNeu(frame); // Klasse N Dialog erstellen
+				//frame.setEnabled(false); //braucht man nicht mehr, das neues Fenster als modal-geöffnet
+				KlasseNeu KlasseNeuDialog = new KlasseNeu(frame); // Klasse Neu Dialog erstellen
 				KlasseNeuDialog.setLocationRelativeTo(frame);
 				KlasseNeuDialog.setVisible(true); // Dialog anzeigen
-			}
-			
-			if (cmd=="classimport")
-			{
-				set_class_open(true);
 			}
 			
 			
 			if (cmd=="classopen")
 			{
-				frame.setEnabled(false);
+				//frame.setEnabled(false); //braucht man nicht mehr, das neues Fenster als modal-geöffnet
 				KlasseOeffnen KlasseOeffnenDialog = new KlasseOeffnen(frame); // Klasse Öffnen Dialog erstellen
 				KlasseOeffnenDialog.setLocationRelativeTo(frame);
 				KlasseOeffnenDialog.setVisible(true); // Dialog anzeigen
@@ -127,8 +130,9 @@ public class Hauptfenster {
 
 	/**
 	 * Fensteraktionen abfangen --> "WindowsListener"
+	 * static private wl -> private wl 
 	 */
-	static private WindowListener wl = new WindowListener(){
+	private static WindowListener wl = new WindowListener(){
 		public void windowClosed(WindowEvent arg0) {}
         public void windowActivated(WindowEvent arg0) {
             //System.out.println("Window Activated");
@@ -145,7 +149,9 @@ public class Hauptfenster {
 				mntmSchliessen.setEnabled(false);
 			}
         }
-        public void windowClosing(WindowEvent arg0) {}
+        public void windowClosing(WindowEvent arg0) {
+        	System.out.println(arg0);
+        }
         public void windowDeactivated(WindowEvent arg0) {}
         public void windowDeiconified(WindowEvent arg0) {}
         public void windowIconified(WindowEvent arg0) {}
@@ -155,12 +161,13 @@ public class Hauptfenster {
 	
 	/**
 	 * Launch the application.
+	 * public static void -> public void
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) { 
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					window = new Hauptfenster();
+					Hauptfenster window = new Hauptfenster();
 					window.frame.setVisible(true);
 					window.frame.addWindowListener(wl);
 
@@ -250,11 +257,6 @@ public class Hauptfenster {
 		mntmNeuAnlegen.setActionCommand("classnew");
 		mntmNeuAnlegen.addActionListener(al);
 		mnKlasse.add(mntmNeuAnlegen);
-				
-		/**mntmKimport = new JMenuItem("Importieren (CVS)");
-		mntmKimport.setActionCommand("classimport");
-		mntmKimport.addActionListener(al);
-		mnKneu.add(mntmKimport);**/
 		
 		mntmSchliessen = new JMenuItem("Schließen");
 		mntmSchliessen.setActionCommand("classclose");

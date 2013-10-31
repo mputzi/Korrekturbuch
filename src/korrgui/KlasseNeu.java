@@ -5,43 +5,26 @@ import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Frame;
+import java.awt.Dialog.ModalityType;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import javax.swing.DefaultListModel;
-import javax.swing.JTextArea;
-import javax.swing.SortOrder;
 import javax.swing.UIManager;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
 //import org.jdesktop.swingx.JXList;
-import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
-import javax.swing.AbstractListModel;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.JTextField;
-import javax.swing.BoxLayout;
 import net.miginfocom.swing.MigLayout;
-import javax.swing.JTable;
-
-import java.text.Collator;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.TreeSet;
-
 import javax.swing.Box;
-import java.awt.event.ContainerAdapter;
-import java.awt.event.ContainerEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -50,6 +33,7 @@ import java.io.*;
 
 public class KlasseNeu extends JDialog implements ActionListener {
 
+	private static final long serialVersionUID = 1L;
 	Frame aufrufer = new Frame();
 	
 
@@ -71,6 +55,8 @@ public class KlasseNeu extends JDialog implements ActionListener {
 	 * Create the dialog.
 	 */
 	public KlasseNeu(final Frame aufrufer) {
+		setModalityType(ModalityType.APPLICATION_MODAL);
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setResizable(false);
 		this.aufrufer = aufrufer;
 		initialize(); // Dialogfenster aufbauen mit "OK"- und "Cancel"-Button
@@ -171,8 +157,8 @@ public class KlasseNeu extends JDialog implements ActionListener {
 		KlasseNeu.this.dispose();
 		Hauptfenster.set_class_open(true);
 		// Kontrolle wieder an Hauptfenster geben
-		aufrufer.setEnabled(true);
-		aufrufer.setVisible(true);
+		//aufrufer.setEnabled(true);
+		//aufrufer.setVisible(true);
 		Hauptfenster.set_class_open(true);
 	}
 	
@@ -182,8 +168,8 @@ public class KlasseNeu extends JDialog implements ActionListener {
 		KlasseNeu.this.setVisible(false);
 		KlasseNeu.this.dispose();
 		
-		aufrufer.setEnabled(true); // Kontrolle wieder an Hauptfenster geben
-		aufrufer.setVisible(true);
+		//aufrufer.setEnabled(true); // Kontrolle wieder an Hauptfenster geben
+		//aufrufer.setVisible(true);
 	}
 	
 	private void actionDeleteButton(){
@@ -192,12 +178,12 @@ public class KlasseNeu extends JDialog implements ActionListener {
 	}
 	
 	private void actionHinzuButton(){
-		name_list.addElement(klasseSchuelerinput.getText());
-		
-		liste.setSelectedIndex(name_list.indexOf(klasseSchuelerinput.getText()));
-		klasseSchuelerinput.setText("");
-		
-		
+		if (klasseSchuelerinput.getText().length()>0){
+			name_list.addElement(klasseSchuelerinput.getText());
+			liste.setSelectedIndex(name_list.indexOf(klasseSchuelerinput.getText()));
+			klasseSchuelerinput.setText("");
+			btnhinzu.setEnabled(false);
+		}
 	}
 	
 	
@@ -291,6 +277,9 @@ public class KlasseNeu extends JDialog implements ActionListener {
 				klasseSchuelerinput = new JTextField();
 				klasseSchuelerinput.addKeyListener(new KeyAdapter() {
 					public void keyPressed(KeyEvent e) {
+						if (e.getKeyCode()>32){
+							btnhinzu.setEnabled(true);
+						}
 						if (e.getKeyCode()==10){
 							actionHinzuButton();
 						}
@@ -416,10 +405,18 @@ public class KlasseNeu extends JDialog implements ActionListener {
 			}
 			{
 				btnhinzu = new JButton("(hinzu!)");
+				btnhinzu.setEnabled(false);
 				btnhinzu.setActionCommand("ADD");
 				btnhinzu.addActionListener(CLASSal);
 				panel.add(btnhinzu, "cell 2 1,alignx right");
 			}
 		}
+	}
+
+
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 }

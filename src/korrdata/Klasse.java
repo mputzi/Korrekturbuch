@@ -19,7 +19,7 @@ public class Klasse {
 	private Lehrer lehrer = new Lehrer();
 
 	private String schuelerListFilename = "";
-	private SchuelerList schuelerL;
+	private SchuelerList schuelerL = new SchuelerList();
 	private int schuelerzahl = 0;
 
 	private String korrBuchFilename  ="";
@@ -100,6 +100,12 @@ public class Klasse {
 	public void setSchuelerzahl(int schuelerzahl) {
 		this.schuelerzahl = schuelerzahl;
 	}
+	public SchuelerList getSchuelerL() {
+		return schuelerL;
+	}
+	public void setSchuelerL(SchuelerList schuelerL) {
+		this.schuelerL = schuelerL;
+	}
 	/**
 	 * 
 	 * @param bez Bezeichnung der Klasse
@@ -113,7 +119,7 @@ public class Klasse {
 		setFach(fach);
 		setSchuelerListFilename(new String(bez + "_" + fach + "_" + sj + "_SL.csv"));
 		setKorrBuchFilename(new String(bez + "_" + fach + "_" + sj + "_KB.csv"));
-		
+		this.readSchuelerListFromFile();
 		this.readSchuelerAnz();
 	}
 
@@ -125,7 +131,7 @@ public class Klasse {
 		setSchuelerListFilename(new String(bez + "_" + fach + "_" + sj + "_SL.csv"));
 		setKorrBuchFilename(new String(bez + "_" + fach + "_" + sj + "_KB.csv"));
 		setLehrer(L);
-		
+		this.readSchuelerListFromFile();
 		this.readSchuelerAnz();
 	}
 
@@ -136,7 +142,7 @@ public class Klasse {
 		setFach(fach);
 		setSchuelerListFilename(SLFile);
 		setKorrBuchFilename(new String(bez + "_" + fach + "_" + sj + "_KB.csv"));
-		
+		this.readSchuelerListFromFile();
 		this.readSchuelerAnz();
 	}
 
@@ -177,7 +183,7 @@ public void writeKorrBuchToFile(String filename) {
 	}
 
 	public void writeSchuelerListToFile(String filename) {
-		schuelerL.writeSchuelerListToCSV(filename);
+		getSchuelerL().writeSchuelerListToCSV(filename);
 	}
 
 	public String getKorrBuchFilename() {
@@ -187,6 +193,12 @@ public void writeKorrBuchToFile(String filename) {
 		this.korrBuchFilename = korrBuchFilename;
 	}
 
+	private void readSchuelerListFromFile(){
+		SchuelerList SLtmp = new SchuelerList();
+		SLtmp.setSchuelerListFromCSV(this.getSchuelerListFilename());
+		this.setSchuelerL(SLtmp);
+	}
+	
 	private void readSchuelerAnz(){
 		int anz = 0;
 		

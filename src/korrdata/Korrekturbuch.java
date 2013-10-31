@@ -3,12 +3,12 @@ package korrdata;
 
 import java.io.File;
 import java.io.FileFilter;
-import java.io.FileNotFoundException;
+//import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 
-import korrdata.Pruefungsarten.ART;
+//import korrdata.Pruefungsarten.ART;
 
 import com.csvreader.CsvReader;
 import com.csvreader.CsvWriter;

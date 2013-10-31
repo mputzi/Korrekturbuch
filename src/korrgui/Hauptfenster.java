@@ -13,11 +13,14 @@ import java.awt.event.WindowListener;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import javax.swing.JTextPane;
+import java.awt.Dimension;
 
 public class Hauptfenster {
 
 	/**
 	 * mnPruefung, mntmBearbeiten und mntmSchliessen als static, da sonst setActive, ... nicht einfach umsetzbar sind.
+	 * 
+	 * Also umsetzbar schon mit set- und get-Methoden. Aber so ist es einfacher, wenn auch unsauber :-)
 	 */ 
 	
 	private JFrame frame;
@@ -109,7 +112,7 @@ public class Hauptfenster {
 			if (cmd=="Kurzarbeit"){}
 			if (cmd=="Test"){}
 			if (cmd=="testopen"){
-				frame.setEnabled(false);
+				//frame.setEnabled(false);
 				PruefungOeffnen PruefungOeffnenDialog = new PruefungOeffnen(frame); // Prüfung Öffnen Dialog erstellen
 				PruefungOeffnenDialog.setLocationRelativeTo(frame);
 				PruefungOeffnenDialog.setVisible(true); // Dialog anzeigen
@@ -217,6 +220,9 @@ public class Hauptfenster {
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		frame.setPreferredSize(new Dimension(800, 600));
+		frame.setSize(new Dimension(800, 600));
+		frame.setResizable(false);
 		frame.setTitle("Korrekturprogramm");
 		frame.setBounds(100, 100, 800, 600);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

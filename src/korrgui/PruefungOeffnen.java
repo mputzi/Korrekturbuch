@@ -1,5 +1,10 @@
 package korrgui;
 
+/**
+ * Klassenliste muss weiter unten noch durch Pruefungsliste ersetzt werden
+ * in Abhängigkeit von der gewählten Klasse
+ */
+
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Frame;
@@ -14,23 +19,37 @@ import java.awt.ComponentOrientation;
 import java.awt.Dimension;
 import javax.swing.UIManager;
 import java.awt.Font;
+import javax.swing.DefaultListModel;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
 import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
-import javax.swing.AbstractListModel;
+//import javax.swing.AbstractListModel;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
+
+import korrdata.KlasseList; //Muss noch auf Pruefungsliste geändert werden
 
 
 public class PruefungOeffnen extends JDialog implements ActionListener {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	Frame aufrufer = new Frame();
 	private JPanel contentPanel = new JPanel();
 	private JTextArea Zusammenfassung = new JTextArea();
-	private boolean auswahl=false; //Klasse ausgewählt?
+	private boolean auswahl=false; //Prüfung ausgewählt?
 	
-
+	private JList Pruefungsliste = new JList();
+	private DefaultListModel pruef_list = new DefaultListModel();
+	
+	private JButton okButton;
+	
+	private KlasseList meinePruefungsliste = new KlasseList(); //Prüfungsliste
+	
+	
 	/**
 	 * Launch the application.
 	 */
@@ -49,6 +68,8 @@ public class PruefungOeffnen extends JDialog implements ActionListener {
 	 * Create the dialog.
 	 */
 	public PruefungOeffnen(final Frame aufrufer) {
+		setModalityType(ModalityType.APPLICATION_MODAL);
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setResizable(false);
 		this.aufrufer = aufrufer;
 		initialize(); // Dialogfenster aufbauen mit "OK"- und "Cancel"-Button
@@ -69,16 +90,28 @@ public class PruefungOeffnen extends JDialog implements ActionListener {
 		}
 	};
 	
+	private ListSelectionListener ListSL = new ListSelectionListener(){
+		public void valueChanged(ListSelectionEvent arg0) {
+			/**
+			 * Sobald eine Prüfung aus der Liste (links) ausgewählt ist, wird die entsprechende Zusammenfassung geladen
+			 * und im Infofenster (rechts) angezeigt. Außerdem wird festgehalten, dass eine Prüfung ausgewählt wurde.
+			 */
+			int i = Pruefungsliste.getSelectedIndex();
+					
+			String outStr = new String(meinePruefungsliste.Klassenliste.get(i).toString());
+			set_Zusammenfassung(outStr);
+			auswahl=true; //Eine Klasse wurde ausgewählt
+			okButton.setEnabled(true);
+		}
+	};
+	
+
+	
 	private void actionOKButton(){
 		// Bestätigen und die Klassenauswahl verlassen
 		// Dialog abbauen
 		PruefungOeffnen.this.setVisible(false);
 		PruefungOeffnen.this.dispose();
-		//Wenn keine Datei ausgewählt, dann auf false, sonst auf true
-		Hauptfenster.set_class_open(auswahl);
-		 // Kontrolle wieder an Hauptfenster geben
-		aufrufer.setEnabled(true);
-		aufrufer.setVisible(true);
 		
 	}
 	
@@ -88,8 +121,6 @@ public class PruefungOeffnen extends JDialog implements ActionListener {
 		PruefungOeffnen.this.setVisible(false);
 		PruefungOeffnen.this.dispose();
 		
-		aufrufer.setEnabled(true); // Kontrolle wieder an Hauptfenster geben
-		aufrufer.setVisible(true);
 	}
 	
 	public void set_Zusammenfassung (String arg){
@@ -99,6 +130,15 @@ public class PruefungOeffnen extends JDialog implements ActionListener {
 	
 	
 	private void initialize() {
+		
+		// Einbindung der Daten aus der Klassenliste-Datei
+		meinePruefungsliste.setKlasseListFromCSV("klassenliste.csv");
+		
+		for (int i = 0; i<meinePruefungsliste.Klassenliste.size(); i++){
+			pruef_list.addElement(meinePruefungsliste.Klassenliste.get(i).getKlBez() + " " + meinePruefungsliste.Klassenliste.get(i).getFach());
+		}
+		
+		
 		setTitle("Prüfung öffnen");
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
@@ -111,24 +151,11 @@ public class PruefungOeffnen extends JDialog implements ActionListener {
 			scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 			contentPanel.add(scrollPane, BorderLayout.WEST);
 			{
-				final JList Pruefungsliste = new JList();
-				Pruefungsliste.addListSelectionListener(new ListSelectionListener() {
-					public void valueChanged(ListSelectionEvent arg0) {
-						set_Zusammenfassung(Pruefungsliste.getSelectedValue().toString());
-						auswahl=true; //Eine Klasse wurde ausgewählt
-					}
-				});
-				
-				Pruefungsliste.setModel(new AbstractListModel() {
-					String[] values = new String[] {"Test", "Auto", "Banane", "Zitrone"};
-					public int getSize() {
-						return values.length;
-					}
-					public Object getElementAt(int index) {
-						return values[index];
-					}
-				});
+				Pruefungsliste.addListSelectionListener(ListSL);
 				Pruefungsliste.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+				Pruefungsliste.setModel(pruef_list);
+				//pruef_list.addElement("Test");
+				//pruef_list.addElement("Hans");
 				scrollPane.setViewportView(Pruefungsliste);
 			}
 		}
@@ -147,7 +174,7 @@ public class PruefungOeffnen extends JDialog implements ActionListener {
 				Zusammenfassung.setWrapStyleWord(true);
 				Zusammenfassung.setLineWrap(true);
 				Zusammenfassung.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
-				Zusammenfassung.setText("Hier wird (bei Auswahl einer Prüfung) eine Zusammenfassung für die gewählte Prüfung angezeigt\r\n");
+				Zusammenfassung.setText("Hier wird (bei Auswahl einer Klasse) eine Zusammenfassung für die gewählte Klasse angezeigt\r\n");
 			}
 		}
 		{
@@ -155,11 +182,12 @@ public class PruefungOeffnen extends JDialog implements ActionListener {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("OK");
+				okButton = new JButton("OK");
 				okButton.setActionCommand("OK");
 				okButton.addActionListener(CLASSal);
 				buttonPane.add(okButton);
-				getRootPane().setDefaultButton(okButton);
+				okButton.setEnabled(false);
+				//getRootPane().setDefaultButton(okButton);
 			}
 			{
 				JButton cancelButton = new JButton("Cancel");
@@ -168,5 +196,13 @@ public class PruefungOeffnen extends JDialog implements ActionListener {
 				buttonPane.add(cancelButton);
 			}
 		}		
-	} 
+	}
+
+
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

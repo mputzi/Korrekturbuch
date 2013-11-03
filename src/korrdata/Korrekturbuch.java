@@ -10,7 +10,7 @@ import java.util.*;
 
 //import korrdata.Pruefungsarten.ART;
 
-import com.csvreader.CsvReader;
+//import com.csvreader.CsvReader;
 import com.csvreader.CsvWriter;
 
 

@@ -156,7 +156,6 @@ public class KlasseOeffnen extends JDialog implements ActionListener {
 				Klassenliste.addListSelectionListener(ListSL);
 				Klassenliste.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 				Klassenliste.setModel(klass_list);
-				//klass_list.addElement("Test");
 				//klass_list.addElement("Hans");
 				scrollPane.setViewportView(Klassenliste);
 			}

@@ -25,6 +25,10 @@ static {
  * Prüfungsarten to String
  */
 
+public static String Beschreibung(ART art){
+	return pruefungsMap.get(art);
+}
+
 public static String toStr(){
 	
 	String ret = "";

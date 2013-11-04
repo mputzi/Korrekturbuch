@@ -73,6 +73,24 @@ public class PruefungOeffnen extends JDialog implements ActionListener {
 		setResizable(false);
 		this.aufrufer = aufrufer;
 		initialize(); // Dialogfenster aufbauen mit "OK"- und "Cancel"-Button
+		
+		/**
+		 * Zuammenfassung kann in dieser Art ausgegeben werden. Wird normalerweise bei Auswahl einer Prüfung generiert.
+		 * Hierzu kann auch noch ein Setter der Art setZusammenfassung(Nr, Art, Fach, Klasse, Datum) oder ähnliches hinzugefügt werden.
+		 */
+		Zusammenfassung.setText("1. Schulaufgabe im Fach Mathematik\n" +
+				"der Klasse 8b vom 11.11.2013\n\n" +
+				"Anzahl der Aufgaben: 5\n" +
+				"Gesamtpunktzahl: 20 BE\n" +
+				"Durchschnitt: 3,00\n\n" +
+				"Notenverteilung:\n" +
+				"Note 1: 1x\n" +
+				"Note 2: 3x\n" +
+				"Note 3: 10x\n" +
+				"Note 4: 3x\n" +
+				"Note 5: 1x\n" +
+				"Note 6: 0x");
+		
 	}
 	
 	private ActionListener CLASSal = new ActionListener(){
@@ -101,7 +119,7 @@ public class PruefungOeffnen extends JDialog implements ActionListener {
 			String outStr = new String(meinePruefungsliste.Klassenliste.get(i).toString());
 			set_Zusammenfassung(outStr);
 			auswahl=true; //Eine Klasse wurde ausgewählt
-			okButton.setEnabled(true);
+			okButton.setEnabled(auswahl);
 		}
 	};
 	

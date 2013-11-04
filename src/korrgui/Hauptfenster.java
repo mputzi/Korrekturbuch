@@ -33,7 +33,8 @@ public class Hauptfenster {
 	private JMenu mnDatei, mnKlasse, mnNeu, mnHilfe;
 	private JMenuItem mntmPasswortAendern, mntmBeenden;
 	private JMenuItem mntmOeffnen, mntmNeuAnlegen;
-	private JMenuItem mntmSchulaufgabe, mntmStegreifaufgabe, mntmKurzarbeit, mntmTest, mntmPOeffnen;
+	//private JMenuItem mntmSchulaufgabe, mntmStegreifaufgabe, mntmKurzarbeit, mntmTest,
+	private JMenuItem mntmPOeffnen, mntmPNeu;
 	private JMenuBar menuBar;
 
 	private JPanel mainpanel;
@@ -107,10 +108,15 @@ public class Hauptfenster {
 				set_class_open(false); // Klasse geschlossen
 			}
 
-			if (cmd=="Schulaufgabe"){}
-			if (cmd=="Stegreifaufgabe"){}
-			if (cmd=="Kurzarbeit"){}
-			if (cmd=="Test"){}
+			//if (cmd=="Schulaufgabe"){}
+			//if (cmd=="Stegreifaufgabe"){}
+			//if (cmd=="Kurzarbeit"){}
+			//if (cmd=="Test"){}
+			if (cmd=="testnew"){
+				PruefungNeu PruefungNeuDialog = new PruefungNeu(); // Prüfung Neu Dialog erstellen
+				PruefungNeuDialog.setLocationRelativeTo(frame);
+				PruefungNeuDialog.setVisible(true);
+			}
 			if (cmd=="testopen"){
 				//frame.setEnabled(false);
 				PruefungOeffnen PruefungOeffnenDialog = new PruefungOeffnen(frame); // Prüfung Öffnen Dialog erstellen
@@ -279,9 +285,10 @@ public class Hauptfenster {
 		mnPruefung = new JMenu("Prüfung");
 		menuBar.add(mnPruefung);
 
-		mnNeu = new JMenu("Neu");
-		mnPruefung.add(mnNeu);
+		//mnNeu = new JMenu("Neu");
+		//mnPruefung.add(mnNeu);
 
+		/**
 		mntmSchulaufgabe = new JMenuItem("Schulaufgabe");
 		mntmSchulaufgabe.addActionListener(al);
 		mnNeu.add(mntmSchulaufgabe);
@@ -297,6 +304,12 @@ public class Hauptfenster {
 		mntmTest = new JMenuItem("Test");
 		mntmTest.addActionListener(al);
 		mnNeu.add(mntmTest);
+		**/
+		
+		mntmPNeu = new JMenuItem("Neu anlegen");
+		mntmPNeu.setActionCommand("testnew");
+		mntmPNeu.addActionListener(al);
+		mnPruefung.add(mntmPNeu);
 
 		mntmPOeffnen = new JMenuItem("Öffnen");
 		mntmPOeffnen.setActionCommand("testopen");
@@ -308,7 +321,8 @@ public class Hauptfenster {
 		 * Menü "Hilfe"
 		 */
 		mnHilfe = new JMenu("Hilfe");
-		mnHilfe.setToolTipText("Hier werden Sie geholfen!");
+		mnHilfe.setEnabled(false);
+		mnHilfe.setToolTipText("Das Menü 'Hilfe' soll das Handbuch, Coopyright, ... enthalten.");
 		menuBar.add(mnHilfe);
 
 

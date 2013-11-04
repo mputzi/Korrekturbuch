@@ -7,6 +7,8 @@ import java.awt.Font;
 import java.awt.Frame;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyListener;
+
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
@@ -24,7 +26,6 @@ import javax.swing.JTextField;
 import net.miginfocom.swing.MigLayout;
 import java.util.TreeSet;
 import javax.swing.Box;
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 
@@ -91,6 +92,21 @@ public class KlasseBearbeiten extends JDialog implements ActionListener {
 				actionHinzuButton();
 			}
 		}
+	};
+	
+	
+	private KeyListener KeyL = new KeyListener(){
+		public void keyPressed(KeyEvent e) {
+			if (e.getKeyCode()>32){
+				btnhinzu.setEnabled(true);
+			}
+			if (e.getKeyCode()==10){
+				actionHinzuButton();
+			}
+		}
+
+		public void keyReleased(KeyEvent e) {}
+		public void keyTyped(KeyEvent e) {}
 	};
 	
 	private ListSelectionListener ListSL = new ListSelectionListener(){
@@ -264,16 +280,7 @@ public class KlasseBearbeiten extends JDialog implements ActionListener {
 			}
 			{
 				klasseSchuelerinput = new JTextField();
-				klasseSchuelerinput.addKeyListener(new KeyAdapter() {
-					public void keyPressed(KeyEvent e) {
-						if (e.getKeyCode()>32){
-							btnhinzu.setEnabled(true);
-						}
-						if (e.getKeyCode()==10){
-							actionHinzuButton();
-						}
-					}
-				});
+				klasseSchuelerinput.addKeyListener(KeyL);
 				
 				panel.add(klasseSchuelerinput, "flowx,cell 2 1,growx");
 				klasseSchuelerinput.setColumns(10);

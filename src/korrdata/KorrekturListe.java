@@ -33,6 +33,7 @@ public class KorrekturListe {
   private boolean[] anwesendL;
   private float[][] erreicht;
   private int[] noten;
+  private float gesamtpunktzahl; 
 
   private SchuelerList m_schueler;
   
@@ -64,14 +65,21 @@ public class KorrekturListe {
 		  this.setErreichbar(erreichbareBE);
 	  }
 	  this.fillAnwesendList(true);
+	  
+	  this.setGesamtpunktzahl(this.getPr().getGesamtPunktzahl());
+	  
 	  this.setErreichtL(new float[this.getSchuelerList().getAnz()][this.getPr().getAufgabenListe().getAnz()]);
+	  this.setNoten(new int[this.getSchuelerList().getAnz()]);
+	  
   };
   
   public KorrekturListe (SchuelerList schuelerL) {
 	  this.setSchuelerList(schuelerL);
-	  this.setAnwesendList(new boolean[this.getSchuelerList().getAnz()]);
 	  this.setAnzSchueler(this.getSchuelerList().getAnz());
 	  this.fillAnwesendList(true);
+	  
+	  this.setAnwesendList(new boolean[this.getSchuelerList().getAnz()]);
+	  this.setNoten(new int[this.getSchuelerList().getAnz()]);
 	  
   };
   public KorrekturListe (SchuelerList schuelerL, AufgabeList aufgabenL) {
@@ -81,8 +89,9 @@ public class KorrekturListe {
 	  this.setAnzSchueler(this.getSchuelerList().getAnz());
 	  this.fillAnwesendList(true);
 	  this.setAnzAufgaben(aufgabenL.getAnz());
-	  this.setErreichtL(new float[this.getSchuelerList().getAnz()][aufgabenL.getAnz()]);
 	  
+	  this.setErreichtL(new float[this.getSchuelerList().getAnz()][aufgabenL.getAnz()]);
+	  this.setNoten(new int[this.getSchuelerList().getAnz()]);
   };
   
   //
@@ -151,11 +160,11 @@ public void setPr(Pruefung pr) {
 	  try{
 	  if (schuelerNum <= this.getAnzSchueler()){
 		  if (aufgNum <= this.getAnzAufgaben()){
-			  if (errBE > this.getErreichbar()[aufgNum]){
+			  if (errBE <= this.getErreichbar()[aufgNum]){
 				  erreicht[schuelerNum][aufgNum] = errBE;
 			  }
 			  else{
-				  System.out.println("Mehr BE erreicht als erreichbar!");
+				  System.out.println("Mehr BE erreicht als erreichbar!" + errBE + " von max " + this.getErreichbar()[aufgNum]);
 			  }
 		  }
 		  else{
@@ -191,7 +200,7 @@ public void setPr(Pruefung pr) {
 		  for (int j=0; j<this.getAnzAufgaben(); j++){
 			  str = str + "("+ i + "," + j + ") -> " + this.erreicht[i][j] + " von " + this.erreichbar[j]  +"\n";
 			  // Only for Debugging!!
-			  System.out.println("#+- ("+ i + "," + j + ") -> " + this.erreicht[i][j] + " -+#");
+			  //System.out.println("#+- ("+ i + "," + j + ") -> " + this.erreicht[i][j] + " -+#");
 			  //System.out.println(str);
 		  }
 	  }
@@ -244,24 +253,85 @@ public void setPr(Pruefung pr) {
 		this.erreichbar = erreichbar;
 	}
 	public int[] getNoten() {
+		
+		this.calcNoten();
 		return noten;
 	}
 	public void setNoten(int[] noten) {
 		this.noten = noten;
 	}
 
-  
+    public void calcNoten(){
+    	float gesBE = this.getGesamtpunktzahl();
+    	float[] gesBEL = this.getListGesamtBE();
+    	int[] noten = new int[this.getAnzSchueler()];
+    	NSchluessel NS = new NSchluessel();
+    	    	
+    	for(int i=0; i<this.getAnzSchueler();i++){
+    		float ant = gesBEL[i] / gesBE;
+    		
+    	    //debugging only
+    		System.out.println("KL: Noten: calc: " + i + " " +ant);
+    		
+    		noten[i] = NS.getNote(ant);
+    	}
+    	this.setNoten(noten);
+    }
+    
+    //debugging only
+    public void printNoten(){
+    	
+    	int[] n = this.getNoten();
+    	for(int i=0; i<this.getAnzSchueler();i++){
+    		
+    		System.out.println("KL: Noten: Schüler: " + i + ": " + (n[i]+1));
+    	}
+    }
+	
   //
   // Other methods
   //
 
   /**
    */
-  public void getListGesamtBE(  )
+  public float[] getListGesamtBE(  )
   {
+	  float[] gesamtBEList = new float[this.getAnzSchueler()];
+	  int i =0;
+	  while(i<this.getAnzSchueler()){
+		  float errBESch = 0.0f;
+		  
+		  for(int j=0; j<this.getAnzAufgaben();j++){
+			  errBESch += this.getErreichtAt(i, j);
+		  }
+		  
+	//	  System.out.println("KL: GesBE: Schüler " + i + " hat "+ errBESch + " erreicht.");
+		  
+		  gesamtBEList[i]=errBESch;
+		  i++;
+	  }
+	  
+	  return gesamtBEList;
   }
 
-
+  private String ListGesamtBEString(){
+	  String str = "";
+	  
+	  float[] GesBEListe = this.getListGesamtBE();
+	  
+	  int i =0;
+	  while(i<this.getAnzSchueler()){
+		  str = str + i +": " + GesBEListe[i] + "\n";
+		  i++;
+	  }
+	    
+	  return str;
+  }
+  
+  public void printGesamtBEListe(){
+	  System.out.println(this.ListGesamtBEString());
+  }
+  
   /**
    */
   /*
@@ -420,6 +490,14 @@ private boolean setKorrekturListeFromFile(String filename){
     this.setKorrekturliste(new KorrekturListe(this));*/
     
     return true;
+}
+
+public float getGesamtpunktzahl() {
+	return gesamtpunktzahl;
+}
+
+public void setGesamtpunktzahl(float gesamtpunktzahl) {
+	this.gesamtpunktzahl = gesamtpunktzahl;
 }
 }
 

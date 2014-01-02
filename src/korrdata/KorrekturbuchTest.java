@@ -51,6 +51,12 @@ public class KorrekturbuchTest {
 		//kb.getPruefungsliste().get(0).getKorrekturliste().writeKorrekturListe();
 		kb.getPruefungsliste().get(0).getKorrekturliste().setKorrekturListeFromFile();
 		System.out.println(kb.getPruefungsliste().get(0).getKorrekturliste().toString());
+		
+		System.out.println(kb.getPruefungsliste().get(0).getGesamtPunktzahl());
+		
+		kb.getPruefungsliste().get(0).getKorrekturliste().printGesamtBEListe();
+		kb.getPruefungsliste().get(0).getKorrekturliste().printNoten();
+		
 	}
 
 }

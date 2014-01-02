@@ -121,7 +121,8 @@ public class NSchluessel {
 			  if(anteil > gL[i]){
 				  return nL[i];
 			  }
-		  }  
+		  }
+		  return 5;
 	  }
 
 	  return -1;

@@ -175,7 +175,9 @@ public void setKorrekturliste(KorrekturListe korrekturliste) {
   {
 	  float gesamt = 0.0f;
 	  
-	  //for
+	  for (int i=0; i<this.getAufgabenListe().getAnz(); i++){
+		  gesamt += this.getAufgabenListe().Aufgabenliste.get(i).getPunkte();
+	  }
 	  
 	  return gesamt;
   }
@@ -186,6 +188,7 @@ public void setKorrekturliste(KorrekturListe korrekturliste) {
    */
   public float getDurchschnitt(  )
   {	
+	 	  
 	  float durch = 0.0f;
 	  return durch;
   }

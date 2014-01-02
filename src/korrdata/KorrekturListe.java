@@ -1,9 +1,14 @@
 package korrdata;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.GregorianCalendar;
 
+import korrdata.Pruefungsarten.ART;
+
+import com.csvreader.CsvReader;
 import com.csvreader.CsvWriter;
 
 
@@ -51,7 +56,13 @@ public class KorrekturListe {
 	  
 	  this.setAnzSchueler(this.getSchuelerList().getAnz());
 	  this.setAnzAufgaben(this.getPr().getAufgabenListe().getAnz());
-	  
+	  {
+		  float[] erreichbareBE = new float[this.getAnzAufgaben()];
+		  for(int i=0; i<this.getAnzAufgaben();i++){
+			  erreichbareBE[i]=this.getPr().getAufgabenListe().Aufgabenliste.get(i).getPunkte();
+		  }
+		  this.setErreichbar(erreichbareBE);
+	  }
 	  this.fillAnwesendList(true);
 	  this.setErreichtL(new float[this.getSchuelerList().getAnz()][this.getPr().getAufgabenListe().getAnz()]);
   };
@@ -137,9 +148,15 @@ public void setPr(Pruefung pr) {
   }
 
   public void setErreichtAt (int schuelerNum, int aufgNum, float errBE){
+	  try{
 	  if (schuelerNum <= this.getAnzSchueler()){
 		  if (aufgNum <= this.getAnzAufgaben()){
-			  erreicht[schuelerNum][aufgNum] = errBE;
+			  if (errBE > this.getErreichbar()[aufgNum]){
+				  erreicht[schuelerNum][aufgNum] = errBE;
+			  }
+			  else{
+				  System.out.println("Mehr BE erreicht als erreichbar!");
+			  }
 		  }
 		  else{
 			  System.out.println("Aufgabennummer zu groß!");
@@ -148,6 +165,10 @@ public void setPr(Pruefung pr) {
 	  else{
 		  System.out.println("Schülernummer zu groß!");
 	  }
+	  }
+	  catch(Exception e) {
+			e.printStackTrace();
+		}
 	  
   }
   
@@ -168,7 +189,7 @@ public void setPr(Pruefung pr) {
 	  String str = "Erreichte Punkte \n";
 	  for (int i=0; i<this.getAnzSchueler(); i++){
 		  for (int j=0; j<this.getAnzAufgaben(); j++){
-			  str = str + "("+ i + "," + j + ") -> " + this.erreicht[i][j] + "\n";
+			  str = str + "("+ i + "," + j + ") -> " + this.erreicht[i][j] + " von " + this.erreichbar[j]  +"\n";
 			  // Only for Debugging!!
 			  //System.out.println("#+- ("+ i + "," + j + ") -> " + this.erreicht[i][j] + " -+#");
 			  //System.out.println(str);
@@ -262,7 +283,7 @@ public void setPr(Pruefung pr) {
 			  	"Schüler: " + this.getSchuelerList().toString() + 
 			  	"Anwesenheit: " + this.getAnwesendList().toString() + 
 			//  	 "Aufgaben: " + this.getAufgabenL().toString() + 
-			//  	"Erreichbar: " + this.getErreichbar().toString() +
+			  	"Gesamtpunktzahl: " + this.getErreichbar().toString() +
 			  	"Erreicht: " + this.erreichtLtoString()
 			  	);
   }
@@ -351,6 +372,54 @@ private void setKlFilename(String klFilename) {
 	this.klFilename = klFilename;
 }
 
+
+
+public boolean setKorrekturListeFromFile(){
+	return this.setKorrekturListeFromFile(this.getKlFilename());
 }
 
+private boolean setKorrekturListeFromFile(String filename){
+	
+	
+    try{
+    CsvReader csvKorrList = new CsvReader(filename);
+    csvKorrList.readHeaders();
+
+	System.out.println("KL: +++ Neue Korrekturliste aus Datei: " + filename);
+    
+    while (csvKorrList.readRecord())
+	{
+    	String sch			= csvKorrList.get("Schueler");
+    	String auf          = csvKorrList.get("Aufgabe");
+    	String err          = csvKorrList.get("erreicht");
+		
+		// perform program logic here
+        // Debugging only
+		System.out.println("KL: " + sch + auf + err);
+		
+		// Umwandeln in interne Formate
+		int schNumber = Integer.valueOf(sch).intValue();
+		int aufNumber = Integer.valueOf(auf).intValue();
+		float errNumber = Float.valueOf(err).floatValue();
+		
+		this.setErreichtAt(schNumber, aufNumber, errNumber);
+						
+	}
+
+    csvKorrList.close();
+    }
+    catch (FileNotFoundException e) {
+		e.printStackTrace();
+	} catch (IOException e) {
+		e.printStackTrace();
+	}
+    
+    //System.out.println("KL: ");
+    /*
+    this.aufgabenListe.setAufgabenListeFromFile(lis);
+    this.setKorrekturliste(new KorrekturListe(this));*/
+    
+    return true;
+}
+}
 

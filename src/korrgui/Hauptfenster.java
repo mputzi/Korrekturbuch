@@ -113,7 +113,7 @@ public class Hauptfenster {
 			//if (cmd=="Kurzarbeit"){}
 			//if (cmd=="Test"){}
 			if (cmd=="testnew"){
-				PruefungNeu PruefungNeuDialog = new PruefungNeu(); // Prüfung Neu Dialog erstellen
+				PruefungNeu PruefungNeuDialog = new PruefungNeu(frame); // Prüfung Neu Dialog erstellen
 				PruefungNeuDialog.setLocationRelativeTo(frame);
 				PruefungNeuDialog.setVisible(true);
 			}

@@ -249,11 +249,10 @@ public class Korrektureingabe extends JFrame {
 			}
 		});
 	}
-	
+	/*
 	private getAufgabenFromPr(Pruefung ){
-		asd
 		
-		table_BE.setValueAt(aValue, 0, 0);
-	}
+		table_BE.setValueAt("!", 0, 0);
+	}*/
 
 }

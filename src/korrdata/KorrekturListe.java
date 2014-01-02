@@ -284,7 +284,7 @@ public void setPr(Pruefung pr) {
     	int[] n = this.getNoten();
     	for(int i=0; i<this.getAnzSchueler();i++){
     		
-    		System.out.println("KL: Noten: Schüler: " + i + ": " + (n[i]+1));
+    		System.out.println("KL: Noten: Schüler: " + i + ": " + (n[i]));
     	}
     }
 	

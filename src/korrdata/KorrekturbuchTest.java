@@ -56,7 +56,9 @@ public class KorrekturbuchTest {
 		
 		kb.getPruefungsliste().get(0).getKorrekturliste().printGesamtBEListe();
 		kb.getPruefungsliste().get(0).getKorrekturliste().printNoten();
-		
+		System.out.println("Durchschnitt: " + kb.getPruefungsliste().get(0).getDurchschnitt());
+		System.out.println("1/2 Anteil  : " + kb.getPruefungsliste().get(0).getAnteil12());
+		System.out.println("5/6 Anteil  : " + kb.getPruefungsliste().get(0).getAnteil56());
 	}
 
 }

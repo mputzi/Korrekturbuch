@@ -112,17 +112,17 @@ public class NSchluessel {
 	  if(G){
 		  for(int i =0; i<nL.length; i++){
 			  if(anteil >= gL[i]){
-				  return nL[i];
+				  return nL[i]+1;
 			  }
 		  }
 	  }
 	  else{
 		  for(int i =0; i<nL.length; i++){
 			  if(anteil > gL[i]){
-				  return nL[i];
+				  return nL[i]+1;
 			  }
 		  }
-		  return 5;
+		  return 6;
 	  }
 
 	  return -1;

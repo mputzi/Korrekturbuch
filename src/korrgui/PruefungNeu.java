@@ -28,6 +28,9 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.BoxLayout;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
+import java.awt.ComponentOrientation;
+import javax.swing.JTextArea;
+import java.awt.Font;
 
 public class PruefungNeu extends JDialog implements ActionListener {
 	private static final long serialVersionUID = 1L;
@@ -187,8 +190,10 @@ public class PruefungNeu extends JDialog implements ActionListener {
 				panel_2.setLayout(new BoxLayout(panel_2, BoxLayout.X_AXIS));
 				{
 					scrollPane = new JScrollPane();
-					scrollPane.setPreferredSize(new Dimension(250, 2));
-					scrollPane.setMaximumSize(new Dimension(250, 32767));
+					scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+					scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+					scrollPane.setPreferredSize(new Dimension(180, 2));
+					scrollPane.setMaximumSize(new Dimension(180, 32767));
 					panel_2.add(scrollPane);
 					{
 						table = new JTable();
@@ -196,28 +201,39 @@ public class PruefungNeu extends JDialog implements ActionListener {
 						table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 						table.setModel(new DefaultTableModel(
 							new Object[][] {
-								{null, null, null},
-								{null, null, null},
-								{null, null, null},
-								{null, null, null},
-								{null, null, null},
-								{null, null, null},
-								{null, null, null},
-								{null, null, null},
+								{null, null},
+								{null, null},
+								{null, null},
+								{null, null},
+								{null, null},
+								{null, null},
+								{null, null},
 							},
 							new String[] {
-								"lfd. Nr.", "Bezeichnung", "Punkte"
+								"Bezeichnung", "Punkte"
 							}
 						) {
 							Class[] columnTypes = new Class[] {
-								Integer.class, String.class, Float.class
+								String.class, Float.class
 							};
 							public Class getColumnClass(int columnIndex) {
 								return columnTypes[columnIndex];
 							}
 						});
+						table.getColumnModel().getColumn(0).setPreferredWidth(80);
+						table.getColumnModel().getColumn(1).setPreferredWidth(80);
 						scrollPane.setViewportView(table);
 					}
+				}
+				{
+					txt_erklaerung = new JTextArea();
+					txt_erklaerung.setFont(new Font("Arial", Font.ITALIC, 12));
+					txt_erklaerung.setLineWrap(true);
+					txt_erklaerung.setMaximumSize(new Dimension(300, 2147483647));
+					txt_erklaerung.setText("Links können die (Teil-)Aufgaben mit der jeweiligen maximalen Punktzahl festgelegt werden.\n\n" +
+											"Bei der Punktzahl können auch Dezimalbrüche\neingegeben werden. " +
+											"Hierbei ist darauf zu achten,\ndass das Dezimalkomma als ''PUNKT'' eigegeben\nwird!!");
+					panel_2.add(txt_erklaerung);
 				}
 			}
 		}
@@ -242,6 +258,7 @@ public class PruefungNeu extends JDialog implements ActionListener {
 	private JPanel panel_2;
 	private JScrollPane scrollPane;
 	private JTable table;
+	private JTextArea txt_erklaerung;
 	
 	
 	

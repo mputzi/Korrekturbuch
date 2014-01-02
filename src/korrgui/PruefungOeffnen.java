@@ -39,7 +39,6 @@ public class PruefungOeffnen extends JDialog implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	Frame aufrufer = new Frame();
 	private JPanel contentPanel = new JPanel();
-	private JTextArea Zusammenfassung = new JTextArea();
 	private boolean auswahl=false; //Prüfung ausgewählt?
 	
 	private JList Pruefungsliste = new JList();
@@ -72,24 +71,7 @@ public class PruefungOeffnen extends JDialog implements ActionListener {
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setResizable(false);
 		this.aufrufer = aufrufer;
-		initialize(); // Dialogfenster aufbauen mit "OK"- und "Cancel"-Button
-		
-		/**
-		 * Zuammenfassung kann in dieser Art ausgegeben werden. Wird normalerweise bei Auswahl einer Prüfung generiert.
-		 * Hierzu kann auch noch ein Setter der Art setZusammenfassung(Nr, Art, Fach, Klasse, Datum) oder ähnliches hinzugefügt werden.
-		 */
-		Zusammenfassung.setText("1. Schulaufgabe im Fach Mathematik\n" +
-				"der Klasse 8b vom 11.11.2013\n\n" +
-				"Anzahl der Aufgaben: 5\n" +
-				"Gesamtpunktzahl: 20 BE\n" +
-				"Durchschnitt: 3,00\n\n" +
-				"Notenverteilung:\n" +
-				"Note 1: 1x\n" +
-				"Note 2: 3x\n" +
-				"Note 3: 10x\n" +
-				"Note 4: 3x\n" +
-				"Note 5: 1x\n" +
-				"Note 6: 0x");
+		initialize();
 		
 	}
 	
@@ -182,18 +164,6 @@ public class PruefungOeffnen extends JDialog implements ActionListener {
 			scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 			scrollPane.setPreferredSize(new Dimension(250, 200));
 			contentPanel.add(scrollPane, BorderLayout.EAST);
-			
-			{
-				//JTextArea Zusammenfassung = new JTextArea();
-				scrollPane.setViewportView(Zusammenfassung);
-				Zusammenfassung.setEditable(false);
-				Zusammenfassung.setFont(new Font("Tahoma", Font.PLAIN, 12));
-				Zusammenfassung.setBorder(UIManager.getBorder("TextField.border"));
-				Zusammenfassung.setWrapStyleWord(true);
-				Zusammenfassung.setLineWrap(true);
-				Zusammenfassung.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
-				Zusammenfassung.setText("Hier wird (bei Auswahl einer Klasse) eine Zusammenfassung für die gewählte Klasse angezeigt\r\n");
-			}
 		}
 		{
 			JPanel buttonPane = new JPanel();

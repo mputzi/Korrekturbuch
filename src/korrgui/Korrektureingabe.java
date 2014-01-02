@@ -22,6 +22,7 @@ import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.JInternalFrame;
 import net.miginfocom.swing.MigLayout;
+import javax.swing.table.DefaultTableModel;
 
 public class Korrektureingabe extends JFrame {
 
@@ -73,18 +74,51 @@ public class Korrektureingabe extends JFrame {
 		
 		JInternalFrame internalFrame = new JInternalFrame("Korrekturliste");
 		contentPane.add(internalFrame, BorderLayout.CENTER);
-		internalFrame.getContentPane().setLayout(new MigLayout("", "[grow][grow]", "[grow][][grow]"));
+		internalFrame.getContentPane().setLayout(new MigLayout("", "[249.00,grow][grow]", "[grow][][grow]"));
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
-		internalFrame.getContentPane().add(scrollPane_1, "cell 0 0 2 2,grow");
+		internalFrame.getContentPane().add(scrollPane_1, "cell 0 0 2 1,grow");
 		
 		table_aufgaben = new JTable();
+		table_aufgaben.setModel(new DefaultTableModel(
+			new Object[][] {
+				{"Aufgabe", null},
+				{null, null},
+			},
+			new String[] {
+				"New column", "New column"
+			}
+		));
 		scrollPane_1.setViewportView(table_aufgaben);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		internalFrame.getContentPane().add(scrollPane, "cell 0 2,grow");
 		
 		table_id = new JTable();
+		table_id.setModel(new DefaultTableModel(
+			new Object[][] {
+				{null, null, null, null},
+				{null, null, null, null},
+			},
+			new String[] {
+				"SID", "Anw.", "Name", "Vorname"
+			}
+		) {
+			Class[] columnTypes = new Class[] {
+				Integer.class, Boolean.class, String.class, String.class
+			};
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+		});
+		table_id.getColumnModel().getColumn(0).setResizable(false);
+		table_id.getColumnModel().getColumn(0).setPreferredWidth(20);
+		table_id.getColumnModel().getColumn(1).setResizable(false);
+		table_id.getColumnModel().getColumn(1).setPreferredWidth(15);
+		table_id.getColumnModel().getColumn(2).setResizable(false);
+		table_id.getColumnModel().getColumn(2).setPreferredWidth(40);
+		table_id.getColumnModel().getColumn(3).setResizable(false);
+		table_id.getColumnModel().getColumn(3).setPreferredWidth(40);
 		scrollPane.setViewportView(table_id);
 		
 		JScrollPane scrollPane_2 = new JScrollPane();

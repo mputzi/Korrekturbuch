@@ -30,7 +30,7 @@ public class KorrekturbuchTest {
 		//kb.neuePruefung(4, 3, 1999, 1, Pruefungsarten.ART.T, 5);
 		
 		kb.printPruefungen();
-		//blubb  
+
 		//Speichern des Korrekturbuchs
 		//		kb.writeKorrekturBuch();
 		

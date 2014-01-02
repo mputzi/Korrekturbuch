@@ -10,6 +10,11 @@ import java.awt.Dialog.ModalExclusionType;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.factories.FormFactory;
+import com.jgoodies.forms.layout.RowSpec;
+import javax.swing.JSplitPane;
 
 public class Korrektureingabe extends JFrame {
 
@@ -44,12 +49,18 @@ public class Korrektureingabe extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
 		
+		JSplitPane splitPane = new JSplitPane();
+		contentPane.add(splitPane, BorderLayout.SOUTH);
+		
 		JButton btnFertig = new JButton("Fertig");
+		splitPane.setRightComponent(btnFertig);
+		
+		JButton btnAbbruch = new JButton("Abbruch");
+		splitPane.setLeftComponent(btnAbbruch);
 		btnFertig.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
-		contentPane.add(btnFertig, BorderLayout.SOUTH);
 	}
 
 }

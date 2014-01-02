@@ -42,6 +42,8 @@ public class PruefungNeu extends JDialog implements ActionListener {
 	private JTextField textDatum;
 	private JComboBox <ART> comboBox;
 	private JTextField txtArt;
+	private DefaultTableModel model = new DefaultTableModel();
+	private JTable table = new JTable(model);
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -63,6 +65,9 @@ public class PruefungNeu extends JDialog implements ActionListener {
 	}
 
 	private void initialize(){
+		model.addColumn("Bezeichnung");
+		model.addColumn("Punkte");
+				
 		setBounds(100, 100, 500, 250);
 		//setSize(new Dimension(600, 400));
 		setTitle("Prüfung neu anlegen");
@@ -197,29 +202,34 @@ public class PruefungNeu extends JDialog implements ActionListener {
 					scrollPane.setMaximumSize(new Dimension(180, 32767));
 					panel_2.add(scrollPane);
 					{
-						table = new JTable();
 						table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 						table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-						table.setModel(new DefaultTableModel(
-							new Object[][] {
-								{null, null},
-								{null, null},
-								{null, null},
-								{null, null},
-								{null, null},
-								{null, null},
-							},
-							new String[] {
-								"Bezeichnung", "Punkte"
-							}
-						) {
-							Class[] columnTypes = new Class[] {
-								String.class, Float.class
-							};
-							public Class getColumnClass(int columnIndex) {
-								return columnTypes[columnIndex];
-							}
-						});
+						// table.setModel(model);
+						for (int i=0;i<6;i++){model.addRow(new Object[]{});}
+					
+						
+						/**table.setModel(new DefaultTableModel(
+								new Object[][] {
+									{null, null},
+									{null, null},
+									{null, null},
+									{null, null},
+									{null, null},
+									{null, null},
+								},
+								new String[] {
+									"Bezeichnung", "Punkte"
+								}
+							) {
+								Class[] columnTypes = new Class[] {
+									String.class, Float.class
+								};
+								public Class getColumnClass(int columnIndex) {
+									return columnTypes[columnIndex];
+								}
+							});
+						**/
+						
 						table.getColumnModel().getColumn(0).setPreferredWidth(80);
 						table.getColumnModel().getColumn(1).setPreferredWidth(80);
 						scrollPane.setViewportView(table);
@@ -261,10 +271,9 @@ public class PruefungNeu extends JDialog implements ActionListener {
 			int anz = Integer.valueOf(anzahl_Aufgaben_gui.getValue().toString()); // Anzahl der Aufgaben
 			int rows = table.getRowCount(); // Anzahl der Zeilen in der Aufgabentabelle
 			if (anz>rows) {
-				
-			};
-			if (anz<rows) {
-				
+				model.addRow(new Object[]{});
+			}else if (anz<rows) {
+				if (rows>1){model.removeRow(rows-1);}
 			};
 		
 			
@@ -280,7 +289,6 @@ public class PruefungNeu extends JDialog implements ActionListener {
 	private JPanel panel_1;
 	private JPanel panel_2;
 	private JScrollPane scrollPane;
-	private JTable table;
 	private JTextArea txt_erklaerung;
 	
 	

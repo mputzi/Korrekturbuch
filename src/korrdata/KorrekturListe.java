@@ -191,7 +191,7 @@ public void setPr(Pruefung pr) {
 		  for (int j=0; j<this.getAnzAufgaben(); j++){
 			  str = str + "("+ i + "," + j + ") -> " + this.erreicht[i][j] + " von " + this.erreichbar[j]  +"\n";
 			  // Only for Debugging!!
-			  //System.out.println("#+- ("+ i + "," + j + ") -> " + this.erreicht[i][j] + " -+#");
+			  System.out.println("#+- ("+ i + "," + j + ") -> " + this.erreicht[i][j] + " -+#");
 			  //System.out.println(str);
 		  }
 	  }

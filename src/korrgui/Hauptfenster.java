@@ -56,7 +56,17 @@ public class Hauptfenster {
 		return class_open;
 	}
 
-
+    
+	static private int class_selected=0; //Welche Klasse aus Klassenliste ist ausgewählt
+    static public void set_class_selected (int arg)
+    {
+    	class_selected=arg;
+    	return;
+    }
+    static public int get_class_selected ()
+    {
+    	return class_selected;
+    }
 	/**
 	 * Menüauswahl abfangen und auswerten -> "ActionListener"
 	 */

@@ -36,6 +36,7 @@ public class KlasseOeffnen extends JDialog implements ActionListener {
 	private JPanel contentPanel = new JPanel();
 	private JTextArea Zusammenfassung = new JTextArea();
 	private boolean auswahl=false; //Klasse ausgewählt?
+	private int auswahl_int; //Nummer der auswählten Klasse
 	
 	private JList Klassenliste = new JList();
 	private DefaultListModel klass_list = new DefaultListModel();
@@ -92,7 +93,8 @@ public class KlasseOeffnen extends JDialog implements ActionListener {
 			 * und im Infofenster (rechts) angezeigt. Außerdem wird festgehalten, dass eine Klasse ausgewählt wurde.
 			 */
 			int i = Klassenliste.getSelectedIndex();
-					
+			auswahl_int=i;
+			
 			String outStr = new String(meineKlassenliste.Klassenliste.get(i).toString());
 			set_Zusammenfassung(outStr);
 			auswahl=true; //Eine Klasse wurde ausgewählt
@@ -109,6 +111,8 @@ public class KlasseOeffnen extends JDialog implements ActionListener {
 		KlasseOeffnen.this.dispose();
 		//Wenn keine Datei ausgewählt, dann auf false, sonst auf true
 		Hauptfenster.set_class_open(auswahl);
+		Hauptfenster.set_class_selected(auswahl_int);
+		System.out.println(auswahl_int);
 		// Kontrolle wieder an Hauptfenster geben
 		//aufrufer.setEnabled(true);
 		//aufrufer.setVisible(true);

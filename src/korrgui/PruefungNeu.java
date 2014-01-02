@@ -31,6 +31,10 @@ import javax.swing.JTextArea;
 import java.awt.Font;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class PruefungNeu extends JDialog implements ActionListener {
 	private static final long serialVersionUID = 1L;
@@ -42,9 +46,29 @@ public class PruefungNeu extends JDialog implements ActionListener {
 	private JTextField textDatum;
 	private JComboBox <ART> comboBox;
 	private JTextField txtArt;
-	private DefaultTableModel model = new DefaultTableModel();
+	private JButton okButton = new JButton("OK");
+	private DefaultTableModel model = new DefaultTableModel(
+			new Object[][] {
+					{null, null},
+					{null, null},
+					{null, null},
+					{null, null},
+					{null, null},
+					{null, null},
+				},
+				new String[] {
+					"Bezeichnung", "Punkte"
+				}
+			) {
+				Class[] columnTypes = new Class[] {
+					String.class, Float.class
+				};
+				public Class getColumnClass(int columnIndex) {
+					return columnTypes[columnIndex];
+				}
+			};
 	private JTable table = new JTable(model);
-	
+			
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		try {
@@ -65,11 +89,8 @@ public class PruefungNeu extends JDialog implements ActionListener {
 	}
 
 	private void initialize(){
-		model.addColumn("Bezeichnung");
-		model.addColumn("Punkte");
 				
 		setBounds(100, 100, 500, 250);
-		//setSize(new Dimension(600, 400));
 		setTitle("Prüfung neu anlegen");
 		setResizable(false);
 		setModalityType(ModalityType.APPLICATION_MODAL);
@@ -79,10 +100,11 @@ public class PruefungNeu extends JDialog implements ActionListener {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("OK");
+				//JButton okButton = new JButton("OK");
 				okButton.setActionCommand("OK");
 				okButton.addActionListener(al);
 				buttonPane.add(okButton);
+				okButton.setEnabled(false);
 			}
 			{
 				JButton cancelButton = new JButton("Cancel");
@@ -202,36 +224,33 @@ public class PruefungNeu extends JDialog implements ActionListener {
 					scrollPane.setMaximumSize(new Dimension(180, 32767));
 					panel_2.add(scrollPane);
 					{
-						table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-						table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-						// table.setModel(model);
-						for (int i=0;i<6;i++){model.addRow(new Object[]{});}
-					
-						
-						/**table.setModel(new DefaultTableModel(
-								new Object[][] {
-									{null, null},
-									{null, null},
-									{null, null},
-									{null, null},
-									{null, null},
-									{null, null},
-								},
-								new String[] {
-									"Bezeichnung", "Punkte"
+						table.getColumnModel().getColumn(0).setResizable(false);
+						table.getColumnModel().getColumn(0).setPreferredWidth(85);
+						table.getColumnModel().getColumn(1).setResizable(false);
+						table.getColumnModel().getColumn(1).setPreferredWidth(85);
+						table.addMouseListener(new MouseAdapter() {
+							@Override
+							public void mouseClicked(MouseEvent arg0) {
+								okButton.setEnabled(true);
+								int rows=table.getRowCount();
+								for (int r=0;r<rows;r++){
+									if (model.getValueAt(r, 0)==null){okButton.setEnabled(false);};
+									if (model.getValueAt(r, 1)==null){okButton.setEnabled(false);};
 								}
-							) {
-								Class[] columnTypes = new Class[] {
-									String.class, Float.class
-								};
-								public Class getColumnClass(int columnIndex) {
-									return columnTypes[columnIndex];
+							}
+						});
+						table.addKeyListener(new KeyAdapter() {
+							@Override
+							public void keyTyped(KeyEvent arg0) {
+								okButton.setEnabled(true);
+								int rows=table.getRowCount();
+								for (int r=0;r<rows;r++){
+									if (model.getValueAt(r, 0)==null){okButton.setEnabled(false);};
+									if (model.getValueAt(r, 1)==null){okButton.setEnabled(false);};
+									//else if (Integer.valueOf(model.getValueAt(r, 1).toString())==0){okButton.setEnabled(false);};
 								}
-							});
-						**/
-						
-						table.getColumnModel().getColumn(0).setPreferredWidth(80);
-						table.getColumnModel().getColumn(1).setPreferredWidth(80);
+							}
+						});
 						scrollPane.setViewportView(table);
 					}
 				}
@@ -245,7 +264,8 @@ public class PruefungNeu extends JDialog implements ActionListener {
 					txt_erklaerung.setMaximumSize(new Dimension(300, 2147483647));
 					txt_erklaerung.setText("Links können die (Teil-)Aufgaben mit der jeweiligen maximalen Punktzahl festgelegt werden.\n\n" +
 											"Bei der Punktzahl können auch Dezimalbrüche eingegeben werden. " +
-											"Hierbei ist darauf zu achten, dass das Dezimalkomma als ''PUNKT'' eigegeben wird!!");
+											"Hierbei ist darauf zu achten, dass das Dezimalkomma als ''PUNKT'' eigegeben wird!!\n"+
+											"Aufgaben werden am Ende eingefügt/gelöscht!");
 					panel_2.add(txt_erklaerung);
 				}
 			}
@@ -255,7 +275,20 @@ public class PruefungNeu extends JDialog implements ActionListener {
 	private ActionListener al = new ActionListener(){
 		public void actionPerformed(ActionEvent e){
 			String cmd = e.getActionCommand();
-			System.out.println(cmd);
+			if (cmd=="OK"){
+				/**
+				 * Hier wird der Inhalt der Aufgaben als Liste gespeichert und die
+				 * Korrektureingabe gestartet
+				 * Dazu den Dialog "Neue Prüfung" schließen und "Korrektureingabe" öffnen
+				 */
+				PruefungNeu.this.dispose();
+				
+			};
+			if (cmd=="Cancel"){
+				// Dialog "Neue Prüfung" schließen
+				PruefungNeu.this.dispose();
+				
+			};
 		}
 	};
 	
@@ -265,17 +298,27 @@ public class PruefungNeu extends JDialog implements ActionListener {
 		}
 	};
 	
+	
+	
 	private ChangeListener cl = new ChangeListener(){
 		@Override
 		public void stateChanged(ChangeEvent e){
 			int anz = Integer.valueOf(anzahl_Aufgaben_gui.getValue().toString()); // Anzahl der Aufgaben
 			int rows = table.getRowCount(); // Anzahl der Zeilen in der Aufgabentabelle
+			okButton.setEnabled(true);
 			if (anz>rows) {
 				model.addRow(new Object[]{});
+				okButton.setEnabled(false);
 			}else if (anz<rows) {
-				if (rows>1){model.removeRow(rows-1);}
+				if (rows>1){
+					model.removeRow(rows-1);
+					for (int r=0;r<rows-1;r++){
+						if (model.getValueAt(r, 0)==null){okButton.setEnabled(false);};
+						if (model.getValueAt(r, 1)==null){okButton.setEnabled(false);};
+					}
+				}
 			};
-		
+			
 			
 		}
 	};

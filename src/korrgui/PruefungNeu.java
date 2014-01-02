@@ -227,12 +227,12 @@ public class PruefungNeu extends JDialog implements ActionListener {
 				}
 				{
 					txt_erklaerung = new JTextArea();
-					txt_erklaerung.setFont(new Font("Arial", Font.ITALIC, 12));
+					txt_erklaerung.setFont(new Font("Serif", Font.ITALIC, 11));
 					txt_erklaerung.setLineWrap(true);
 					txt_erklaerung.setMaximumSize(new Dimension(300, 2147483647));
-					txt_erklaerung.setText("Links können die (Teil-)Aufgaben mit der jeweiligen maximalen Punktzahl festgelegt werden.\n\n" +
-											"Bei der Punktzahl können auch Dezimalbrüche\neingegeben werden. " +
-											"Hierbei ist darauf zu achten,\ndass das Dezimalkomma als ''PUNKT'' eigegeben\nwird!!");
+					txt_erklaerung.setText("Links können die (Teil-)Aufgaben mit der jeweiligen maximalen\nPunktzahl festgelegt werden.\n\n" +
+											"Bei der Punktzahl können auch Dezimalbrüche eingegeben\nwerden. " +
+											"Hierbei ist darauf zu achten, dass das Dezimalkomma\nals ''PUNKT'' eigegeben wird!!");
 					panel_2.add(txt_erklaerung);
 				}
 			}

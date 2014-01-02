@@ -1,5 +1,5 @@
-package korrgui;
-
+package korrgui; 
+ 
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;

@@ -6,26 +6,41 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
 import java.awt.Dialog.ModalExclusionType;
+
 import javax.swing.JButton;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.RowSpec;
+
 import javax.swing.JSplitPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.LineBorder;
+
 import java.awt.Color;
+
 import javax.swing.JLabel;
 import javax.swing.JInternalFrame;
+
 import net.miginfocom.swing.MigLayout;
+
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 import javax.swing.Box;
+
 import java.awt.Component;
+
 import javax.swing.UIManager;
+
+import korrdata.AufgabeList;
+import korrdata.Pruefung;
 
 public class Korrektureingabe extends JFrame {
 
@@ -33,7 +48,8 @@ public class Korrektureingabe extends JFrame {
 	private JTable table_aufgaben_beschr;
 	private JTable table_id;
 	private JTable table_BE;
-	private JTable table;
+	private JTable table_aufgaben;
+	private Pruefung aktPruefung;
 
 	/**
 	 * Launch the application.
@@ -42,7 +58,7 @@ public class Korrektureingabe extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Korrektureingabe frame = new Korrektureingabe();
+					Korrektureingabe frame = new Korrektureingabe(new Pruefung());
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -54,7 +70,10 @@ public class Korrektureingabe extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Korrektureingabe() {
+	public Korrektureingabe(Pruefung pr) {
+		this.setAktPruefung(pr);
+		AufgabeList al = pr.getAufgabenListe();
+		
 		setAlwaysOnTop(true);
 		setModalExclusionType(ModalExclusionType.APPLICATION_EXCLUDE);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -109,10 +128,10 @@ public class Korrektureingabe extends JFrame {
 		Box horizontalBox = Box.createHorizontalBox();
 		scrollPane_3.setViewportView(horizontalBox);
 		
-		table = new JTable();
-		table.setBackground(new Color(255, 255, 204));
-		horizontalBox.add(table);
-		table.setModel(new DefaultTableModel(
+		table_aufgaben = new JTable();
+		table_aufgaben.setBackground(new Color(255, 255, 204));
+		horizontalBox.add(table_aufgaben);
+		table_aufgaben.setModel(new DefaultTableModel(
 			new Object[][] {
 				{null, null, null, null, null},
 				{null, null, null, null, null},
@@ -250,9 +269,29 @@ public class Korrektureingabe extends JFrame {
 		});
 	}
 	
-	private getAufgabenFromPr(Pruefung ){
-		
-		table_BE.setValueAt("!", 0, 0);
+	public void getAufgabenFromPr(Pruefung pr){
+		AufgabeList al = pr.getAufgabenListe();
+		while(table_aufgaben.getColumnCount()<al.getAnz()){
+			table_aufgaben.addColumn(new TableColumn());
+			System.out.println("KE: Spalten "+ table_aufgaben.getColumnCount());
+		}
+		for(int i=0;i<al.getAnz()-1;i++){ 
+			String name = al.Aufgabenliste.get(i).getName();
+			System.out.println("KE: "+i+" "+name);
+			table_aufgaben.setValueAt(name, 0, i);
+			
+			float punkte = al.Aufgabenliste.get(i).getPunkte();
+			System.out.println("KE: "+i+" "+punkte);
+			table_aufgaben.setValueAt(punkte, 1, i);
+			}
+	}
+
+	public Pruefung getAktPruefung() {
+		return aktPruefung;
+	}
+
+	public void setAktPruefung(Pruefung aktPruefung) {
+		this.aktPruefung = aktPruefung;
 	}
 
 }

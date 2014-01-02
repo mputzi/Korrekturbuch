@@ -28,6 +28,8 @@ import java.util.TreeSet;
 import javax.swing.Box;
 import java.awt.event.KeyEvent;
 
+import korrdata.KlasseList;
+
 
 public class KlasseBearbeiten extends JDialog implements ActionListener {
 
@@ -70,6 +72,15 @@ public class KlasseBearbeiten extends JDialog implements ActionListener {
 		klasseAmt.setText("StR");
 		klasseSchule.setText("Stiftland-Gymnasium");
 		
+		/**
+		 * Daten aus gewählter Klasse einfügen
+		 */
+		klasseBezeichnung.setText(meineKlassenliste.Klassenliste.get(classselected).getKlBez());
+		klasseFach.setText(meineKlassenliste.Klassenliste.get(classselected).getFach());
+		klasseSJ.setText(meineKlassenliste.Klassenliste.get(classselected).getSchuljahr()+"");
+		klasseLehrer.setText(meineKlassenliste.Klassenliste.get(classselected).getLehrer().getNachname());
+		klasseAmt.setText(meineKlassenliste.Klassenliste.get(classselected).getLehrer().getAmtsbez());
+		klasseSchule.setText(meineKlassenliste.Klassenliste.get(classselected).getLehrer().getSchule());
 		
 		
 	}
@@ -167,10 +178,14 @@ public class KlasseBearbeiten extends JDialog implements ActionListener {
 	private Component verticalStrut_2;
 	private Component verticalStrut_3;
 	private JButton btnhinzu;
-	private DefaultListModel name_list = new DefaultListModel();
+	private DefaultListModel name_list = new DefaultListModel(); //Diese und die nächsten beiden Zeilen können eigentlich weg
 	private JList liste = new JList(name_list);
 	private TreeSet<String> name_list_neu;
 	
+	private JList Klassenliste = new JList(); // Diese und die nächsten beiden Zeilen sind die gleichen wie in Klasseöffnen
+	private DefaultListModel klass_list = new DefaultListModel();
+	private KlasseList meineKlassenliste = new KlasseList();
+	private int classselected = Hauptfenster.get_class_selected();
 	
 	private void actionOKButton(){
 		
@@ -212,6 +227,10 @@ public class KlasseBearbeiten extends JDialog implements ActionListener {
 	
 		
 	private void initialize() {
+		// Einbindung der Daten aus der Klassenliste-Datei
+		meineKlassenliste.setKlasseListFromCSV("klassenliste.csv");
+		System.out.println(meineKlassenliste.Klassenliste.get(classselected).getKlBez());
+		
 		setTitle("Klasse bearbeiten");
 		setBounds(100, 100, 580, 390);
 		

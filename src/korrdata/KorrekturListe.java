@@ -1,5 +1,11 @@
 package korrdata;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
+import com.csvreader.CsvWriter;
+
 
 
 
@@ -13,6 +19,9 @@ public class KorrekturListe {
   //
   
   private Pruefung pr;
+  
+  private int anzAufgaben;
+  private int anzSchueler;
 	
   private String[] aufgabenL;
   private float[] erreichbar;
@@ -22,6 +31,8 @@ public class KorrekturListe {
 
   private SchuelerList m_schueler;
   
+  private String klFilename ="";
+  
   //
   // Constructors
   //
@@ -29,11 +40,18 @@ public class KorrekturListe {
   
   public KorrekturListe (Pruefung parent_pr) {
 	  this.setPr(parent_pr);
+	  this.autosetFilename();
+	  
 	  System.out.println("KL: Korrekturliste zur Prüfung " + this.getPr().getIdNum() + " wird erstellt.");
 	  System.out.println("KL: " + this.getPr().getKb().toString());
+	  
 	  this.setSchuelerList(this.getPr().getKb().getKBKlasse().getSchuelerL());
 	  //System.out.println(this.getSchuelerNameAt(0));
 	  this.setAnwesendList(new boolean[this.getSchuelerList().getAnz()]);
+	  
+	  this.setAnzSchueler(this.getSchuelerList().getAnz());
+	  this.setAnzAufgaben(this.getPr().getAufgabenListe().getAnz());
+	  
 	  this.fillAnwesendList(true);
 	  this.setErreichtL(new float[this.getSchuelerList().getAnz()][this.getPr().getAufgabenListe().getAnz()]);
   };
@@ -41,6 +59,7 @@ public class KorrekturListe {
   public KorrekturListe (SchuelerList schuelerL) {
 	  this.setSchuelerList(schuelerL);
 	  this.setAnwesendList(new boolean[this.getSchuelerList().getAnz()]);
+	  this.setAnzSchueler(this.getSchuelerList().getAnz());
 	  this.fillAnwesendList(true);
 	  
   };
@@ -48,7 +67,9 @@ public class KorrekturListe {
 	  
 	  this.setSchuelerList(schuelerL);
 	  this.setAnwesendList(new boolean[this.getSchuelerList().getAnz()]);
+	  this.setAnzSchueler(this.getSchuelerList().getAnz());
 	  this.fillAnwesendList(true);
+	  this.setAnzAufgaben(aufgabenL.getAnz());
 	  this.setErreichtL(new float[this.getSchuelerList().getAnz()][aufgabenL.getAnz()]);
 	  
   };
@@ -57,6 +78,13 @@ public class KorrekturListe {
   // Methods
   //
 
+  private void autosetFilename(){
+	  this.setKlFilename(new String(
+			  this.getPr().getKb().getKlassenBezeichnung()  + "_" + this.getPr().getKb().getFach() + "_" +
+					  this.getPr().getKb().getSchuljahr() + "_P" + this.getPr().getIdNum() + "kl.csv"
+			  ));
+  }
+  
   //
   // Accessor methods
   //
@@ -108,14 +136,46 @@ public void setPr(Pruefung pr) {
     erreicht = newVar;
   }
 
+  public void setErreichtAt (int schuelerNum, int aufgNum, float errBE){
+	  if (schuelerNum <= this.getAnzSchueler()){
+		  if (aufgNum <= this.getAnzAufgaben()){
+			  erreicht[schuelerNum][aufgNum] = errBE;
+		  }
+		  else{
+			  System.out.println("Aufgabennummer zu groß!");
+		  }
+	  }
+	  else{
+		  System.out.println("Schülernummer zu groß!");
+	  }
+	  
+  }
+  
   /**
    * Get the value of erreicht
    * @return the value of erreicht
    */
-  private float[][] getErreichtL ( ) {
+  public float[][] getErreichtL ( ) {
     return erreicht;
   }
-
+  
+  public float getErreichtAt(int schuelerNum, int aufgNum){
+	   
+	  return this.erreicht[schuelerNum][aufgNum];
+  }
+  
+  public String erreichtLtoString(){
+	  String str = "Erreichte Punkte \n";
+	  for (int i=0; i<this.getAnzSchueler(); i++){
+		  for (int j=0; j<this.getAnzAufgaben(); j++){
+			  str = str + "("+ i + "," + j + ") -> " + this.erreicht[i][j] + "\n";
+			  // Only for Debugging!!
+			  //System.out.println("#+- ("+ i + "," + j + ") -> " + this.erreicht[i][j] + " -+#");
+			  //System.out.println(str);
+		  }
+	  }
+	  return str;
+  }
   /**
    * Set the value of m_schueler
    * @param newVar the new value of m_schueler
@@ -200,11 +260,97 @@ public void setPr(Pruefung pr) {
   public String toString(){
 	  return new String("++ Korrekturliste zur Prüfung " + this.getPr().toString() + "++\n" + 
 			  	"Schüler: " + this.getSchuelerList().toString() + 
-			  	"Anwesenheit: " + this.getAnwesendList().toString()  
-			  	//+ "Aufgaben: " + this.getAufgabenL().toString() + 
-			  	//"Erreichbar: " + this.getErreichbar().toString() +
-			  	//"Erreicht: " + this.getErreichtL().toString()
+			  	"Anwesenheit: " + this.getAnwesendList().toString() + 
+			//  	 "Aufgaben: " + this.getAufgabenL().toString() + 
+			//  	"Erreichbar: " + this.getErreichbar().toString() +
+			  	"Erreicht: " + this.erreichtLtoString()
 			  	);
   }
 
+public int getAnzAufgaben() {
+	return anzAufgaben;
 }
+
+private void setAnzAufgaben(int anzAufgaben) {
+	this.anzAufgaben = anzAufgaben;
+}
+
+public int getAnzSchueler() {
+	return anzSchueler;
+}
+
+private void setAnzSchueler(int anzSchueler) {
+	this.anzSchueler = anzSchueler;
+}
+
+// Speichern der Korrekturliste
+public void writeKorrekturListe(){
+	  String fn = this.getKlFilename();
+	  
+	  if (fn==""){
+		  this.setKlFilename("TEST_Korrliste.csv");
+	  }  
+	
+	  //System.out.println("Schreiben!!");
+	  this.writeKorrekturListeToCSV(fn);
+}
+
+private void writeKorrekturListeToCSV(String filename)
+{
+
+// before we open the file check to see if it already exists
+	    File f = new File(filename);
+	   // String KBFilename = new String(filename);
+	    
+		boolean alreadyExists = f.exists();
+		
+		if (alreadyExists){
+				f.delete();
+			}
+		
+		try {
+			// use FileWriter constructor that specifies open for appending
+			CsvWriter csvOutput = new CsvWriter(new FileWriter(filename, true), ',');
+					
+			
+			/*
+			// if the file didn't already exist then we need to write out the header line
+			if (!alreadyExists)
+			{*/
+				csvOutput.write("Schueler");
+				csvOutput.write("Aufgabe");
+				csvOutput.write("erreicht");
+				csvOutput.endRecord();
+			/*}
+			// else assume that the file already has the correct header line
+			*/
+			
+			// write out a few records
+	 		for(int i = 0; i < this.getAnzSchueler(); i++){
+	 			for(int j = 0; j < this.getAnzAufgaben(); j++){
+	 				csvOutput.write(""+i);
+	 	 			csvOutput.write(""+j);
+	 	 			csvOutput.write(""+this.getErreichtAt(i,j));
+	 	 			csvOutput.endRecord();
+	 			}
+	 		}
+	 			
+	 		csvOutput.close();
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+  
+}
+
+private String getKlFilename() {
+	return klFilename;
+}
+
+private void setKlFilename(String klFilename) {
+	this.klFilename = klFilename;
+}
+
+}
+
+

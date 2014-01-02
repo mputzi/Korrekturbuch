@@ -34,9 +34,21 @@ public class KorrekturbuchTest {
 		//Speichern des Korrekturbuchs
 		//		kb.writeKorrekturBuch();
 		
+		/*
 		System.out.println(kb.getKBKlasse().getSchuelerL().toString());
 		System.out.println(kb.getPruefungsliste().get(0).getKb().getKBKlasse().getSchuelerL().toString());
 		System.out.println(kb.getPruefungsliste().get(0).getKorrekturliste().getSchuelerList().toString());
+		*/
+		
+		
+		kb.getPruefungsliste().get(0).getKorrekturliste().setErreichtAt(0, 0, 1);
+		kb.getPruefungsliste().get(0).getKorrekturliste().setErreichtAt(1, 1, 2);
+		kb.getPruefungsliste().get(0).getKorrekturliste().setErreichtAt(2, 2, 3);
+		
+		System.out.println(kb.getPruefungsliste().get(0).getKorrekturliste().toString());
+		
+		kb.getPruefungsliste().get(0).getKorrekturliste().writeKorrekturListe();
+		
 	}
 
 }

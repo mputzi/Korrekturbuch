@@ -188,8 +188,22 @@ public void setKorrekturliste(KorrekturListe korrekturliste) {
    */
   public float getDurchschnitt(  )
   {	
-	 	  
 	  float durch = 0.0f;
+	  int anz = this.getAnzTeilnehmer();
+	  int[] nL = this.getKorrekturliste().getNoten();
+	  
+	  int sum = 0;
+	  if (nL.length == anz){
+		  for(int i=0;i<anz;i++){
+			  sum += nL[i];
+		  }
+	  }
+	  else{
+		  System.out.println("PR: Anzahl der Teilnehmer stimmt nicht!");
+	  }
+	  
+	  durch = (float)sum / (float)anz;
+	  durch = Math.round(durch*100f) / 100.0f;	  
 	  return durch;
   }
 
@@ -197,9 +211,26 @@ public void setKorrekturliste(KorrekturListe korrekturliste) {
   /**
    * @return       float
    */
-  public float getAnteil45(  )
+  public float getAnteil56(  )
   {
 	  float anteil = 0.0f;
+	  
+	  int anz = this.getAnzTeilnehmer();
+	  int[] nL = this.getKorrekturliste().getNoten();
+	  
+	  int sum = 0;
+	  if (nL.length == anz){
+		  for(int i=0;i<anz;i++){
+			  if (nL[i]>4)
+			  sum += 1;
+		  }
+	  }
+	  else{
+		  System.out.println("PR: Anzahl der Teilnehmer stimmt nicht!");
+	  }
+	  
+	  anteil = (float)sum / (float)anz;
+	  anteil = Math.round(anteil*100f) / 100.0f;
 	  return anteil;
   }
 
@@ -209,7 +240,24 @@ public void setKorrekturliste(KorrekturListe korrekturliste) {
    */
   public float getAnteil12(  )
   {
-	  float anteil = 0.0f;
+float anteil = 0.0f;
+	  
+	  int anz = this.getAnzTeilnehmer();
+	  int[] nL = this.getKorrekturliste().getNoten();
+	  
+	  int sum = 0;
+	  if (nL.length == anz){
+		  for(int i=0;i<anz;i++){
+			  if (nL[i]<3)
+			  sum += 1;
+		  }
+	  }
+	  else{
+		  System.out.println("PR: Anzahl der Teilnehmer stimmt nicht!");
+	  }
+	  
+	  anteil = (float)sum / (float)anz;
+	  anteil = Math.round(anteil*100f) / 100.0f;
 	  return anteil;
   }
 

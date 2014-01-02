@@ -23,13 +23,17 @@ import javax.swing.JLabel;
 import javax.swing.JInternalFrame;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.Box;
+import java.awt.Component;
+import javax.swing.UIManager;
 
 public class Korrektureingabe extends JFrame {
 
 	private JPanel contentPane;
-	private JTable table_aufgaben;
+	private JTable table_aufgaben_beschr;
 	private JTable table_id;
 	private JTable table_BE;
+	private JTable table;
 
 	/**
 	 * Launch the application.
@@ -61,6 +65,7 @@ public class Korrektureingabe extends JFrame {
 		contentPane.setLayout(new BorderLayout(0, 0));
 		
 		JSplitPane splitPane = new JSplitPane();
+		splitPane.setForeground(UIManager.getColor("InternalFrame.activeTitleBackground"));
 		contentPane.add(splitPane, BorderLayout.SOUTH);
 		
 		JButton btnFertig = new JButton("Fertig");
@@ -74,29 +79,89 @@ public class Korrektureingabe extends JFrame {
 		
 		JInternalFrame internalFrame = new JInternalFrame("Korrekturliste");
 		contentPane.add(internalFrame, BorderLayout.CENTER);
-		internalFrame.getContentPane().setLayout(new MigLayout("", "[249.00,grow][grow]", "[grow][][grow]"));
+		internalFrame.getContentPane().setLayout(new MigLayout("", "[249.00,grow][grow]", "[60,grow][]"));
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
-		internalFrame.getContentPane().add(scrollPane_1, "cell 0 0 2 1,grow");
+		internalFrame.getContentPane().add(scrollPane_1, "cell 0 0,grow");
 		
-		table_aufgaben = new JTable();
-		table_aufgaben.setModel(new DefaultTableModel(
+		Box horizontalBox_1 = Box.createHorizontalBox();
+		scrollPane_1.setViewportView(horizontalBox_1);
+		
+		Component horizontalStrut_1 = Box.createHorizontalStrut(150);
+		horizontalBox_1.add(horizontalStrut_1);
+		
+		table_aufgaben_beschr = new JTable();
+		table_aufgaben_beschr.setBackground(UIManager.getColor("FormattedTextField.inactiveBackground"));
+		horizontalBox_1.add(table_aufgaben_beschr);
+		table_aufgaben_beschr.setModel(new DefaultTableModel(
 			new Object[][] {
-				{"Aufgabe", null},
-				{null, null},
+				{"Aufgabe"},
+				{"erreichbar"},
 			},
 			new String[] {
-				"New column", "New column"
+				""
 			}
 		));
-		scrollPane_1.setViewportView(table_aufgaben);
+		
+		JScrollPane scrollPane_3 = new JScrollPane();
+		internalFrame.getContentPane().add(scrollPane_3, "cell 1 0,grow");
+		
+		Box horizontalBox = Box.createHorizontalBox();
+		scrollPane_3.setViewportView(horizontalBox);
+		
+		table = new JTable();
+		table.setBackground(new Color(255, 255, 204));
+		horizontalBox.add(table);
+		table.setModel(new DefaultTableModel(
+			new Object[][] {
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+			},
+			new String[] {
+				"New column", "New column", "New column", "New column", "New column"
+			}
+		));
+		
+		Component horizontalStrut = Box.createHorizontalStrut(15);
+		horizontalBox.add(horizontalStrut);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		internalFrame.getContentPane().add(scrollPane, "cell 0 2,grow");
+		internalFrame.getContentPane().add(scrollPane, "cell 0 1,grow");
 		
 		table_id = new JTable();
+		table_id.setBackground(UIManager.getColor("FormattedTextField.inactiveBackground"));
 		table_id.setModel(new DefaultTableModel(
 			new Object[][] {
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
 				{null, null, null, null},
 				{null, null, null, null},
 			},
@@ -122,9 +187,61 @@ public class Korrektureingabe extends JFrame {
 		scrollPane.setViewportView(table_id);
 		
 		JScrollPane scrollPane_2 = new JScrollPane();
-		internalFrame.getContentPane().add(scrollPane_2, "cell 1 2,grow");
+		internalFrame.getContentPane().add(scrollPane_2, "cell 1 1,grow");
 		
 		table_BE = new JTable();
+		table_BE.setModel(new DefaultTableModel(
+			new Object[][] {
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+			},
+			new String[] {
+				"0", "1", "2", "3", "4"
+			}
+		) {
+			Class[] columnTypes = new Class[] {
+				Float.class, Float.class, Float.class, Float.class, Float.class
+			};
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+		});
+		table_BE.getColumnModel().getColumn(0).setResizable(false);
+		table_BE.getColumnModel().getColumn(1).setResizable(false);
+		table_BE.getColumnModel().getColumn(2).setResizable(false);
+		table_BE.getColumnModel().getColumn(3).setResizable(false);
+		table_BE.getColumnModel().getColumn(4).setResizable(false);
+		table_BE.setGridColor(Color.GREEN);
 		scrollPane_2.setViewportView(table_BE);
 		internalFrame.setVisible(true);
 		btnFertig.addActionListener(new ActionListener() {

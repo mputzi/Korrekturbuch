@@ -38,6 +38,7 @@ public class KorrekturListe {
 	private SchuelerList m_schueler;
 
 	private String klFilename ="";
+	private String klAnwFilename ="";
 
 	//
 	// Constructors
@@ -102,6 +103,10 @@ public class KorrekturListe {
 		this.setKlFilename(new String(
 				this.getPr().getKb().getKlassenBezeichnung()  + "_" + this.getPr().getKb().getFach() + "_" +
 						this.getPr().getKb().getSchuljahr() + "_P" + this.getPr().getIdNum() + "kl.csv"
+				));
+		this.setKlAnwFilename(new String(
+				this.getPr().getKb().getKlassenBezeichnung()  + "_" + this.getPr().getKb().getFach() + "_" +
+						this.getPr().getKb().getSchuljahr() + "_P" + this.getPr().getIdNum() + "klan.csv"
 				));
 	}
 
@@ -420,9 +425,9 @@ public class KorrekturListe {
 			// write out a few records
 			for(int i = 0; i < this.getAnzSchueler(); i++){
 				for(int j = 0; j < this.getAnzAufgaben(); j++){
-					csvOutput.write(""+i);
+					csvOutput.write(""+this.getSchuelerIDAt(i));
 					csvOutput.write(""+j);
-					csvOutput.write(""+this.getErreichtAt(i,j));
+					csvOutput.write(""+this.getErreichtAt(this.getSchuelerIDAt(i),j));
 					csvOutput.endRecord();
 				}
 			}
@@ -443,15 +448,11 @@ public class KorrekturListe {
 		this.klFilename = klFilename;
 	}
 
-
-
 	public boolean setKorrekturListeFromFile(){
 		return this.setKorrekturListeFromFile(this.getKlFilename());
 	}
 
 	private boolean setKorrekturListeFromFile(String filename){
-
-
 		try{
 			CsvReader csvKorrList = new CsvReader(filename);
 			csvKorrList.readHeaders();
@@ -488,6 +489,99 @@ public class KorrekturListe {
 		return true;
 	}
 
+	private String getKlAnwFilename() {
+		return klAnwFilename;
+	}
+
+	private void setKlAnwFilename(String klAnwFilename) {
+		this.klAnwFilename = klAnwFilename;
+	}
+
+	// Speichern der Korrekturliste
+	public void writeAnwesendListe(){
+		String fn = this.getKlAnwFilename();
+
+		if (fn==""){
+			this.setKlAnwFilename("TEST_Anwesenheitsliste.csv");
+		}  
+
+		//System.out.println("Schreiben!!");
+		this.writeAnwesendListeToCSV(fn);
+	}
+
+	private void writeAnwesendListeToCSV(String filename)
+	{
+		// before we open the file check to see if it already exists
+		File f = new File(filename);
+		boolean alreadyExists = f.exists();
+		if (alreadyExists){
+			f.delete();
+		}
+
+		try {
+			// use FileWriter constructor that specifies open for appending
+			CsvWriter csvOutput = new CsvWriter(new FileWriter(filename, true), ',');
+			/*
+			// if the file didn't already exist then we need to write out the header line
+			if (!alreadyExists)
+			{*/
+			csvOutput.write("Schueler");
+			csvOutput.write("anwesend");
+			csvOutput.endRecord();
+			/*}
+			// else assume that the file already has the correct header line
+			 */
+
+			// write out a few records
+			for(int i = 0; i < this.getAnzSchueler(); i++){
+					csvOutput.write(""+this.getSchuelerIDAt(i));
+					csvOutput.write(""+this.getAnwesendAtIndex(i));
+					csvOutput.endRecord();
+			}
+			csvOutput.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private boolean setAnwesendListeFromFile(){
+		return this.setAnwesendListeFromFile(this.getKlAnwFilename());
+	}
+	
+	private boolean setAnwesendListeFromFile(String filename){
+		try{
+			CsvReader csvAList = new CsvReader(filename);
+			csvAList.readHeaders();
+
+			System.out.println("KL: +++ Neue Anwesenheitsliste aus Datei: " + filename);
+
+			while (csvAList.readRecord())
+			{
+				String sch			= csvAList.get("Schueler");
+				String an           = csvAList.get("anwesend");
+
+				// perform program logic here
+				// Debugging only
+				System.out.println("KL: " + sch + an);
+
+				// Umwandeln in interne Formate
+				int schNumber = Integer.valueOf(sch).intValue();
+				boolean anB = Boolean.valueOf(an).booleanValue();
+				
+				this.setAnwesendAtIndex(anB, schNumber);
+			}
+			csvAList.close();
+		}
+		catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return true;
+	}
+	
+	
 	public float getGesamtpunktzahl() {
 		return gesamtpunktzahl;
 	}
@@ -495,5 +589,8 @@ public class KorrekturListe {
 	public void setGesamtpunktzahl(float gesamtpunktzahl) {
 		this.gesamtpunktzahl = gesamtpunktzahl;
 	}
+	
+	
+	
 }
 

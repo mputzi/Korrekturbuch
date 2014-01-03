@@ -285,6 +285,12 @@ public String getDatumString(){
 	return new String(this.getDatum().get(Calendar.DAY_OF_MONTH) + "." + (this.getDatum().get(Calendar.MONTH)+1) + "." +  this.getDatum().get(Calendar.YEAR));
 }
 
+public String getPruefListString(){
+	// String Ausgabe für die Liste der Prüfungen zu einer Klasse
+	return new String(this.getNummer()+". " + getPrArtKey() +
+			  " vom " + this.getDatum().get(Calendar.DAY_OF_MONTH) + "." + (this.getDatum().get(Calendar.MONTH)+1) + "." +  this.getDatum().get(Calendar.YEAR));
+}
+
 public String toString(){
 	  //System.out.println("Hallo!");
 	  return new String("PR:" + this.getIdNum()+"; " + this.getNummer()+". " + Pruefungsarten.getDesc(this.getPrArtKey()) +

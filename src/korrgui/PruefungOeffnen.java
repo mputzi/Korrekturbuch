@@ -97,6 +97,9 @@ public class PruefungOeffnen extends JDialog implements ActionListener {
 			 * und im Infofenster (rechts) angezeigt. Außerdem wird festgehalten, dass eine Prüfung ausgewählt wurde.
 			 */
 			int i = Pruefungsliste.getSelectedIndex();
+			Hauptfenster.set_pruef_selected(i);
+			set_Zusammenfassung(Hauptfenster.get_kb().getPruefungsliste().get(i).toString());
+			
 					
 			/**
 			 * Zusammenfassung wird noch nicht ausgegeben 
@@ -117,6 +120,11 @@ public class PruefungOeffnen extends JDialog implements ActionListener {
 		// Dialog abbauen
 		PruefungOeffnen.this.setVisible(false);
 		PruefungOeffnen.this.dispose();
+		//set_Pruef_selected wird bei der Auswahl in der Liste automatisch schon gesetzt, nur bei Cancel wieder auf 99
+		
+		/**
+		 * Hier wird dann die Korrektureingabe gestartet!!
+		 */
 		
 	}
 	
@@ -125,6 +133,7 @@ public class PruefungOeffnen extends JDialog implements ActionListener {
 		// Dialog abbauen
 		PruefungOeffnen.this.setVisible(false);
 		PruefungOeffnen.this.dispose();
+		Hauptfenster.set_pruef_selected(99);
 		
 	}
 	
@@ -138,13 +147,13 @@ public class PruefungOeffnen extends JDialog implements ActionListener {
 		
 		// Einbindung der Daten aus der Klassenliste-Datei
 				
-		System.out.println("Jetzt kommt die Übergabe der Daten für kb in PruefungOeffnen");
-		System.out.println(Hauptfenster.get_kb());
+		//System.out.println("Jetzt kommt die Übergabe der Daten für kb in PruefungOeffnen");
+		//System.out.println(Hauptfenster.get_kb());
 		
 		
 		
 	    /**
-	     * Korrekturbucheinträge noch in linke Liste schreiben
+	     * Korrekturbucheinträge noch in linke Liste schreiben (erledigt)
 	     * Pruefungsliste als JList
 	     */
 		
@@ -166,8 +175,10 @@ public class PruefungOeffnen extends JDialog implements ActionListener {
 				Pruefungsliste.setModel(pruef_list);
 				//pruef_list.addElement("Test");
 				//pruef_list.addElement("Hans");
-				System.out.println("");
-				System.out.println(Hauptfenster.get_kb().getPruefungsliste().get(0));
+				int zahl = Hauptfenster.get_kb().getPruefungsliste().size();
+				for (int i=0;i<zahl;i++){
+					pruef_list.addElement(Hauptfenster.get_kb().getPruefungsliste().get(i).getPruefListString());
+				}
 				scrollPane.setViewportView(Pruefungsliste);
 			}
 		}
@@ -179,6 +190,8 @@ public class PruefungOeffnen extends JDialog implements ActionListener {
 			{
 				//JTextArea Zusammenfassung = new JTextArea();
 				scrollPane.setViewportView(Zusammenfassung);
+				Zusammenfassung.setWrapStyleWord(true);
+				Zusammenfassung.setLineWrap(true);
 			}
 		}
 		{

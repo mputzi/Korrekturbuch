@@ -1,9 +1,6 @@
 package korrdata;
 
 
-import java.util.*;
-
-
 /**
  * Class Lehrer
  */

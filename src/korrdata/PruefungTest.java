@@ -12,8 +12,8 @@ public class PruefungTest {
 		
 		// Schreiben in Datei
 		// Init
-		GregorianCalendar d = new GregorianCalendar(2013,10,28);
-		Pruefungsarten.ART art = Pruefungsarten.ART.SA;
+		//GregorianCalendar d = new GregorianCalendar(2013,10,28);
+		//Pruefungsarten.ART art = Pruefungsarten.ART.SA;
 				
 		Pruefung meinePruefung = new Pruefung();
 		
@@ -38,8 +38,8 @@ public class PruefungTest {
 		
 		// Schreiben zweiter Datei
 		// Init
-		GregorianCalendar d2 = new GregorianCalendar(2013,10,28);
-		Pruefungsarten.ART art2 = Pruefungsarten.ART.KA;
+		//GregorianCalendar d2 = new GregorianCalendar(2013,10,28);
+		//Pruefungsarten.ART art2 = Pruefungsarten.ART.KA;
 				
 		//Pruefung meinePruefung2 = new Pruefung(d2, art2, 2, 32, 2 );
 		

@@ -13,6 +13,8 @@ import javax.swing.JButton;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
+import javax.swing.JScrollBar;
 /*
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
@@ -42,6 +44,7 @@ import javax.swing.UIManager;
 import korrdata.AufgabeList;
 import korrdata.Pruefung;
 import korrdata.KorrekturListe;
+
 import javax.swing.ScrollPaneConstants;
 
 public class Korrektureingabe extends JFrame {
@@ -132,6 +135,7 @@ public class Korrektureingabe extends JFrame {
 		));
 		
 		JScrollPane scrollPane_3 = new JScrollPane();
+		JScrollBar shbar1 = scrollPane_3.getHorizontalScrollBar();
 		internalFrame.getContentPane().add(scrollPane_3, "cell 1 0,grow");
 		
 		Box horizontalBox = Box.createHorizontalBox();
@@ -149,6 +153,7 @@ public class Korrektureingabe extends JFrame {
 		horizontalBox.add(horizontalStrut);
 		
 		JScrollPane scrollPane = new JScrollPane();
+		JScrollBar sbar1 = scrollPane.getVerticalScrollBar();
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		internalFrame.getContentPane().add(scrollPane, "cell 0 1,grow");
@@ -156,7 +161,8 @@ public class Korrektureingabe extends JFrame {
 		table_id = new JTable();
 		table_id.setBackground(UIManager.getColor("FormattedTextField.inactiveBackground"));
 		table_id.setModel(new DefaultTableModel(
-			new Object[schZahl][4] ,
+		//	new Object[schZahl][4] ,
+			new Object[32][4] ,
 			new String[] {
 				"SID", "Anw.", "Name", "Vorname"
 			}
@@ -179,12 +185,17 @@ public class Korrektureingabe extends JFrame {
 		scrollPane.setViewportView(table_id);
 		
 		JScrollPane scrollPane_2 = new JScrollPane();
+		JScrollBar sbar2 = scrollPane_2.getVerticalScrollBar();
+		JScrollBar shbar2 = scrollPane_2.getHorizontalScrollBar();
+		sbar2.setModel(sbar1.getModel());
+		shbar2.setModel(shbar1.getModel());
 		scrollPane_2.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		internalFrame.getContentPane().add(scrollPane_2, "cell 1 1,grow");
 		
 		table_BE = new JTable();
 		table_BE.setModel(new DefaultTableModel(
-			new Object[schZahl][aufgZahl],
+		//	new Object[schZahl][aufgZahl],
+			new Object[32][aufgZahl],	
 			new String[aufgZahl] 
 		));
 		table_BE.getColumnModel().getColumn(0).setResizable(false);

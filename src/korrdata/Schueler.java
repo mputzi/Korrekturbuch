@@ -1,8 +1,6 @@
 package korrdata;
 
 
-import java.util.*;
-
 
 /**
  * Class Schueler

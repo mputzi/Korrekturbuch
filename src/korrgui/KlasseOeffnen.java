@@ -116,6 +116,8 @@ public class KlasseOeffnen extends JDialog implements ActionListener {
 		// Kontrolle wieder an Hauptfenster geben
 		//aufrufer.setEnabled(true);
 		//aufrufer.setVisible(true);
+		Hauptfenster.set_kb(meineKlassenliste.Klassenliste.get(auswahl_int));
+		//Korrekturbuch zu ausgewählter Klasse beim Öffnen der Klasse gleich auswählen/erstellen
 		
 	}
 	

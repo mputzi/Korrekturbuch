@@ -15,6 +15,8 @@ import java.awt.BorderLayout;
 import javax.swing.JTextPane;
 import java.awt.Dimension;
 
+import korrdata.*;
+
 public class Hauptfenster {
 
 	/**
@@ -57,7 +59,8 @@ public class Hauptfenster {
 	}
 
     
-	static private int class_selected=0; //Welche Klasse aus Klassenliste ist ausgewählt
+	static private int class_selected=99;   //Welche Klasse aus Klassenliste ist ausgewählt. 99 steht dabei für keine
+											//Dabei steht class_selected=0 für die erste Klasse, ...
     static public void set_class_selected (int arg)
     {
     	class_selected=arg;
@@ -67,7 +70,36 @@ public class Hauptfenster {
     {
     	return class_selected;
     }
-	/**
+	
+    
+    static private int class_max=0; // wie viele Klassen gibt es insgesamt -> Wichtig für neue Klasse
+    static public void set_class_max (int arg)
+    {
+    	class_max=arg;
+    	return;
+    }
+    static public int get_class_max ()
+    {
+    	return class_max;
+    }
+    
+    static private int pruef_selected=99; //Welche Prüfung ist ausgewählt? 99 für keine
+    static public void set_pruef_selected (int arg){
+    	pruef_selected=arg; return;
+    }
+    static public int get_pruef_selected (){
+    	return pruef_selected;
+    }
+    
+    static private Korrekturbuch kb;//new Korrekturbuch();
+    static public void set_kb (Klasse kl){
+    	kb=new Korrekturbuch(kl);
+    }
+    static public Korrekturbuch get_kb (){
+    	return kb;
+    }
+    
+    /**
 	 * Menüauswahl abfangen und auswerten -> "ActionListener"
 	 */
 	private ActionListener al = new ActionListener(){
@@ -115,7 +147,9 @@ public class Hauptfenster {
 			}
 			if (cmd=="classclose")
 			{
-				set_class_open(false); // Klasse geschlossen
+				set_class_open(false);// Klasse geschlossen
+				set_class_selected(99);// 99 für keine Klasse geöffnet setzen
+				set_pruef_selected(99);
 			}
 
 			//if (cmd=="Schulaufgabe"){}
@@ -235,6 +269,11 @@ public class Hauptfenster {
 	 * Fensterinhalte festlegen
 	 */
 	private void initialize() {
+		KlasseList meineKlassenliste = new KlasseList();
+        meineKlassenliste.setKlasseListFromCSV("klassenliste.csv");
+		set_class_max(meineKlassenliste.Klassenliste.size());
+		System.out.println("Gesamtanzahl Klassen "+get_class_max());
+		
 		frame = new JFrame();
 		frame.setPreferredSize(new Dimension(800, 600));
 		frame.setSize(new Dimension(800, 600));

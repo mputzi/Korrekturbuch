@@ -24,11 +24,15 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.JTextField;
 import net.miginfocom.swing.MigLayout;
+
+import java.util.ArrayList;
 import java.util.TreeSet;
 import javax.swing.Box;
 import java.awt.event.KeyEvent;
 
 import korrdata.KlasseList;
+import korrdata.Schueler;
+import korrdata.SchuelerList;
 
 
 public class KlasseBearbeiten extends JDialog implements ActionListener {
@@ -63,7 +67,7 @@ public class KlasseBearbeiten extends JDialog implements ActionListener {
 		
 		/**
 		 * Testdaten einfügen
-		 */
+		 *
 		name_list.addElement("Max Mustermann");
 		klasseBezeichnung.setText("8b");
 		klasseFach.setText("Physik");
@@ -71,18 +75,67 @@ public class KlasseBearbeiten extends JDialog implements ActionListener {
 		klasseLehrer.setText("Völkl R.");
 		klasseAmt.setText("StR");
 		klasseSchule.setText("Stiftland-Gymnasium");
+		*/
 		
 		/**
 		 * Daten aus gewählter Klasse einfügen
 		 */
+		lies_Grunddaten();
+		lies_Schueler();
+		
+		
+	}
+	
+	private void lies_Schueler()
+	{
+		SchuelerList SList = new SchuelerList();
+		SList = meineKlassenliste.Klassenliste.get(classselected).getSchuelerL();
+		
+		String Sname;
+		ArrayList<Schueler> SListe = new ArrayList<Schueler>();
+		SListe = SList.Schuelerliste;
+		
+		
+		int sizeL = SListe.size();
+		for (int i=0;i<sizeL;i++){
+			Sname = SListe.get(i).getNachname() + " " + SListe.get(i).getVorname();
+			name_list.addElement((String)Sname);
+		}
+		
+		//System.out.println("Neuer Versuch "+SListe);
+		//damit ist man in der zugehörigen Schülerliste
+		
+		
+		
+	}
+	
+	private void schreib_Schueler()
+	{
+		/**
+		 * muss noch implementiert werden
+		 */
+		
+		
+		
+	}
+	
+	private void schreib_Grunddaten()
+	{
+		/**
+		 * muss noch implementiert werden
+		 */
+		
+				
+	}
+	
+	private void lies_Grunddaten()
+	{
 		klasseBezeichnung.setText(meineKlassenliste.Klassenliste.get(classselected).getKlBez());
 		klasseFach.setText(meineKlassenliste.Klassenliste.get(classselected).getFach());
 		klasseSJ.setText(meineKlassenliste.Klassenliste.get(classselected).getSchuljahr()+"");
 		klasseLehrer.setText(meineKlassenliste.Klassenliste.get(classselected).getLehrer().getNachname());
 		klasseAmt.setText(meineKlassenliste.Klassenliste.get(classselected).getLehrer().getAmtsbez());
 		klasseSchule.setText(meineKlassenliste.Klassenliste.get(classselected).getLehrer().getSchule());
-		
-		
 	}
 	
 	private ActionListener CLASSal = new ActionListener(){
@@ -178,26 +231,31 @@ public class KlasseBearbeiten extends JDialog implements ActionListener {
 	private Component verticalStrut_2;
 	private Component verticalStrut_3;
 	private JButton btnhinzu;
-	private DefaultListModel name_list = new DefaultListModel(); //Diese und die nächsten beiden Zeilen können eigentlich weg
+	private DefaultListModel name_list = new DefaultListModel();
 	private JList liste = new JList(name_list);
-	private TreeSet<String> name_list_neu;
+	private TreeSet<String> name_list_neu; //Dummy-Liste zum Verschieben und sortieren der Daten beim "neu-Hinzufügen"
 	
-	private JList Klassenliste = new JList(); // Diese und die nächsten beiden Zeilen sind die gleichen wie in Klasseöffnen
+	private JList Klassenliste = new JList();
 	private DefaultListModel klass_list = new DefaultListModel();
 	private KlasseList meineKlassenliste = new KlasseList();
 	private int classselected = Hauptfenster.get_class_selected();
 	
 	private void actionOKButton(){
 		
+		/**
+		 * Hier müssen jetzt noch die veränderten Daten zurückgeschrieben werden
+		 */
+		schreib_Grunddaten();
+		schreib_Schueler();
+		
 		// Bestätigen und die Klassenauswahl verlassen
 		// Dialog abbauen
 		KlasseBearbeiten.this.setVisible(false);
 		KlasseBearbeiten.this.dispose();
-		Hauptfenster.set_class_open(true);
+		Hauptfenster.set_class_open(true); // Eine Klasse ist ja nach wie vor ausgewählt
 		// Kontrolle wieder an Hauptfenster geben
 		//aufrufer.setEnabled(true);
 		//aufrufer.setVisible(true);
-		Hauptfenster.set_class_open(true);
 	}
 	
 	private void actionCancelButton(){

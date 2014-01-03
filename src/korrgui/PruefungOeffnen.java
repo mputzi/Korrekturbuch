@@ -29,6 +29,7 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
 
 import korrdata.KlasseList; //Muss noch auf Pruefungsliste geändert werden
+import korrdata.Korrekturbuch;
 
 
 public class PruefungOeffnen extends JDialog implements ActionListener {
@@ -41,12 +42,11 @@ public class PruefungOeffnen extends JDialog implements ActionListener {
 	private JPanel contentPanel = new JPanel();
 	private boolean auswahl=false; //Prüfung ausgewählt?
 	
-	private JList Pruefungsliste = new JList();
+	private JList Pruefungsliste = new JList(); // Liste der Prüfungen anzeigen
 	private DefaultListModel pruef_list = new DefaultListModel();
 	
 	private JButton okButton;
-	
-	private KlasseList meinePruefungsliste = new KlasseList(); //Prüfungsliste
+	private JTextArea Zusammenfassung = new JTextArea();
 	
 	
 	/**
@@ -98,9 +98,14 @@ public class PruefungOeffnen extends JDialog implements ActionListener {
 			 */
 			int i = Pruefungsliste.getSelectedIndex();
 					
-			String outStr = new String(meinePruefungsliste.Klassenliste.get(i).toString());
-			set_Zusammenfassung(outStr);
-			auswahl=true; //Eine Klasse wurde ausgewählt
+			/**
+			 * Zusammenfassung wird noch nicht ausgegeben 
+			 */
+			
+			//String outStr = new String(meinePruefungsliste.Klassenliste.get(i).toString());
+			//set_Zusammenfassung(outStr);
+			
+			auswahl=true; //Eine Prüfung wurde ausgewählt
 			okButton.setEnabled(auswahl);
 		}
 	};
@@ -132,11 +137,16 @@ public class PruefungOeffnen extends JDialog implements ActionListener {
 	private void initialize() {
 		
 		// Einbindung der Daten aus der Klassenliste-Datei
-		meinePruefungsliste.setKlasseListFromCSV("klassenliste.csv");
+				
+		System.out.println("Jetzt kommt die Übergabe der Daten für kb in PruefungOeffnen");
+		System.out.println(Hauptfenster.get_kb());
 		
-		for (int i = 0; i<meinePruefungsliste.Klassenliste.size(); i++){
-			pruef_list.addElement(meinePruefungsliste.Klassenliste.get(i).getKlBez() + " " + meinePruefungsliste.Klassenliste.get(i).getFach());
-		}
+		
+		
+	    /**
+	     * Korrekturbucheinträge noch in linke Liste schreiben
+	     * Pruefungsliste als JList
+	     */
 		
 		
 		setTitle("Prüfung öffnen");
@@ -156,6 +166,8 @@ public class PruefungOeffnen extends JDialog implements ActionListener {
 				Pruefungsliste.setModel(pruef_list);
 				//pruef_list.addElement("Test");
 				//pruef_list.addElement("Hans");
+				System.out.println("");
+				System.out.println(Hauptfenster.get_kb().getPruefungsliste().get(0));
 				scrollPane.setViewportView(Pruefungsliste);
 			}
 		}
@@ -164,6 +176,10 @@ public class PruefungOeffnen extends JDialog implements ActionListener {
 			scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 			scrollPane.setPreferredSize(new Dimension(250, 200));
 			contentPanel.add(scrollPane, BorderLayout.EAST);
+			{
+				//JTextArea Zusammenfassung = new JTextArea();
+				scrollPane.setViewportView(Zusammenfassung);
+			}
 		}
 		{
 			JPanel buttonPane = new JPanel();

@@ -281,6 +281,10 @@ public boolean addAufgabeToList(Aufgabe a){
 }
 
 
+public String getDatumString(){
+	return new String(this.getDatum().get(Calendar.DAY_OF_MONTH) + "." + (this.getDatum().get(Calendar.MONTH)+1) + "." +  this.getDatum().get(Calendar.YEAR));
+}
+
 public String toString(){
 	  //System.out.println("Hallo!");
 	  return new String("PR:" + this.getIdNum()+"; " + this.getNummer()+". " + Pruefungsarten.getDesc(this.getPrArtKey()) +

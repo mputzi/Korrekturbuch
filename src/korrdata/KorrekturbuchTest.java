@@ -13,7 +13,7 @@ public class KorrekturbuchTest {
 				
 		Korrekturbuch kb = new Korrekturbuch(k);
 		
-		System.out.println(kb.toString());
+		// System.out.println(kb.toString());
 		
 		/*
 		//Ausgabe des Fachs des Korrekturbuchs
@@ -29,7 +29,7 @@ public class KorrekturbuchTest {
 		
 		//kb.neuePruefung(4, 3, 1999, 1, Pruefungsarten.ART.T, 5);
 		
-		kb.printPruefungen();
+		// kb.printPruefungen();
 
 		//Speichern des Korrekturbuchs
 		//		kb.writeKorrekturBuch();
@@ -40,16 +40,24 @@ public class KorrekturbuchTest {
 		System.out.println(kb.getPruefungsliste().get(0).getKorrekturliste().getSchuelerList().toString());
 		*/
 		
-		/*
-		kb.getPruefungsliste().get(0).getKorrekturliste().setErreichtAt(0, 0, 1);
-		kb.getPruefungsliste().get(0).getKorrekturliste().setErreichtAt(1, 1, 2);
-		kb.getPruefungsliste().get(0).getKorrekturliste().setErreichtAt(2, 2, 3);
-		*/
 		
-		System.out.println(kb.getPruefungsliste().get(0).getKorrekturliste().toString());
+		kb.getPruefungsliste().get(0).getKorrekturliste().setErreichtAt(0, 0, 3);
+		kb.getPruefungsliste().get(0).getKorrekturliste().setErreichtAt(0, 1, 4);
+		kb.getPruefungsliste().get(0).getKorrekturliste().setErreichtAt(0, 2, 3.5f);
+		kb.getPruefungsliste().get(0).getKorrekturliste().setErreichtAt(0, 3, 4);
+		kb.getPruefungsliste().get(0).getKorrekturliste().setErreichtAt(0, 4, 2);
+		kb.getPruefungsliste().get(0).getKorrekturliste().setErreichtAt(0, 5, 1.5f);
 		
-		//kb.getPruefungsliste().get(0).getKorrekturliste().writeKorrekturListe();
+		kb.getPruefungsliste().get(0).getKorrekturliste().setAnwesendAtIndex(false, 0);;
+		
+		//System.out.println(kb.getPruefungsliste().get(0).getKorrekturliste().toString());
+		
+		kb.getPruefungsliste().get(0).getKorrekturliste().writeKorrekturListe();
+		kb.getPruefungsliste().get(0).getKorrekturliste().writeAnwesendListe();
+		
 		kb.getPruefungsliste().get(0).getKorrekturliste().setKorrekturListeFromFile();
+		kb.getPruefungsliste().get(0).getKorrekturliste().setAnwesendListeFromFile();
+		
 		System.out.println(kb.getPruefungsliste().get(0).getKorrekturliste().toString());
 		
 		System.out.println(kb.getPruefungsliste().get(0).getGesamtPunktzahl());

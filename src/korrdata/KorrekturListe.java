@@ -122,7 +122,7 @@ public class KorrekturListe {
 		anwesendL = newVar;
 	}
 
-	private void setAnwesendAtIndex ( boolean newVar, int index ) {
+	public void setAnwesendAtIndex ( boolean newVar, int index ) {
 		this.anwesendL[index] = newVar;
 	}
 
@@ -372,6 +372,7 @@ public class KorrekturListe {
 		this.anzAufgaben = anzAufgaben;
 	}
 
+	
 	public int getAnzSchueler() {
 		return anzSchueler;
 	}
@@ -427,7 +428,9 @@ public class KorrekturListe {
 				for(int j = 0; j < this.getAnzAufgaben(); j++){
 					csvOutput.write(""+this.getSchuelerIDAt(i));
 					csvOutput.write(""+j);
-					csvOutput.write(""+this.getErreichtAt(this.getSchuelerIDAt(i),j));
+					// debug only
+					//System.out.println(this.getSchuelerIDAt(i)+"");
+					csvOutput.write(""+this.getErreichtAt(i,j));
 					csvOutput.endRecord();
 				}
 			}
@@ -461,20 +464,20 @@ public class KorrekturListe {
 
 			while (csvKorrList.readRecord())
 			{
-				String sch			= csvKorrList.get("Schueler");
+				String schID			= csvKorrList.get("Schueler");
 				String auf          = csvKorrList.get("Aufgabe");
 				String err          = csvKorrList.get("erreicht");
 
 				// perform program logic here
 				// Debugging only
-				System.out.println("KL: " + sch + auf + err);
+				//System.out.println("KL: " + schID + auf + err);
 
 				// Umwandeln in interne Formate
-				int schNumber = Integer.valueOf(sch).intValue();
+				int schIDNumber = Integer.valueOf(schID).intValue();
 				int aufNumber = Integer.valueOf(auf).intValue();
 				float errNumber = Float.valueOf(err).floatValue();
 
-				this.setErreichtAt(schNumber, aufNumber, errNumber);
+				this.setErreichtAt(schIDNumber-1, aufNumber, errNumber);
 
 			}
 
@@ -544,7 +547,7 @@ public class KorrekturListe {
 		}
 	}
 
-	private boolean setAnwesendListeFromFile(){
+	public boolean setAnwesendListeFromFile(){
 		return this.setAnwesendListeFromFile(this.getKlAnwFilename());
 	}
 	
@@ -557,18 +560,18 @@ public class KorrekturListe {
 
 			while (csvAList.readRecord())
 			{
-				String sch			= csvAList.get("Schueler");
+				String schID			= csvAList.get("Schueler");
 				String an           = csvAList.get("anwesend");
 
 				// perform program logic here
 				// Debugging only
-				System.out.println("KL: " + sch + an);
+				System.out.println("KL: " + schID + an);
 
 				// Umwandeln in interne Formate
-				int schNumber = Integer.valueOf(sch).intValue();
+				int schIDNumber = Integer.valueOf(schID).intValue();
 				boolean anB = Boolean.valueOf(an).booleanValue();
 				
-				this.setAnwesendAtIndex(anB, schNumber);
+				this.setAnwesendAtIndex(anB, schIDNumber-1);
 			}
 			csvAList.close();
 		}

@@ -13,12 +13,12 @@ import javax.swing.JButton;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-
+/*
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.RowSpec;
-
+*/
 import javax.swing.JSplitPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -41,6 +41,8 @@ import javax.swing.UIManager;
 
 import korrdata.AufgabeList;
 import korrdata.Pruefung;
+import korrdata.KorrekturListe;
+import javax.swing.ScrollPaneConstants;
 
 public class Korrektureingabe extends JFrame {
 
@@ -49,7 +51,10 @@ public class Korrektureingabe extends JFrame {
 	private JTable table_id;
 	private JTable table_BE;
 	private JTable table_aufgaben;
-	private Pruefung aktPruefung;
+	
+	private Pruefung aktPr;
+	private AufgabeList al;
+	private KorrekturListe kl;
 
 	/**
 	 * Launch the application.
@@ -71,8 +76,12 @@ public class Korrektureingabe extends JFrame {
 	 * Create the frame.
 	 */
 	public Korrektureingabe(Pruefung pr) {
-		this.setAktPruefung(pr);
-		AufgabeList al = pr.getAufgabenListe();
+		this.setAktPr(pr);
+		this.setAl(pr.getAufgabenListe());
+		this.setKl(pr.getKorrekturliste());
+		
+		int schZahl  = this.kl.getAnzSchueler();
+		int aufgZahl = this.al.getAnz();
 		
 		setAlwaysOnTop(true);
 		setModalExclusionType(ModalExclusionType.APPLICATION_EXCLUDE);
@@ -132,58 +141,22 @@ public class Korrektureingabe extends JFrame {
 		table_aufgaben.setBackground(new Color(255, 255, 204));
 		horizontalBox.add(table_aufgaben);
 		table_aufgaben.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-			},
-			new String[] {
-				"New column", "New column", "New column", "New column", "New column"
-			}
+			new Object[2][aufgZahl] ,
+			new String[aufgZahl] 
 		));
 		
 		Component horizontalStrut = Box.createHorizontalStrut(15);
 		horizontalBox.add(horizontalStrut);
 		
 		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		internalFrame.getContentPane().add(scrollPane, "cell 0 1,grow");
 		
 		table_id = new JTable();
 		table_id.setBackground(UIManager.getColor("FormattedTextField.inactiveBackground"));
 		table_id.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-			},
+			new Object[schZahl][4] ,
 			new String[] {
 				"SID", "Anw.", "Name", "Vorname"
 			}
@@ -206,55 +179,14 @@ public class Korrektureingabe extends JFrame {
 		scrollPane.setViewportView(table_id);
 		
 		JScrollPane scrollPane_2 = new JScrollPane();
+		scrollPane_2.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		internalFrame.getContentPane().add(scrollPane_2, "cell 1 1,grow");
 		
 		table_BE = new JTable();
 		table_BE.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-			},
-			new String[] {
-				"0", "1", "2", "3", "4"
-			}
-		) {
-			Class[] columnTypes = new Class[] {
-				Float.class, Float.class, Float.class, Float.class, Float.class
-			};
-			public Class getColumnClass(int columnIndex) {
-				return columnTypes[columnIndex];
-			}
-		});
+			new Object[schZahl][aufgZahl],
+			new String[aufgZahl] 
+		));
 		table_BE.getColumnModel().getColumn(0).setResizable(false);
 		table_BE.getColumnModel().getColumn(1).setResizable(false);
 		table_BE.getColumnModel().getColumn(2).setResizable(false);
@@ -286,12 +218,28 @@ public class Korrektureingabe extends JFrame {
 			}
 	}
 
-	public Pruefung getAktPruefung() {
-		return aktPruefung;
+	public Pruefung getAktPr() {
+		return aktPr;
 	}
 
-	public void setAktPruefung(Pruefung aktPruefung) {
-		this.aktPruefung = aktPruefung;
+	public void setAktPr(Pruefung aktPr) {
+		this.aktPr = aktPr;
+	}
+
+	public AufgabeList getAl() {
+		return al;
+	}
+
+	public void setAl(AufgabeList al) {
+		this.al = al;
+	}
+
+	public KorrekturListe getKl() {
+		return kl;
+	}
+
+	public void setKl(KorrekturListe kl) {
+		this.kl = kl;
 	}
 
 }

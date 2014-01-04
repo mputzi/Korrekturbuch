@@ -46,6 +46,7 @@ import korrdata.Pruefung;
 import korrdata.KorrekturListe;
 
 import javax.swing.ScrollPaneConstants;
+import java.awt.Dimension;
 
 public class Korrektureingabe extends JFrame {
 
@@ -79,6 +80,8 @@ public class Korrektureingabe extends JFrame {
 	 * Create the frame.
 	 */
 	public Korrektureingabe(Pruefung pr) {
+		setTitle("Korrekturliste");
+		setResizable(false);
 		this.setAktPr(pr);
 		this.setAl(pr.getAufgabenListe());
 		this.setKl(pr.getKorrekturliste());
@@ -106,9 +109,12 @@ public class Korrektureingabe extends JFrame {
 		splitPane.setLeftComponent(btnAbbruch);
 		
 		JLabel lblEingabeDerErreichten = new JLabel("Eingabe der erreichten Bewertungseinheiten");
+		lblEingabeDerErreichten.setMinimumSize(new Dimension(0, 0));
+		lblEingabeDerErreichten.setMaximumSize(new Dimension(0, 0));
+		lblEingabeDerErreichten.setPreferredSize(new Dimension(0, 0));
 		contentPane.add(lblEingabeDerErreichten, BorderLayout.NORTH);
 		
-		JInternalFrame internalFrame = new JInternalFrame("Korrekturliste");
+		JInternalFrame internalFrame = new JInternalFrame("Eingabe der erreichten Punkte");
 		contentPane.add(internalFrame, BorderLayout.CENTER);
 		internalFrame.getContentPane().setLayout(new MigLayout("", "[249.00,grow][grow]", "[60,grow][]"));
 		

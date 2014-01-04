@@ -216,4 +216,31 @@ public void writeKorrBuchToFile(String filename) {
  		
 	}
 
+	public void addSchuelerToKlasse(String vorname, String nachname){
+		this.getSchuelerL().addToSchuelerList(new Schueler(vorname,nachname));
+		this.setSchuelerzahl(this.getSchuelerzahl()+1);
+	};
+	
+	public void addSchuelerToKlasse(int id, String vorname, String nachname){
+		this.getSchuelerL().addToSchuelerList(new Schueler(id,vorname,nachname));
+		this.setSchuelerzahl(this.getSchuelerzahl()+1);
+	};
+	/*
+	public void removeSchuelerFromKlasse(String vorname, String nachname){
+		while(this.getSchuelerL().Schuelerliste.)
+		if(this.getSchuelerL().Schuelerliste.c)) {
+			int id = this.getSchuelerL().Schuelerliste.
+			this.getSchuelerL().removeFromSchuelerList(new Schueler(id, vorname,nachname));
+			this.setSchuelerzahl(this.getSchuelerzahl()-1);
+		}
+		
+	};*/
+	
+	public void removeSchuelerFromKlasse(int id, String vorname, String nachname){
+		this.getSchuelerL().removeFromSchuelerList(new Schueler(id,vorname,nachname));
+		this.setSchuelerzahl(this.getSchuelerzahl()+1);
+	};
+	
+	
+	
 }

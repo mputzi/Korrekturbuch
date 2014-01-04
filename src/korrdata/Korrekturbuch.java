@@ -314,7 +314,7 @@ public Lehrer getLehrer()
     
   }
 
- public void neuePruefung(int day, int mon, int yea, int nummer, Pruefungsarten.ART art, int teiln){
+ public void neuePruefung(int day, int mon, int yea, int nummer, Pruefungsarten.ART art){
 	 
 	 System.out.println("KB: -+- Neue Prüfung anlegen! -+-");
 	 
@@ -341,13 +341,12 @@ public Lehrer getLehrer()
 	 */ 
 
 	 Calendar d = new GregorianCalendar(yea,mon,day);
-	 
-	 Pruefung tmp = new Pruefung(ID, d, art, nummer, teiln);
-	 tmp.autosetFilename(this);
-	 
-	 System.out.println("KB: "+"Neue Prüfung: " + tmp.getPrFilename());
-	 
-	 this.addToKorrekturbuch(tmp);
+	 this.setPrAnz(this.getPrAnz()+1);
+	 Pruefung tmp = new Pruefung(ID, d, art, nummer, this);
+	 //tmp.autosetFilename(this);
+	 this.Pruefungsliste.add(tmp);
+	 	 
+	 System.out.println("KB: "+"Neue Prüfung: " + tmp.getPrFilename() + " erstellt und hinzugefügt.");
 	 
 	 // Schreiben der neuen Prüfung in neue Datei
 	 tmp.writePruefungToCSV();	 

@@ -98,6 +98,7 @@ public class KlasseList {
     CsvReader csvKlasseListe = new CsvReader(filename);
     csvKlasseListe.readHeaders();
     
+  
     while (csvKlasseListe.readRecord())
 	{
 		String bez			= csvKlasseListe.get("Bezeichnung");

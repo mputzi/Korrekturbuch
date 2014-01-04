@@ -119,6 +119,9 @@ public class Korrektureingabe extends JFrame {
 		contentPane.setLayout(new BorderLayout(0, 0));
 		
 		JSplitPane splitPane = new JSplitPane();
+		splitPane.setResizeWeight(0.33);
+		splitPane.setDividerSize(2);
+		splitPane.setEnabled(false);
 		splitPane.setForeground(UIManager.getColor("InternalFrame.activeTitleBackground"));
 		contentPane.add(splitPane, BorderLayout.SOUTH);
 		
@@ -136,19 +139,18 @@ public class Korrektureingabe extends JFrame {
 		
 		JInternalFrame internalFrame = new JInternalFrame("Eingabe der erreichten Punkte");
 		contentPane.add(internalFrame, BorderLayout.CENTER);
-		internalFrame.getContentPane().setLayout(new MigLayout("", "[249.00,grow][grow][grow]", "[60,grow][grow]"));
-		
-		JScrollPane scrollPane_1 = new JScrollPane();
-		internalFrame.getContentPane().add(scrollPane_1, "cell 0 0,grow");
-		
+		internalFrame.getContentPane().setLayout(new MigLayout("", "[249.00,grow][grow][grow]", "[40,grow][grow]"));
+
 		Box horizontalBox_1 = Box.createHorizontalBox();
-		scrollPane_1.setViewportView(horizontalBox_1);
+		internalFrame.getContentPane().add(horizontalBox_1, "cell 0 0,growx,aligny top");
 		
-		Component horizontalStrut_1 = Box.createHorizontalStrut(150);
+		Component horizontalStrut_1 = Box.createHorizontalStrut(100);
+		
 		horizontalBox_1.add(horizontalStrut_1);
 		
 		table_aufgaben_beschr = new JTable();
-		table_aufgaben_beschr.setBackground(UIManager.getColor("FormattedTextField.inactiveBackground"));
+		table_aufgaben_beschr.setAlignmentY(Component.TOP_ALIGNMENT);
+		// table_aufgaben_beschr.setBackground(UIManager.getColor("FormattedTextField.inactiveBackground"));
 		horizontalBox_1.add(table_aufgaben_beschr);
 		table_aufgaben_beschr.setModel(new DefaultTableModel(
 			new Object[][] {
@@ -159,25 +161,32 @@ public class Korrektureingabe extends JFrame {
 				""
 			}
 		));
+		table_aufgaben_beschr.setEnabled(false);
+		table_aufgaben_beschr.setTableHeader(null);
 		
 		JScrollPane scrollPane_3 = new JScrollPane();
+		scrollPane_3.setAlignmentY(Component.BOTTOM_ALIGNMENT);
 		JScrollBar shbar1 = scrollPane_3.getHorizontalScrollBar();
-		internalFrame.getContentPane().add(scrollPane_3, "cell 1 0,grow");
-		
 		Box horizontalBox = Box.createHorizontalBox();
-		scrollPane_3.setViewportView(horizontalBox);
+		horizontalBox.setAlignmentY(Component.BOTTOM_ALIGNMENT);
 		
-		
+		internalFrame.getContentPane().add(horizontalBox, "cell 1 0,growx,aligny bottom");
+				
 		table_aufgaben = new JTable();
+		table_aufgaben.setAlignmentY(Component.BOTTOM_ALIGNMENT);
 		table_aufgaben.setRowSelectionAllowed(false);
 		table_aufgaben.setBackground(new Color(255, 255, 204));
-		horizontalBox.add(table_aufgaben);
 		table_aufgaben.setModel(new DefaultTableModel(
 			new Object[2][aufgZahl] ,
 			new String[aufgZahl] 
 		));
+		table_aufgaben.setEnabled(false);
+		table_aufgaben.setTableHeader(null);
 		
 		Component horizontalStrut = Box.createHorizontalStrut(15);
+		
+		scrollPane_3.setViewportView(table_aufgaben);
+		horizontalBox.add(scrollPane_3);
 		horizontalBox.add(horizontalStrut);
 		
 		JScrollPane scrollPane = new JScrollPane();

@@ -303,7 +303,9 @@ public Lehrer getLehrer()
 
  	 			csvOutput.close();
  			
- 		} catch (IOException e) {
+
+ 	 			
+ 	  		} catch (IOException e) {
  			e.printStackTrace();
  		}
     

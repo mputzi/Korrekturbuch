@@ -182,18 +182,22 @@ public void writeKorrBuchToFile(String filename) {
 	public String getSchuelerListFilename() {
 		return schuelerListFilename;
 	}
-	public void setSchuelerListFilename(String schuelerListFilename) {
+	private void setSchuelerListFilename(String schuelerListFilename) {
 		this.schuelerListFilename = schuelerListFilename;
 	}
-
-	public void writeSchuelerListToFile(String filename) {
+    
+	public void writeSchuelerList() {
+		this.writeSchuelerListToFile(new String(this.getSchuelerListFilename()));
+	}
+	
+	private void writeSchuelerListToFile(String filename) {
 		getSchuelerL().writeSchuelerListToCSV(filename);
 	}
 
 	public String getKorrBuchFilename() {
 		return korrBuchFilename;
 	}
-	public void setKorrBuchFilename(String korrBuchFilename) {
+	private void setKorrBuchFilename(String korrBuchFilename) {
 		this.korrBuchFilename = korrBuchFilename;
 	}
 

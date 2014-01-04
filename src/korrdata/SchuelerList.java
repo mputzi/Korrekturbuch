@@ -3,6 +3,7 @@ package korrdata;
 
 import java.util.*;
 import java.io.*;
+
 import com.csvreader.CsvReader;
 import com.csvreader.CsvWriter;
 
@@ -64,6 +65,10 @@ public class SchuelerList {
 		System.out.println("Schüler bereits in Liste enthalten!");
 		return;
 	}
+	if(new_object.getID()==0){
+		int lastID = Schuelerliste.get(Schuelerliste.size()-1).getID();
+		new_object.schuelerAendern(lastID+1, new_object.getVorname(), new_object.getNachname());
+	}
     Schuelerliste.add(new_object);
     setAnz(Schuelerliste.size());
   }
@@ -94,7 +99,11 @@ public class SchuelerList {
     Schuelerliste.clear();
     Schueler tmp;
 
-  
+    File f = new File(filename);
+    boolean fileExists = f.exists();
+		
+	if (fileExists){
+    
     try{
     CsvReader csvSchuelerListe = new CsvReader(filename);
     csvSchuelerListe.readHeaders();
@@ -119,7 +128,8 @@ public class SchuelerList {
 	} catch (IOException e) {
 		e.printStackTrace();
 	}
-     
+	}
+	else {System.out.println("SL: Datei existiert nicht" + filename);}
     setAnz(Schuelerliste.size());
   }
   

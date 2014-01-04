@@ -167,6 +167,7 @@ public class Korrektureingabe extends JFrame {
 		Box horizontalBox = Box.createHorizontalBox();
 		scrollPane_3.setViewportView(horizontalBox);
 		
+		
 		table_aufgaben = new JTable();
 		table_aufgaben.setRowSelectionAllowed(false);
 		table_aufgaben.setBackground(new Color(255, 255, 204));

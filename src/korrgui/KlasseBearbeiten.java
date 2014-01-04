@@ -33,6 +33,7 @@ import java.awt.event.KeyEvent;
 import korrdata.KlasseList;
 import korrdata.Schueler;
 import korrdata.SchuelerList;
+import java.awt.Window.Type;
 
 
 public class KlasseBearbeiten extends JDialog implements ActionListener {

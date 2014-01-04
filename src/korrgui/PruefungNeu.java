@@ -120,9 +120,9 @@ public class PruefungNeu extends JDialog implements ActionListener {
 			panel.setLayout(fl_panel);
 			{
 				txtNR = new JTextField();
+				txtNR.setPreferredSize(new Dimension(20, 20));
 				txtNR.setText("1");
 				panel.add(txtNR);
-				txtNR.setColumns(2);
 			}
 			{
 				textField_1 = new JTextField();
@@ -145,16 +145,16 @@ public class PruefungNeu extends JDialog implements ActionListener {
 			}
 			{
 				txtArt = new JTextField();
+				txtArt.setPreferredSize(new Dimension(90, 20));
 				txtArt.setBorder(null);
 				txtArt.setOpaque(false);
 				txtArt.setText("(Schulaufgabe)");
 				panel.add(txtArt);
-				txtArt.setColumns(10);
 			}
 			{
 				txtAusDemFach = new JTextField();
+				txtAusDemFach.setPreferredSize(new Dimension(80, 20));
 				txtAusDemFach.setEditable(false);
-				txtAusDemFach.setColumns(9);
 				txtAusDemFach.setOpaque(false);
 				txtAusDemFach.setBorder(null);
 				txtAusDemFach.setText("aus dem Fach");
@@ -162,27 +162,29 @@ public class PruefungNeu extends JDialog implements ActionListener {
 			}
 			{
 				txtFach = new JTextField();
+				txtFach.setPreferredSize(new Dimension(80, 20));
 				txtFach.setBorder(null);
 				txtFach.setDisabledTextColor(Color.BLACK);
 				txtFach.setEditable(false);
 				txtFach.setText("Mathematik");
 				panel.add(txtFach);
-				txtFach.setColumns(8);
 			}
 			{
 				txtVom = new JTextField();
+				txtVom.setPreferredSize(new Dimension(25, 20));
 				txtVom.setBorder(null);
 				txtVom.setEditable(false);
 				txtVom.setOpaque(false);
 				txtVom.setText("vom");
 				panel.add(txtVom);
-				txtVom.setColumns(3);
 			}
 			{
 				textDatum = new JTextField();
+				textDatum.setSize(new Dimension(50, 0));
+				textDatum.setMinimumSize(new Dimension(60, 20));
+				textDatum.setPreferredSize(new Dimension(75, 20));
 				textDatum.setText("22.09.2025");
 				panel.add(textDatum);
-				textDatum.setColumns(8);
 			}
 		}
 		{
@@ -205,10 +207,9 @@ public class PruefungNeu extends JDialog implements ActionListener {
 					txtAnzahlDerAufgaben.setHorizontalAlignment(SwingConstants.LEFT);
 					txtAnzahlDerAufgaben.setMinimumSize(new Dimension(150, 20));
 					txtAnzahlDerAufgaben.setSize(new Dimension(150, 20));
-					txtAnzahlDerAufgaben.setPreferredSize(new Dimension(150, 20));
+					txtAnzahlDerAufgaben.setPreferredSize(new Dimension(400, 20));
 					txtAnzahlDerAufgaben.setText("<- Anzahl der Aufgaben (incl. Teilaufgaben) [z.B. 1a, 1b, 2 = 3 Aufgaben]");
 					txtAnzahlDerAufgaben.setEditable(false);
-					txtAnzahlDerAufgaben.setColumns(45);
 					txtAnzahlDerAufgaben.setBorder(null);
 				}
 			}

@@ -22,6 +22,7 @@ import java.awt.event.ActionEvent;
 
 
 import korrsecur.*;
+import java.awt.Window.Type;
 
 
 public class PassChange extends JDialog {
@@ -49,6 +50,9 @@ public class PassChange extends JDialog {
 	 * Create the dialog.
 	 */
 	public PassChange(final Frame aufrufer) {
+		setUndecorated(true);
+		setType(Type.POPUP);
+		setResizable(false);
 		ActionListener PWDChgAL = new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				String cmd = e.getActionCommand();

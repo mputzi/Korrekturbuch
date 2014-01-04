@@ -291,11 +291,14 @@ public class Korrektureingabe extends JFrame {
 		
 		Class[] flclasses = new Class[aufgZahl];
 		for (int i=0; i<flclasses.length; i++) flclasses[i] = Float.class;
-				
+		
+		String[] tableHead = new String[aufgZahl];
+		for (int i=0; i<tableHead.length; i++) tableHead[i] = "BE";
+		
 		table_BE.setModel(new BEInputTableModel(
 			new Object[schZahl][aufgZahl],
 		//	new Object[32][aufgZahl],	
-			new String[aufgZahl] ,
+			tableHead ,
 			flclasses
 		));
 		
@@ -330,6 +333,7 @@ public class Korrektureingabe extends JFrame {
 		
 		boolean[] anwL = this.getKl().getAnwesendList();
 		SchuelerList sL = this.getKl().getSchuelerList();
+		KorrekturListe kl = this.getKl();
 		
 		AufgabeList aL = this.getAl();
 		
@@ -343,10 +347,14 @@ public class Korrektureingabe extends JFrame {
 			table_sch.setValueAt(anwL[i], i, 1);
 			table_sch.setValueAt(sL.Schuelerliste.get(i).getNachname(), i, 2);
 			table_sch.setValueAt(sL.Schuelerliste.get(i).getVorname(), i, 3);
+			
+			for (int j=0; j<kl.getAnzAufgaben(); j++){
+				
+			}
 		}
 		
 		
-		
+
 		/*
 		while(table_aufgaben.getColumnCount()<al.getAnz()){
 			table_aufgaben.addColumn(new TableColumn());

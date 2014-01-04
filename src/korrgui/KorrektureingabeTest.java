@@ -11,7 +11,7 @@ public class KorrektureingabeTest {
 
 
 	public static void main(String[] args) {
-Lehrer l = new Lehrer("OStD","Proper","Heinz-Hammel-Schule");
+		Lehrer l = new Lehrer("OStD","Proper","Heinz-Hammel-Schule");
 		
 		Klasse k = new Klasse("8a", "Mathematik", 2013, l);
 				

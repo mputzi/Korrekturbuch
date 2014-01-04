@@ -14,6 +14,9 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+import javax.swing.DefaultCellEditor;
+import javax.swing.JFormattedTextField;
+import javax.swing.JFormattedTextField.AbstractFormatter;
 import javax.swing.JScrollBar;
 /*
 import com.jgoodies.forms.layout.FormLayout;
@@ -24,6 +27,8 @@ import com.jgoodies.forms.layout.RowSpec;
 import javax.swing.JSplitPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
 import java.awt.Color;
@@ -33,8 +38,11 @@ import javax.swing.JInternalFrame;
 
 import net.miginfocom.swing.MigLayout;
 
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
+import javax.swing.text.NumberFormatter;
 import javax.swing.Box;
 
 import java.awt.Component;
@@ -46,7 +54,18 @@ import korrdata.Pruefung;
 import korrdata.KorrekturListe;
 
 import javax.swing.ScrollPaneConstants;
+
 import java.awt.Dimension;
+import java.text.Format;
+import java.text.NumberFormat;
+import java.text.ParseException;
+import java.text.ParsePosition;
+
+import korrdata.*;
+
+
+
+
 
 public class Korrektureingabe extends JFrame {
 
@@ -148,6 +167,7 @@ public class Korrektureingabe extends JFrame {
 		scrollPane_3.setViewportView(horizontalBox);
 		
 		table_aufgaben = new JTable();
+		table_aufgaben.setRowSelectionAllowed(false);
 		table_aufgaben.setBackground(new Color(255, 255, 204));
 		horizontalBox.add(table_aufgaben);
 		table_aufgaben.setModel(new DefaultTableModel(
@@ -167,8 +187,8 @@ public class Korrektureingabe extends JFrame {
 		table_id = new JTable();
 		table_id.setBackground(UIManager.getColor("FormattedTextField.inactiveBackground"));
 		table_id.setModel(new DefaultTableModel(
-		//	new Object[schZahl][4] ,
-			new Object[32][4] ,
+			new Object[schZahl][4] ,
+		//	new Object[32][4] ,
 			new String[] {
 				"SID", "Anw.", "Name", "Vorname"
 			}
@@ -199,11 +219,91 @@ public class Korrektureingabe extends JFrame {
 		internalFrame.getContentPane().add(scrollPane_2, "cell 1 1,grow");
 		
 		table_BE = new JTable();
-		table_BE.setModel(new DefaultTableModel(
-		//	new Object[schZahl][aufgZahl],
-			new Object[32][aufgZahl],	
-			new String[aufgZahl] 
+		
+		   
+		
+		
+		class BEInputTableModel extends AbstractTableModel{
+			private String[] columnNames;
+			private Object[][] data;
+			private Class[] classes;
+			
+			BEInputTableModel(Object[][] data){
+				this.data = data;
+			};
+			BEInputTableModel(Object[][] data, String[] columnNames){
+				this.columnNames = columnNames;
+				this.data = data;
+			};
+			BEInputTableModel(Object[][] data, String[] columnNames, Class[] classes){
+				this.columnNames = columnNames;
+				this.data = data;
+				this.classes = classes;
+			};
+			
+			public int getColumnCount() {
+				if( columnNames != null )
+					return columnNames.length;
+					else
+					return -1; 
+		    }
+
+		    public int getRowCount() {
+		    	if( data != null )
+		    		return data.length;
+		    		else
+		    		return -1;
+		    }
+
+		    public String getColumnName(int col) {
+		        return columnNames[col];
+		    }
+
+		    public Object getValueAt(int row, int col) {
+		        return data[row][col];
+		    }
+
+		    public Class getColumnClass(int c) {
+		        //return getValueAt(0, c).getClass();
+		    	return Float.class;
+		    }
+		    
+		    public boolean isCellEditable(int row, int col) {
+		        //Note that the data/cell address is constant,
+		        //no matter where the cell appears onscreen.
+		       // if (col < 2) {
+		       //     return false;
+		       // } else {
+		            return true;
+		       // }
+		    }
+
+		    /*
+		     * Don't need to implement this method unless your table's
+		     * data can change.
+		     */
+		    public void setValueAt(Object value, int row, int col) {
+		        data[row][col] = value;
+		        fireTableCellUpdated(row, col);
+		    }
+
+		}
+		
+		Class[] flclasses = new Class[aufgZahl];
+		for (int i=0; i<flclasses.length; i++) flclasses[i] = Float.class;
+				
+		table_BE.setModel(new BEInputTableModel(
+			new Object[schZahl][aufgZahl],
+		//	new Object[32][aufgZahl],	
+			new String[aufgZahl] ,
+			flclasses
 		));
+		
+				
+		//table_BE.setDefaultEditor(Float.class, new DefaultCellEditor(new JTextField("")));
+		//table_BE.setDefaultRenderer(Float.class, new DefaultTableCellRenderer());
+			
+		
 		table_BE.getColumnModel().getColumn(0).setResizable(false);
 		table_BE.getColumnModel().getColumn(1).setResizable(false);
 		table_BE.getColumnModel().getColumn(2).setResizable(false);
@@ -211,15 +311,43 @@ public class Korrektureingabe extends JFrame {
 		table_BE.getColumnModel().getColumn(4).setResizable(false);
 		table_BE.setGridColor(Color.GREEN);
 		scrollPane_2.setViewportView(table_BE);
+		
+		fillinData(table_aufgaben,table_id,table_BE);
+		
+		
 		internalFrame.setVisible(true);
+		
+		
+		
+		
 		btnFertig.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
 	}
 	
-	public void getAufgabenFromPr(Pruefung pr){
-		AufgabeList al = pr.getAufgabenListe();
+	public void fillinData(JTable table_aufg, JTable table_sch, JTable table_BE){
+		
+		boolean[] anwL = this.getKl().getAnwesendList();
+		SchuelerList sL = this.getKl().getSchuelerList();
+		
+		AufgabeList aL = this.getAl();
+		
+		for (int i=0; i<aL.getAnz(); i++){
+			table_aufg.setValueAt(aL.Aufgabenliste.get(i).getName(), 0, i);
+			table_aufg.setValueAt(aL.Aufgabenliste.get(i).getPunkte(), 1, i);
+		}
+		
+		for (int i=0; i<sL.getAnz(); i++){
+			table_sch.setValueAt(sL.Schuelerliste.get(i).getIDString(), i, 0);
+			table_sch.setValueAt(anwL[i], i, 1);
+			table_sch.setValueAt(sL.Schuelerliste.get(i).getNachname(), i, 2);
+			table_sch.setValueAt(sL.Schuelerliste.get(i).getVorname(), i, 3);
+		}
+		
+		
+		
+		/*
 		while(table_aufgaben.getColumnCount()<al.getAnz()){
 			table_aufgaben.addColumn(new TableColumn());
 			System.out.println("KE: Spalten "+ table_aufgaben.getColumnCount());
@@ -233,6 +361,7 @@ public class Korrektureingabe extends JFrame {
 			System.out.println("KE: "+i+" "+punkte);
 			table_aufgaben.setValueAt(punkte, 1, i);
 			}
+		*/
 	}
 
 	public Pruefung getAktPr() {

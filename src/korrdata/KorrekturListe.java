@@ -141,7 +141,7 @@ public class KorrekturListe {
 	 * Get the value of anwesendL
 	 * @return the value of anwesendL
 	 */
-	private boolean[] getAnwesendList ( ) {
+	public boolean[] getAnwesendList ( ) {
 		return anwesendL;
 	}
 

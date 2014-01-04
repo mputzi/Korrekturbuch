@@ -58,7 +58,7 @@ public class Pruefung {
 	  this.setKorrekturliste(new KorrekturListe(this));
   };
   
-  // Constructor for use in UI
+ 
   public Pruefung (int idNum, Calendar prDatum, Pruefungsarten.ART prArtKey, int prNummer,AufgabeList aListe){
 	  this.setDatum(prDatum);
 	  this.setPrArtKey(prArtKey);
@@ -70,7 +70,20 @@ public class Pruefung {
 	  
 	  this.setKorrekturliste(new KorrekturListe(this));
   }
-  
+  // Constructor for use in UI
+  public Pruefung (int idNum, Calendar prDatum, Pruefungsarten.ART prArtKey, int prNummer, Korrekturbuch kb){
+	  this.setKb(kb);
+	  this.setDatum(prDatum);
+	  this.setPrArtKey(prArtKey);
+	  this.setNummer(prNummer);
+	  this.setIdNum(idNum);
+	
+  // Anzahl der Teilnehmer = Maximum	  
+	  this.setAnzTeilnehmer(this.getKb().getKBKlasse().getSchuelerzahl());
+	  
+	  this.autosetFilename(this.getKb());
+	  this.setKorrekturliste(new KorrekturListe(this));
+  }
   
   //
   // Methods

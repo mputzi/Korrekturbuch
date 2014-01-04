@@ -47,6 +47,7 @@ public class KorrekturListe {
 		this.autosetFilename();
 
 		System.out.println("KL: Korrekturliste zur Prüfung " + this.getPr().getIdNum() + " wird erstellt.");
+		System.out.println("KL: Korrekturliste zu " + this.getPr().getPruefListString() +" erstellt.");
 		System.out.println("KL: " + this.getPr().getKb().toString());
 
 		this.setSchuelerList(this.getPr().getKb().getKBKlasse().getSchuelerL());
@@ -167,15 +168,15 @@ public class KorrekturListe {
 						erreicht[schuelerNum][aufgNum] = errBE;
 					}
 					else{
-						System.out.println("Mehr BE erreicht als erreichbar!" + errBE + " von max " + this.getErreichbar()[aufgNum]);
+						System.out.println("KL: Mehr BE erreicht als erreichbar!" + errBE + " von max " + this.getErreichbar()[aufgNum]);
 					}
 				}
 				else{
-					System.out.println("Aufgabennummer zu groß!");
+					System.out.println("KL: Aufgabennummer "+aufgNum+" zu groß! Maximal: "+this.getAnzAufgaben());
 				}
 			}
 			else{
-				System.out.println("Schülernummer zu groß!");
+				System.out.println("KL: Schülernummer "+schuelerNum+" zu groß!");
 			}
 		}
 		catch(Exception e) {

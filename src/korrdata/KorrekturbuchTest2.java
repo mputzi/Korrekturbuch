@@ -11,8 +11,9 @@ public class KorrekturbuchTest2 {
 		
 		Klasse k = new Klasse("12a", "Deutsch", 2010, l);
 		
-		k.getSchuelerL().addToSchuelerList(new Schueler("Hans","Dampf"));
-		k.getSchuelerL().addToSchuelerList(new Schueler("Sabine","Muster"));
+		k.addSchuelerToKlasse("Hans","Dampf");
+		k.addSchuelerToKlasse("Sabine","Muster");
+		
 		k.writeSchuelerList();
 		
 		Korrekturbuch kb = new Korrekturbuch(k);
@@ -31,18 +32,18 @@ public class KorrekturbuchTest2 {
 		
 		*/
 		
-		kb.neuePruefung(4, 3, 1999, 1, Pruefungsarten.ART.T, 20);
+		kb.neuePruefung(4, 3, 1999, 1, Pruefungsarten.ART.T);
 		kb.getPruefungsliste().get(0).addAufgabeToList(new Aufgabe("1a",3f));
 		kb.getPruefungsliste().get(0).addAufgabeToList(new Aufgabe("1b",5f));
 		kb.getPruefungsliste().get(0).addAufgabeToList(new Aufgabe("2",6));
 		
-		kb.writeKorrekturBuch();
-		kb.getPruefungsliste().get(0).writePruefungToCSV();
 		
-		// kb.printPruefungen();
-
-		//Speichern des Korrekturbuchs
-		//		kb.writeKorrekturBuch();
+		kb.getPruefungsliste().get(0).writePruefungToCSV();
+		// Speichern des Korrekturbuchs
+		kb.writeKorrekturBuch();
+		
+		kb.printPruefungen();
+    	kb.writeKorrekturBuch();
 		
 		/*
 		System.out.println(kb.getKBKlasse().getSchuelerL().toString());
@@ -55,7 +56,7 @@ public class KorrekturbuchTest2 {
 		kb.getPruefungsliste().get(0).getKorrekturliste().setErreichtAt(0, 1, 4);
 		kb.getPruefungsliste().get(0).getKorrekturliste().setErreichtAt(0, 2, 3.5f);
 				
-		kb.getPruefungsliste().get(0).getKorrekturliste().setAnwesendAtIndex(false, 0);;
+		kb.getPruefungsliste().get(0).getKorrekturliste().setAnwesendAtIndex(false, 0);
 		
 		//System.out.println(kb.getPruefungsliste().get(0).getKorrekturliste().toString());
 		

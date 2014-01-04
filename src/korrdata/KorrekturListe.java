@@ -58,10 +58,12 @@ public class KorrekturListe {
 		this.fillAnwesendList(true);
 
 		this.setAufgabenL(this.getPr().getAufgabenListe());
-		//this.setAnzAufgaben(anzAufgaben);
-		this.setAnzAufgaben(this.getAnzAufgaben());
+		//this.setAnzAufgaben(this.getPr().getAufgabenListe().getAnz());
 
 		float[] erreichbareBE = new float[this.getAnzAufgaben()];
+		if(this.getAnzAufgaben()==0){
+			System.out.println("KL! Keine Aufgaben in Prüfung!"); 
+		}
 		for(int i=0; i<this.getAnzAufgaben();i++){
 			erreichbareBE[i]=this.getPr().getAufgabenListe().Aufgabenliste.get(i).getPunkte();
 			System.out.println("KL: Erreichbare BE in Aufg." + i +" -> " + erreichbareBE[i]);
@@ -254,7 +256,7 @@ public class KorrekturListe {
 	public void setAufgabenL(AufgabeList aufgabeList) {
 		this.aufgabenL = aufgabeList;
 		this.setAnzAufgaben(aufgabeList.getAnz());
-		System.out.println("KL: " + this.getAnzAufgaben() + " erfolgreich hinzugefügt.");
+		System.out.println("KL: " + this.getAnzAufgaben() + " Aufgaben erfolgreich hinzugefügt.");
 	}
 
 	public float[] getErreichbar() {
@@ -282,7 +284,7 @@ public class KorrekturListe {
 			float ant = gesBEL[i] / gesBE;
 
 			//debugging only
-			System.out.println("KL: Noten: calc: " + i + " " +ant);
+			// System.out.println("KL: Noten: calc: " + i + " " +ant);
 
 			noten[i] = NS.getNote(ant);
 		}
@@ -360,13 +362,12 @@ public class KorrekturListe {
 	}
 
 	public String toString(){
-		return new String("++ Korrekturliste zur Prüfung " + this.getPr().toString() + "++\n" + 
-				"Schüler: " + this.getSchuelerList().toString() + 
-				"Anwesenheit: " + this.getAnwesendList().toString() + 
-				"Aufgaben: " + this.getAufgabenL().toString() + 
-				"Gesamtpunktzahl: " + this.getGesamtpunktzahl() +
-				"Erreicht: " + this.erreichtLtoString()
-				);
+		return new String("++ Korrekturliste zur Prüfung " + this.getPr().getIdNum() + "++\n" + 
+				"Schüler: " + this.getSchuelerList().toString() + "\n" +
+				"Anwesenheit: -" + this.getAnwesendListString() + "-\n" +
+				"Aufgaben: " + this.getAufgabenL().toString() + "\n" +
+				"Gesamtpunktzahl: " + this.getGesamtpunktzahl() +"\n" +
+				"Erreicht: " + this.erreichtLtoString() + "++\n" 	);
 	}
 
 	public int getAnzAufgaben() {
@@ -589,6 +590,14 @@ public class KorrekturListe {
 		return true;
 	}
 
+	public String getAnwesendListString(){
+		String str ="";
+		for(int i=0;i<this.getAnwesendList().length;i++){
+			if(this.getAnwesendList()[i]){ str+= "1";}
+			else str+= "0";
+		}
+		return str;	
+	}
 
 	public float getGesamtpunktzahl() {
 		return gesamtpunktzahl;

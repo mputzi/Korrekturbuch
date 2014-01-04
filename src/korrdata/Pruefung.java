@@ -40,6 +40,7 @@ public class Pruefung {
   // Constructors
   //
   public Pruefung () { };
+  /*
   public Pruefung (int idNum, Calendar prDatum, Pruefungsarten.ART prArtKey, int prNummer, int anz) {
 	  this.setDatum(prDatum);
 	  this.setPrArtKey(prArtKey);
@@ -70,6 +71,7 @@ public class Pruefung {
 	  
 	  this.setKorrekturliste(new KorrekturListe(this));
   }
+  */
   // Constructor for use in UI
   public Pruefung (int idNum, Calendar prDatum, Pruefungsarten.ART prArtKey, int prNummer, Korrekturbuch kb){
 	  this.setKb(kb);
@@ -88,7 +90,16 @@ public class Pruefung {
   //
   // Methods
   //
-
+  
+  public void update(){
+	  this.setKorrekturliste(new KorrekturListe(this));
+  }
+  
+  public void update_write(){
+	  this.setKorrekturliste(new KorrekturListe(this));
+	  this.writePruefungToCSV();
+  }
+  
   public void autosetFilename(Korrekturbuch kb){
 	  this.setPrFilename(new String(
 			  kb.getKlassenBezeichnung() + "_" + kb.getFach() + "_" +
@@ -443,7 +454,8 @@ public boolean setPruefungFromFile(String filename)
 	 		}
 	 		
 	 		aufgabenListe.writeAufgabenListeToCSV(aufgabenFilename);
-	    
+	 		// debug
+	 		System.out.println("ww PR: Prüfung " + this.getIdNum() + " erfolgreich in Datei geschrieben. ww");
 	  }
 
 

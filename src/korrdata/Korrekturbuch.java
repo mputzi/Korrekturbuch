@@ -8,8 +8,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 
-//import korrdata.Pruefungsarten.ART;
-
 //import com.csvreader.CsvReader;
 import com.csvreader.CsvWriter;
 
@@ -311,7 +309,7 @@ public Lehrer getLehrer()
  	  		} catch (IOException e) {
  			e.printStackTrace();
  		}
-    
+ 		System.out.println("ww KB: Korrekturbuch " + this.getKBKlasse().getKlBez() + " erfolgreich in Datei geschrieben. ww");
   }
 
  public void neuePruefung(int day, int mon, int yea, int nummer, Pruefungsarten.ART art){

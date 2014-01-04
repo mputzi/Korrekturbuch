@@ -62,6 +62,8 @@ import java.text.ParseException;
 import java.text.ParsePosition;
 
 import korrdata.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 
 
@@ -196,6 +198,24 @@ public class Korrektureingabe extends JFrame {
 		internalFrame.getContentPane().add(scrollPane, "cell 0 1,grow");
 		
 		table_id = new JTable();
+		/**
+		 * Ab hier nur ein Test
+		 */
+		table_id.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				int zeile = table_id.getSelectedRow();
+				if ((Boolean)table_id.getValueAt(zeile,1)==false){
+					table_sum.setValueAt(null, zeile, 0);
+					table_sum.setValueAt(null,zeile, 1);
+					System.out.println("false");
+				}
+				else if ((Boolean)table_id.getValueAt(zeile,1)==true){
+					//table_sum.setValueAt(0, zeile, 0);
+					//table_sum.setValueAt(0, zeile, 1);
+				}
+			}
+		});
 		table_id.setBackground(UIManager.getColor("FormattedTextField.inactiveBackground"));
 		table_id.setModel(new DefaultTableModel(
 			new Object[schZahl][4] ,

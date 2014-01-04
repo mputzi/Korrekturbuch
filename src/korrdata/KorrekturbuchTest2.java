@@ -37,13 +37,16 @@ public class KorrekturbuchTest2 {
 		kb.getPruefungsliste().get(0).addAufgabeToList(new Aufgabe("1b",5f));
 		kb.getPruefungsliste().get(0).addAufgabeToList(new Aufgabe("2",6));
 		
+		System.out.println(kb.getPruefungsliste().get(0).getAufgabenListe().toString());
 		
 		kb.getPruefungsliste().get(0).writePruefungToCSV();
 		// Speichern des Korrekturbuchs
 		kb.writeKorrekturBuch();
 		
 		kb.printPruefungen();
-    	kb.writeKorrekturBuch();
+		
+		System.out.println(kb.getPruefungsliste().get(0).getGesamtPunktzahl());
+    	//kb.writeKorrekturBuch();
 		
 		/*
 		System.out.println(kb.getKBKlasse().getSchuelerL().toString());
@@ -51,7 +54,7 @@ public class KorrekturbuchTest2 {
 		System.out.println(kb.getPruefungsliste().get(0).getKorrekturliste().getSchuelerList().toString());
 		*/
 		
-    	System.out.println(kb.getPruefungsliste().get(0).toString());
+    	//System.out.println(kb.getPruefungsliste().get(0).toString());
     	System.out.println(kb.getPruefungsliste().get(0).getKorrekturliste().toString());
 		
 		kb.getPruefungsliste().get(0).getKorrekturliste().setErreichtAt(0, 0, 3);
@@ -71,7 +74,7 @@ public class KorrekturbuchTest2 {
 		
 		System.out.println(kb.getPruefungsliste().get(0).getKorrekturliste().toString());
 		
-		System.out.println(kb.getPruefungsliste().get(0).getGesamtPunktzahl());
+		
 		
 		kb.getPruefungsliste().get(0).getKorrekturliste().printGesamtBEListe();
 		kb.getPruefungsliste().get(0).getKorrekturliste().printNoten();

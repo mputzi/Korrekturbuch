@@ -140,7 +140,7 @@ public class SchuelerList {
 
   
   public String toString(){
-	  return new String("Inhalt der Schülerliste: " + Schuelerliste);
+	  return new String("SL: " + Schuelerliste);
   }
   
   public void writeSchuelerListToCSV(String filename)

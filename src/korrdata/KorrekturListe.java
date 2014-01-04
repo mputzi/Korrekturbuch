@@ -25,7 +25,7 @@ public class KorrekturListe {
 	private int anzAufgaben;
 	private int anzSchueler;
 
-	private String[] aufgabenL;
+	private AufgabeList aufgabenL;
 	private float[] erreichbar;
 	private boolean[] anwesendL;
 	private float[][] erreicht;
@@ -47,31 +47,34 @@ public class KorrekturListe {
 		this.autosetFilename();
 
 		System.out.println("KL: Korrekturliste zur Prüfung " + this.getPr().getIdNum() + " wird erstellt.");
-		System.out.println("KL: Korrekturliste zu " + this.getPr().getPruefListString() +" erstellt.");
-		System.out.println("KL: " + this.getPr().getKb().toString());
+		//System.out.println("KL: Korrekturliste zu " + this.getPr().getPruefListString() +" erstellt.");
+		//System.out.println("KL: " + this.getPr().getKb().toString());
 
 		this.setSchuelerList(this.getPr().getKb().getKBKlasse().getSchuelerL());
-		//System.out.println(this.getSchuelerNameAt(0));
-		this.setAnwesendList(new boolean[this.getSchuelerList().getAnz()]);
-
 		this.setAnzSchueler(this.getSchuelerList().getAnz());
-		this.setAnzAufgaben(this.getPr().getAufgabenListe().getAnz());
-		{
-			float[] erreichbareBE = new float[this.getAnzAufgaben()];
-			for(int i=0; i<this.getAnzAufgaben();i++){
-				erreichbareBE[i]=this.getPr().getAufgabenListe().Aufgabenliste.get(i).getPunkte();
-			}
-			this.setErreichbar(erreichbareBE);
-		}
+		//System.out.println(this.getSchuelerNameAt(0));
+
+		this.setAnwesendList(new boolean[this.getSchuelerList().getAnz()]);
 		this.fillAnwesendList(true);
+
+		this.setAufgabenL(this.getPr().getAufgabenListe());
+		//this.setAnzAufgaben(anzAufgaben);
+		this.setAnzAufgaben(this.getAnzAufgaben());
+
+		float[] erreichbareBE = new float[this.getAnzAufgaben()];
+		for(int i=0; i<this.getAnzAufgaben();i++){
+			erreichbareBE[i]=this.getPr().getAufgabenListe().Aufgabenliste.get(i).getPunkte();
+			System.out.println("KL: Erreichbare BE in Aufg." + i +" -> " + erreichbareBE[i]);
+		}
+		
+		this.setErreichbar(erreichbareBE);
 
 		this.setGesamtpunktzahl(this.getPr().getGesamtPunktzahl());
 
 		this.setErreichtL(new float[this.getSchuelerList().getAnz()][this.getPr().getAufgabenListe().getAnz()]);
 		this.setNoten(new int[this.getSchuelerList().getAnz()]);
-
 	};
-
+/*
 	public KorrekturListe (SchuelerList schuelerL) {
 		this.setSchuelerList(schuelerL);
 		this.setAnzSchueler(this.getSchuelerList().getAnz());
@@ -92,7 +95,7 @@ public class KorrekturListe {
 		this.setErreichtL(new float[this.getSchuelerList().getAnz()][aufgabenL.getAnz()]);
 		this.setNoten(new int[this.getSchuelerList().getAnz()]);
 	};
-
+*/
 	//
 	// Methods
 	//
@@ -162,6 +165,8 @@ public class KorrekturListe {
 
 	public void setErreichtAt (int schuelerNum, int aufgNum, float errBE){
 		try{
+			System.out.println("KL: Aufgabennummer "+aufgNum+", maximal: "+this.getAnzAufgaben());
+
 			if (schuelerNum <= this.getAnzSchueler()){
 				if (aufgNum <= this.getAnzAufgaben()){
 					if (errBE <= this.getErreichbar()[aufgNum]){
@@ -243,11 +248,13 @@ public class KorrekturListe {
 		return this.getSchuelerList().Schuelerliste.get(index).getVorname();
 	}
 
-	public String[] getAufgabenL() {
+	public AufgabeList getAufgabenL() {
 		return aufgabenL;
 	}
-	public void setAufgabenL(String[] aufgabenL) {
-		this.aufgabenL = aufgabenL;
+	public void setAufgabenL(AufgabeList aufgabeList) {
+		this.aufgabenL = aufgabeList;
+		this.setAnzAufgaben(aufgabeList.getAnz());
+		System.out.println("KL: " + this.getAnzAufgaben() + " erfolgreich hinzugefügt.");
 	}
 
 	public float[] getErreichbar() {
@@ -356,8 +363,8 @@ public class KorrekturListe {
 		return new String("++ Korrekturliste zur Prüfung " + this.getPr().toString() + "++\n" + 
 				"Schüler: " + this.getSchuelerList().toString() + 
 				"Anwesenheit: " + this.getAnwesendList().toString() + 
-				//  	 "Aufgaben: " + this.getAufgabenL().toString() + 
-				"Gesamtpunktzahl: " + this.getErreichbar().toString() +
+				"Aufgaben: " + this.getAufgabenL().toString() + 
+				"Gesamtpunktzahl: " + this.getGesamtpunktzahl() +
 				"Erreicht: " + this.erreichtLtoString()
 				);
 	}
@@ -370,7 +377,7 @@ public class KorrekturListe {
 		this.anzAufgaben = anzAufgaben;
 	}
 
-	
+
 	public int getAnzSchueler() {
 		return anzSchueler;
 	}
@@ -535,9 +542,9 @@ public class KorrekturListe {
 
 			// write out a few records
 			for(int i = 0; i < this.getAnzSchueler(); i++){
-					csvOutput.write(""+this.getSchuelerIDAt(i));
-					csvOutput.write(""+this.getAnwesendAtIndex(i));
-					csvOutput.endRecord();
+				csvOutput.write(""+this.getSchuelerIDAt(i));
+				csvOutput.write(""+this.getAnwesendAtIndex(i));
+				csvOutput.endRecord();
 			}
 			csvOutput.close();
 		} catch (IOException e) {
@@ -548,7 +555,7 @@ public class KorrekturListe {
 	public boolean setAnwesendListeFromFile(){
 		return this.setAnwesendListeFromFile(this.getKlAnwFilename());
 	}
-	
+
 	private boolean setAnwesendListeFromFile(String filename){
 		try{
 			CsvReader csvAList = new CsvReader(filename);
@@ -568,7 +575,7 @@ public class KorrekturListe {
 				// Umwandeln in interne Formate
 				int schIDNumber = Integer.valueOf(schID).intValue();
 				boolean anB = Boolean.valueOf(an).booleanValue();
-				
+
 				this.setAnwesendAtIndex(anB, schIDNumber-1);
 			}
 			csvAList.close();
@@ -581,8 +588,8 @@ public class KorrekturListe {
 
 		return true;
 	}
-	
-	
+
+
 	public float getGesamtpunktzahl() {
 		return gesamtpunktzahl;
 	}
@@ -590,8 +597,8 @@ public class KorrekturListe {
 	public void setGesamtpunktzahl(float gesamtpunktzahl) {
 		this.gesamtpunktzahl = gesamtpunktzahl;
 	}
-	
-	
-	
+
+
+
 }
 

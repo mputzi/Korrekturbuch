@@ -308,7 +308,7 @@ public String toString(){
 	  //System.out.println("Hallo!");
 	  return new String("PR:" + this.getIdNum()+"; " + this.getNummer()+". " + Pruefungsarten.getDesc(this.getPrArtKey()) +
 			  " vom " + this.getDatum().get(Calendar.DAY_OF_MONTH) + "." + (this.getDatum().get(Calendar.MONTH)+1) + "." +  this.getDatum().get(Calendar.YEAR) + 
-			  			  " Inhalt der Prüfung: " + aufgabenListe +  
+			  			  " Inhalt der Prüfung: " + this.getAufgabenListe() +  
 			            " Anzahl der Teilnehmer: " + this.getAnzTeilnehmer());
 }
 

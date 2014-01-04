@@ -90,7 +90,7 @@ public class AufgabeList {
     Aufgabenliste.clear();
     Aufgabenliste.addAll(liste);
     
-    setAnz(Aufgabenliste.size());
+    this.setAnz(Aufgabenliste.size());
   }
   
   

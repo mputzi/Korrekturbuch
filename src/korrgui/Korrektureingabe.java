@@ -78,6 +78,7 @@ public class Korrektureingabe extends JFrame {
 	private Pruefung aktPr;
 	private AufgabeList al;
 	private KorrekturListe kl;
+	private JTable table_sum;
 
 	/**
 	 * Launch the application.
@@ -135,7 +136,7 @@ public class Korrektureingabe extends JFrame {
 		
 		JInternalFrame internalFrame = new JInternalFrame("Eingabe der erreichten Punkte");
 		contentPane.add(internalFrame, BorderLayout.CENTER);
-		internalFrame.getContentPane().setLayout(new MigLayout("", "[249.00,grow][grow]", "[60,grow][]"));
+		internalFrame.getContentPane().setLayout(new MigLayout("", "[249.00,grow][grow][grow]", "[60,grow][grow]"));
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
 		internalFrame.getContentPane().add(scrollPane_1, "cell 0 0,grow");
@@ -313,16 +314,43 @@ public class Korrektureingabe extends JFrame {
 		table_BE.getColumnModel().getColumn(3).setResizable(false);
 		table_BE.getColumnModel().getColumn(4).setResizable(false);
 		table_BE.setGridColor(Color.GREEN);
+		table_BE.getTableHeader().setReorderingAllowed(false);
 		scrollPane_2.setViewportView(table_BE);
 		
 		fillinData(table_aufgaben,table_id,table_BE);
 		
+		JScrollPane scrollPane_4 = new JScrollPane();
+		scrollPane_4.setMinimumSize(new Dimension(100, 22));
+		scrollPane_4.setMaximumSize(new Dimension(100, 32767));
+		JScrollBar sbar4 = scrollPane_4.getVerticalScrollBar();
+		sbar4.setModel(sbar1.getModel());
 		
+		scrollPane_4.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPane_4.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		internalFrame.getContentPane().add(scrollPane_4, "cell 2 1,grow");
+		
+		table_sum = new JTable();
+		table_sum.setModel(new DefaultTableModel(
+			new Object[schZahl][2],
+			new String[] {
+				"S", "N"
+			}
+		) {
+			Class[] columnTypes = new Class[] {
+				Float.class, Integer.class
+			};
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+		});
+		table_sum.getColumnModel().getColumn(0).setPreferredWidth(20);
+		table_sum.getColumnModel().getColumn(1).setPreferredWidth(20);
+		table_sum.setCellSelectionEnabled(true);
+		scrollPane_4.setViewportView(table_sum);
+
+
 		internalFrame.setVisible(true);
-		
-		
-		
-		
+	
 		btnFertig.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			}
@@ -333,7 +361,7 @@ public class Korrektureingabe extends JFrame {
 		
 		boolean[] anwL = this.getKl().getAnwesendList();
 		SchuelerList sL = this.getKl().getSchuelerList();
-		KorrekturListe kl = this.getKl();
+		KorrekturListe kL = this.getKl();
 		
 		AufgabeList aL = this.getAl();
 		
@@ -349,8 +377,10 @@ public class Korrektureingabe extends JFrame {
 			table_sch.setValueAt(sL.Schuelerliste.get(i).getVorname(), i, 3);
 			
 			for (int j=0; j<kl.getAnzAufgaben(); j++){
-				
+				table_BE.setValueAt(kL.getErreichtAt(i, j), i, j);
 			}
+			
+			
 		}
 		
 		

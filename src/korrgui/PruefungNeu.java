@@ -229,6 +229,7 @@ public class PruefungNeu extends JDialog implements ActionListener {
 						table.getColumnModel().getColumn(0).setPreferredWidth(85);
 						table.getColumnModel().getColumn(1).setResizable(false);
 						table.getColumnModel().getColumn(1).setPreferredWidth(85);
+						table.getTableHeader().setReorderingAllowed(false);
 						table.addMouseListener(new MouseAdapter() {
 							@Override
 							public void mouseClicked(MouseEvent arg0) {

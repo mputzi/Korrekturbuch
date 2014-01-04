@@ -66,7 +66,11 @@ public class SchuelerList {
 		return;
 	}
 	if(new_object.getID()==0){
-		int lastID = Schuelerliste.get(Schuelerliste.size()-1).getID();
+		int lastID =0;
+	
+		if(!Schuelerliste.isEmpty()){
+		lastID = Schuelerliste.get(Schuelerliste.size()-1).getID();}
+		
 		new_object.schuelerAendern(lastID+1, new_object.getVorname(), new_object.getNachname());
 	}
     Schuelerliste.add(new_object);

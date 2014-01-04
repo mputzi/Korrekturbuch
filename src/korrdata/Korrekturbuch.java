@@ -234,14 +234,17 @@ public Lehrer getLehrer()
   // Auslesen der Dateiliste im Verzeichnis
   // Filterung nach Filter-Klasse
   public File[] readDirectory(String klassenBezeichnung){
+	  System.out.println("KB: Lese Verzeichnis!");
 	  File directory = new File(".");
 	     
 	  File[] files = directory.listFiles(new Filter(klassenBezeichnung));
-	  /*
+	  
 	  for(int i = 0; i<files.length; i++){
 		  System.out.println(files[i].toString());
 	  }
-	  */
+	  
+	  
+	  
 	  return files;
   }
   

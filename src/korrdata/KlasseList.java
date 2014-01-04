@@ -119,8 +119,8 @@ public class KlasseList {
 		
 		tmp = new Klasse(bez,fac,sjaNumber,lehtmp);
 		
-		tmp.setKorrBuchFilename(kbf);
-		tmp.setSchuelerListFilename(slf);
+		//tmp.setKorrBuchFilename(kbf);
+		//tmp.setSchuelerListFilename(slf);
 		
 		addToKlasseList(tmp);
 	}

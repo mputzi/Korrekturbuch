@@ -51,8 +51,11 @@ public class KorrekturbuchTest2 {
 		System.out.println(kb.getPruefungsliste().get(0).getKorrekturliste().getSchuelerList().toString());
 		*/
 		
+    	System.out.println(kb.getPruefungsliste().get(0).toString());
+    	System.out.println(kb.getPruefungsliste().get(0).getKorrekturliste().toString());
 		
 		kb.getPruefungsliste().get(0).getKorrekturliste().setErreichtAt(0, 0, 3);
+		/*
 		kb.getPruefungsliste().get(0).getKorrekturliste().setErreichtAt(0, 1, 4);
 		kb.getPruefungsliste().get(0).getKorrekturliste().setErreichtAt(0, 2, 3.5f);
 				
@@ -75,6 +78,7 @@ public class KorrekturbuchTest2 {
 		System.out.println("Durchschnitt: " + kb.getPruefungsliste().get(0).getDurchschnitt());
 		System.out.println("1/2 Anteil  : " + kb.getPruefungsliste().get(0).getAnteil12());
 		System.out.println("5/6 Anteil  : " + kb.getPruefungsliste().get(0).getAnteil56());
+		*/
 	}
 
 }

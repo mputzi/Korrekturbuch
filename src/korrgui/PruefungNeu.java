@@ -149,12 +149,12 @@ public class PruefungNeu extends JDialog implements ActionListener {
 				txtArt.setOpaque(false);
 				txtArt.setText("(Schulaufgabe)");
 				panel.add(txtArt);
-				txtArt.setColumns(8);
+				txtArt.setColumns(10);
 			}
 			{
 				txtAusDemFach = new JTextField();
 				txtAusDemFach.setEditable(false);
-				txtAusDemFach.setColumns(7);
+				txtAusDemFach.setColumns(9);
 				txtAusDemFach.setOpaque(false);
 				txtAusDemFach.setBorder(null);
 				txtAusDemFach.setText("aus dem Fach");
@@ -167,7 +167,7 @@ public class PruefungNeu extends JDialog implements ActionListener {
 				txtFach.setEditable(false);
 				txtFach.setText("Mathematik");
 				panel.add(txtFach);
-				txtFach.setColumns(7);
+				txtFach.setColumns(8);
 			}
 			{
 				txtVom = new JTextField();
@@ -182,7 +182,7 @@ public class PruefungNeu extends JDialog implements ActionListener {
 				textDatum = new JTextField();
 				textDatum.setText("22.09.2025");
 				panel.add(textDatum);
-				textDatum.setColumns(6);
+				textDatum.setColumns(8);
 			}
 		}
 		{
@@ -208,7 +208,7 @@ public class PruefungNeu extends JDialog implements ActionListener {
 					txtAnzahlDerAufgaben.setPreferredSize(new Dimension(150, 20));
 					txtAnzahlDerAufgaben.setText("<- Anzahl der Aufgaben (incl. Teilaufgaben) [z.B. 1a, 1b, 2 = 3 Aufgaben]");
 					txtAnzahlDerAufgaben.setEditable(false);
-					txtAnzahlDerAufgaben.setColumns(35);
+					txtAnzahlDerAufgaben.setColumns(45);
 					txtAnzahlDerAufgaben.setBorder(null);
 				}
 			}

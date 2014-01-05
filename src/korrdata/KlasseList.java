@@ -16,7 +16,7 @@ public class KlasseList {
 
   private int anz;
 
-  public ArrayList<Klasse> Klassenliste = new ArrayList<Klasse>();
+  private ArrayList<Klasse> klassenliste = new ArrayList<Klasse>();
   
   //
   // Constructors
@@ -24,8 +24,8 @@ public class KlasseList {
   public KlasseList () { };
   
   public KlasseList (List<Klasse> liste) {
-	    Klassenliste.clear();
-	    Klassenliste.addAll(liste);
+	    getKlassenliste().clear();
+	    getKlassenliste().addAll(liste);
 	    
   };
   
@@ -59,12 +59,12 @@ public class KlasseList {
    * Add a Schueler to List
    */
   public void addToKlasseList ( Klasse new_object ) {
-	if(Klassenliste.contains(new_object)){
+	if(getKlassenliste().contains(new_object)){
 		System.out.println("Klasse bereits in Liste enthalten!");
 		return;
 	}
-    Klassenliste.add(new_object);
-    setAnz(Klassenliste.size());
+	getKlassenliste().add(new_object);
+    setAnz(getKlassenliste().size());
   }
 
   /**
@@ -72,9 +72,9 @@ public class KlasseList {
    */
   public void removeFromKlasseList ( Klasse new_object )
   {
-    if(Klassenliste.contains(new_object)){
-    	Klassenliste.remove(new_object);
-    	setAnz(Klassenliste.size());
+    if(getKlassenliste().contains(new_object)){
+    	getKlassenliste().remove(new_object);
+    	setAnz(getKlassenliste().size());
     }
     else{
     	System.out.println("Klasse nicht in Liste enthalten.");
@@ -83,15 +83,15 @@ public class KlasseList {
   /*
   private void setKlasseList (List<Klasse> liste )
   {
-    Klassenliste.clear();
-    Klassenliste.addAll(liste);
+    getKlassenliste().clear();
+    getKlassenliste().addAll(liste);
     
-    setAnz(Klassenliste.size());
+    setAnz(getKlassenliste().size());
   }
   */
   public void readKlasseListFromCSV(String filename)
   {
-    Klassenliste.clear();
+	getKlassenliste().clear();
     Klasse tmp;
  
     try{
@@ -135,7 +135,7 @@ public class KlasseList {
 		e.printStackTrace();
 	}
      
-    setAnz(Klassenliste.size());
+    setAnz(getKlassenliste().size());
   }
   
 
@@ -169,14 +169,16 @@ public class KlasseList {
  			}
  			// else assume that the file already has the correct header line
  			
- 			for(int i = 0; i < Klassenliste.size(); i++){
+ 			ArrayList<Klasse> kl = getKlassenliste();
+ 			
+ 			for(int i = 0; i < kl.size(); i++){
  			// write out a few records
- 				csvOutput.write(Klassenliste.get(i).getKlBez());
- 	 			csvOutput.write(Klassenliste.get(i).getFach());
- 	 			csvOutput.write("" + Klassenliste.get(i).getSchuljahr());
- 	 			csvOutput.write(Klassenliste.get(i).getLehrer().toString());
- 	 			csvOutput.write(Klassenliste.get(i).getSchuelerListFilename());
- 	 			csvOutput.write(Klassenliste.get(i).getKorrBuchFilename());
+ 				csvOutput.write(kl.get(i).getKlBez());
+ 	 			csvOutput.write(kl.get(i).getFach());
+ 	 			csvOutput.write("" + kl.get(i).getSchuljahr());
+ 	 			csvOutput.write(kl.get(i).getLehrer().toString());
+ 	 			csvOutput.write(kl.get(i).getSchuelerListFilename());
+ 	 			csvOutput.write(kl.get(i).getKorrBuchFilename());
  	 			
  	 			csvOutput.endRecord();
  			}
@@ -189,6 +191,14 @@ public class KlasseList {
   }
   
   public String toString(){
-	  return new String("Inhalt der Klassenliste: " + Klassenliste);
+	  return new String("Inhalt der Klassenliste: " + getKlassenliste());
   }
+
+public ArrayList<Klasse> getKlassenliste() {
+	return klassenliste;
+}
+
+public void setKlassenliste(ArrayList<Klasse> klassenliste) {
+	this.klassenliste = klassenliste;
+}
 }

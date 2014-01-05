@@ -30,6 +30,7 @@ import java.util.TreeSet;
 import javax.swing.Box;
 import java.awt.event.KeyEvent;
 
+import korrdata.Klasse;
 import korrdata.KlasseList;
 import korrdata.Schueler;
 import korrdata.SchuelerList;
@@ -40,6 +41,38 @@ public class KlasseBearbeiten extends JDialog implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	Frame aufrufer = new Frame();
+
+	// GUI-Elemente
+	
+	private JTextField txtBezeichnung;
+	private JTextField klasseBezeichnung;
+	private JTextField txtFach;
+	private JTextField klasseFach;
+	private JTextField txtSchuljahr;
+	private JTextField klasseSJ;
+	private JTextField txtLehrer;
+	private JTextField klasseLehrer;
+	private JTextField txtSchler;
+	private JTextField klasseAmt;
+	private JTextField klasseSchule;
+	private JTextField txtSchule;
+	private JTextField txtAmtsbez;
+	private JTextField klasseSchuelerinput;
+	private JScrollPane scrollPane;
+	private JButton btnAusgewLschen;
+	private Component verticalStrut;
+	private Component verticalStrut_1;
+	private Component verticalStrut_2;
+	private Component verticalStrut_3;
+	private JButton btnhinzu;
+	private DefaultListModel<String> name_list = new DefaultListModel<String>();
+	private JList<String> liste = new JList<String>(name_list);
+	private TreeSet<String> name_list_neu; //Dummy-Liste zum Verschieben und sortieren der Daten beim "neu-Hinzufügen"
+	
+	private JList<String> Klassenliste = new JList<String>();
+	private DefaultListModel<String> klass_list = new DefaultListModel<String>();
+	private KlasseList meineKlassenliste = new KlasseList();
+	private int classselected = KBMainWin.get_class_selected();
 	
 
 	/**
@@ -90,7 +123,7 @@ public class KlasseBearbeiten extends JDialog implements ActionListener {
 	private void lies_Schueler()
 	{
 		SchuelerList SList = new SchuelerList();
-		SList = meineKlassenliste.Klassenliste.get(classselected).getSchuelerL();
+		SList = meineKlassenliste.getKlassenliste().get(classselected).getSchuelerL();
 		
 		String Sname;
 		ArrayList<Schueler> SListe = new ArrayList<Schueler>();
@@ -131,12 +164,14 @@ public class KlasseBearbeiten extends JDialog implements ActionListener {
 	
 	private void lies_Grunddaten()
 	{
-		klasseBezeichnung.setText(meineKlassenliste.Klassenliste.get(classselected).getKlBez());
-		klasseFach.setText(meineKlassenliste.Klassenliste.get(classselected).getFach());
-		klasseSJ.setText(meineKlassenliste.Klassenliste.get(classselected).getSchuljahr()+"");
-		klasseLehrer.setText(meineKlassenliste.Klassenliste.get(classselected).getLehrer().getNachname());
-		klasseAmt.setText(meineKlassenliste.Klassenliste.get(classselected).getLehrer().getAmtsbez());
-		klasseSchule.setText(meineKlassenliste.Klassenliste.get(classselected).getLehrer().getSchule());
+		Klasse akt = meineKlassenliste.getKlassenliste().get(classselected);
+		
+		klasseBezeichnung.setText(akt.getKlBez());
+		klasseFach.setText(akt.getFach());
+		klasseSJ.setText(akt.getSchuljahr()+"");
+		klasseLehrer.setText(akt.getLehrer().getNachname());
+		klasseAmt.setText(akt.getLehrer().getAmtsbez());
+		klasseSchule.setText(akt.getLehrer().getSchule());
 	}
 	
 	private ActionListener CLASSal = new ActionListener(){
@@ -210,37 +245,6 @@ public class KlasseBearbeiten extends JDialog implements ActionListener {
 	
 	
 	
-	
-	private JTextField txtBezeichnung;
-	private JTextField klasseBezeichnung;
-	private JTextField txtFach;
-	private JTextField klasseFach;
-	private JTextField txtSchuljahr;
-	private JTextField klasseSJ;
-	private JTextField txtLehrer;
-	private JTextField klasseLehrer;
-	private JTextField txtSchler;
-	private JTextField klasseAmt;
-	private JTextField klasseSchule;
-	private JTextField txtSchule;
-	private JTextField txtAmtsbez;
-	private JTextField klasseSchuelerinput;
-	private JScrollPane scrollPane;
-	private JButton btnAusgewLschen;
-	private Component verticalStrut;
-	private Component verticalStrut_1;
-	private Component verticalStrut_2;
-	private Component verticalStrut_3;
-	private JButton btnhinzu;
-	private DefaultListModel name_list = new DefaultListModel();
-	private JList liste = new JList(name_list);
-	private TreeSet<String> name_list_neu; //Dummy-Liste zum Verschieben und sortieren der Daten beim "neu-Hinzufügen"
-	
-	private JList Klassenliste = new JList();
-	private DefaultListModel klass_list = new DefaultListModel();
-	private KlasseList meineKlassenliste = new KlasseList();
-	private int classselected = KBMainWin.get_class_selected();
-	
 	private void actionOKButton(){
 		
 		/**
@@ -287,8 +291,8 @@ public class KlasseBearbeiten extends JDialog implements ActionListener {
 		
 	private void initialize() {
 		// Einbindung der Daten aus der Klassenliste-Datei
-		meineKlassenliste.readKlasseListFromCSV("klassenliste.csv");
-		System.out.println(meineKlassenliste.Klassenliste.get(classselected).getKlBez());
+		meineKlassenliste.readKlasseListFromCSV(KBMainWin.KLISTE);
+		System.out.println(meineKlassenliste.getKlassenliste().get(classselected).getKlBez());
 		
 		setTitle("Klasse bearbeiten");
 		setBounds(100, 100, 580, 390);

@@ -5,15 +5,20 @@ import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JTextArea;
+
 import java.awt.ComponentOrientation;
 import java.awt.Dimension;
+
 import javax.swing.UIManager;
+
 import java.awt.Font;
+
 import javax.swing.DefaultListModel;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
@@ -23,6 +28,7 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
 
+import korrdata.Klasse;
 import korrdata.KlasseList;
 
 
@@ -38,8 +44,8 @@ public class KlasseOeffnen extends JDialog implements ActionListener {
 	private boolean auswahl=false; //Klasse ausgewählt?
 	private int auswahl_int; //Nummer der auswählten Klasse
 	
-	private JList Klassenliste = new JList();
-	private DefaultListModel klass_list = new DefaultListModel();
+	private JList<String> Klassenliste = new JList<String>();
+	private DefaultListModel<String> klass_list = new DefaultListModel<String>();
 	
 	private JButton okButton;
 	
@@ -95,7 +101,7 @@ public class KlasseOeffnen extends JDialog implements ActionListener {
 			int i = Klassenliste.getSelectedIndex();
 			auswahl_int=i;
 			
-			String outStr = new String(meineKlassenliste.Klassenliste.get(i).toString());
+			String outStr = new String(meineKlassenliste.getKlassenliste().get(i).toString());
 			set_Zusammenfassung(outStr);
 			auswahl=true; //Eine Klasse wurde ausgewählt
 			okButton.setEnabled(true);
@@ -116,7 +122,7 @@ public class KlasseOeffnen extends JDialog implements ActionListener {
 		// Kontrolle wieder an Hauptfenster geben
 		//aufrufer.setEnabled(true);
 		//aufrufer.setVisible(true);
-		KBMainWin.set_kb(meineKlassenliste.Klassenliste.get(auswahl_int));
+		KBMainWin.set_kb(meineKlassenliste.getKlassenliste().get(auswahl_int));
 		//Korrekturbuch zu ausgewählter Klasse beim Öffnen der Klasse gleich auswählen/erstellen
 		
 	}
@@ -140,10 +146,12 @@ public class KlasseOeffnen extends JDialog implements ActionListener {
 	private void initialize() {
 		
 		// Einbindung der Daten aus der Klassenliste-Datei
-		meineKlassenliste.readKlasseListFromCSV("klassenliste.csv");
+		meineKlassenliste.readKlasseListFromCSV(KBMainWin.KLISTE);
 		
-		for (int i = 0; i<meineKlassenliste.Klassenliste.size(); i++){
-			klass_list.addElement(meineKlassenliste.Klassenliste.get(i).getKlBez() + " " + meineKlassenliste.Klassenliste.get(i).getFach());
+		Klasse akt;
+		for (int i = 0; i<meineKlassenliste.getKlassenliste().size(); i++){
+			akt = meineKlassenliste.getKlassenliste().get(i);
+			klass_list.addElement(akt.getKlBez() + " " + akt.getFach());
 		}
 		
 		

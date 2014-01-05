@@ -17,11 +17,11 @@ import java.awt.Dimension;
 
 import korrdata.*;
 
+
+
 public class KBMainWin {
 
-	
-	public static String KLISTE = "klassenliste.csv";
-	
+	final static String KLISTE = "klassenliste.csv";
 	/**
 	 * mnPruefung, mntmBearbeiten und mntmSchliessen als static, da sonst setActive, ... nicht einfach umsetzbar sind.
 	 * 
@@ -274,7 +274,7 @@ public class KBMainWin {
 	private void initialize() {
 		KlasseList meineKlassenliste = new KlasseList();
         meineKlassenliste.readKlasseListFromCSV(KLISTE);
-		set_class_max(meineKlassenliste.Klassenliste.size());
+		set_class_max(meineKlassenliste.getKlassenliste().size());
 		System.out.println("Gesamtanzahl Klassen "+get_class_max());
 		
 		frame = new JFrame();

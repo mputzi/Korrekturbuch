@@ -239,7 +239,7 @@ public class KlasseBearbeiten extends JDialog implements ActionListener {
 	private JList Klassenliste = new JList();
 	private DefaultListModel klass_list = new DefaultListModel();
 	private KlasseList meineKlassenliste = new KlasseList();
-	private int classselected = Hauptfenster.get_class_selected();
+	private int classselected = KBMainWin.get_class_selected();
 	
 	private void actionOKButton(){
 		
@@ -253,7 +253,7 @@ public class KlasseBearbeiten extends JDialog implements ActionListener {
 		// Dialog abbauen
 		KlasseBearbeiten.this.setVisible(false);
 		KlasseBearbeiten.this.dispose();
-		Hauptfenster.set_class_open(true); // Eine Klasse ist ja nach wie vor ausgewählt
+		KBMainWin.set_class_open(true); // Eine Klasse ist ja nach wie vor ausgewählt
 		// Kontrolle wieder an Hauptfenster geben
 		//aufrufer.setEnabled(true);
 		//aufrufer.setVisible(true);
@@ -287,7 +287,7 @@ public class KlasseBearbeiten extends JDialog implements ActionListener {
 		
 	private void initialize() {
 		// Einbindung der Daten aus der Klassenliste-Datei
-		meineKlassenliste.setKlasseListFromCSV("klassenliste.csv");
+		meineKlassenliste.readKlasseListFromCSV("klassenliste.csv");
 		System.out.println(meineKlassenliste.Klassenliste.get(classselected).getKlBez());
 		
 		setTitle("Klasse bearbeiten");

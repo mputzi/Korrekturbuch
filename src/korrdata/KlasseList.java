@@ -80,16 +80,16 @@ public class KlasseList {
     	System.out.println("Klasse nicht in Liste enthalten.");
     }
   }
-  
-  public void setKlasseList (List<Klasse> liste )
+  /*
+  private void setKlasseList (List<Klasse> liste )
   {
     Klassenliste.clear();
     Klassenliste.addAll(liste);
     
     setAnz(Klassenliste.size());
   }
-  
-  public void setKlasseListFromCSV(String filename)
+  */
+  public void readKlasseListFromCSV(String filename)
   {
     Klassenliste.clear();
     Klasse tmp;
@@ -138,10 +138,7 @@ public class KlasseList {
     setAnz(Klassenliste.size());
   }
   
- 
-  public String toString(){
-	  return new String("Inhalt der Klassenliste: " + Klassenliste);
-  }
+
   
   public void writeKlasseListToCSV(String filename)
   {
@@ -190,5 +187,8 @@ public class KlasseList {
  		}
     
   }
-
+  
+  public String toString(){
+	  return new String("Inhalt der Klassenliste: " + Klassenliste);
+  }
 }

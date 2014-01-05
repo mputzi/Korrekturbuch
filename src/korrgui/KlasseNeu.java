@@ -167,11 +167,11 @@ public class KlasseNeu extends JDialog implements ActionListener {
 		// Dialog abbauen
 		KlasseNeu.this.setVisible(false);
 		KlasseNeu.this.dispose();
-		Hauptfenster.set_class_open(true);
+		KBMainWin.set_class_open(true);
 		// Kontrolle wieder an Hauptfenster geben
 		//aufrufer.setEnabled(true);
 		//aufrufer.setVisible(true);
-		Hauptfenster.set_class_open(true);
+		KBMainWin.set_class_open(true);
 	}
 	
 	private void actionCancelButton(){

@@ -97,8 +97,8 @@ public class PruefungOeffnen extends JDialog implements ActionListener {
 			 * und im Infofenster (rechts) angezeigt. Außerdem wird festgehalten, dass eine Prüfung ausgewählt wurde.
 			 */
 			int i = Pruefungsliste.getSelectedIndex();
-			Hauptfenster.set_pruef_selected(i);
-			set_Zusammenfassung(Hauptfenster.get_kb().getPruefungsliste().get(i).toString());
+			KBMainWin.set_pruef_selected(i);
+			set_Zusammenfassung(KBMainWin.get_kb().getPruefungsliste().get(i).toString());
 			
 					
 			/**
@@ -133,7 +133,7 @@ public class PruefungOeffnen extends JDialog implements ActionListener {
 		// Dialog abbauen
 		PruefungOeffnen.this.setVisible(false);
 		PruefungOeffnen.this.dispose();
-		Hauptfenster.set_pruef_selected(99);
+		KBMainWin.set_pruef_selected(99);
 		
 	}
 	
@@ -175,9 +175,9 @@ public class PruefungOeffnen extends JDialog implements ActionListener {
 				Pruefungsliste.setModel(pruef_list);
 				//pruef_list.addElement("Test");
 				//pruef_list.addElement("Hans");
-				int zahl = Hauptfenster.get_kb().getPruefungsliste().size();
+				int zahl = KBMainWin.get_kb().getPruefungsliste().size();
 				for (int i=0;i<zahl;i++){
-					pruef_list.addElement(Hauptfenster.get_kb().getPruefungsliste().get(i).getPruefListString());
+					pruef_list.addElement(KBMainWin.get_kb().getPruefungsliste().get(i).getPruefListString());
 				}
 				scrollPane.setViewportView(Pruefungsliste);
 			}

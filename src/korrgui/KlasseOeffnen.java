@@ -110,13 +110,13 @@ public class KlasseOeffnen extends JDialog implements ActionListener {
 		KlasseOeffnen.this.setVisible(false);
 		KlasseOeffnen.this.dispose();
 		//Wenn keine Datei ausgewählt, dann auf false, sonst auf true
-		Hauptfenster.set_class_open(auswahl);
-		Hauptfenster.set_class_selected(auswahl_int);
+		KBMainWin.set_class_open(auswahl);
+		KBMainWin.set_class_selected(auswahl_int);
 		System.out.println(auswahl_int);
 		// Kontrolle wieder an Hauptfenster geben
 		//aufrufer.setEnabled(true);
 		//aufrufer.setVisible(true);
-		Hauptfenster.set_kb(meineKlassenliste.Klassenliste.get(auswahl_int));
+		KBMainWin.set_kb(meineKlassenliste.Klassenliste.get(auswahl_int));
 		//Korrekturbuch zu ausgewählter Klasse beim Öffnen der Klasse gleich auswählen/erstellen
 		
 	}
@@ -140,7 +140,7 @@ public class KlasseOeffnen extends JDialog implements ActionListener {
 	private void initialize() {
 		
 		// Einbindung der Daten aus der Klassenliste-Datei
-		meineKlassenliste.setKlasseListFromCSV("klassenliste.csv");
+		meineKlassenliste.readKlasseListFromCSV("klassenliste.csv");
 		
 		for (int i = 0; i<meineKlassenliste.Klassenliste.size(); i++){
 			klass_list.addElement(meineKlassenliste.Klassenliste.get(i).getKlBez() + " " + meineKlassenliste.Klassenliste.get(i).getFach());

@@ -25,7 +25,7 @@ public class KlasseListTest {
 		meineKlassenliste.writeKlasseListToCSV("klassenliste.csv");
 		
 		KlasseList meineKlassenliste2 = new KlasseList();
-		meineKlassenliste2.setKlasseListFromCSV("klassenliste.csv");
+		meineKlassenliste2.readKlasseListFromCSV("klassenliste.csv");
 		
 		System.out.println(meineKlassenliste2.toString());
 		

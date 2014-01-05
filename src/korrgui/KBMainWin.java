@@ -17,8 +17,11 @@ import java.awt.Dimension;
 
 import korrdata.*;
 
-public class Hauptfenster {
+public class KBMainWin {
 
+	
+	public static String KLISTE = "klassenliste.csv";
+	
 	/**
 	 * mnPruefung, mntmBearbeiten und mntmSchliessen als static, da sonst setActive, ... nicht einfach umsetzbar sind.
 	 * 
@@ -224,7 +227,7 @@ public class Hauptfenster {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Hauptfenster window = new Hauptfenster();
+					KBMainWin window = new KBMainWin();
 					window.frame.setVisible(true);
 					window.frame.addWindowListener(wl);
 
@@ -239,7 +242,7 @@ public class Hauptfenster {
 	/**
 	 * Create the application.
 	 */
-	public Hauptfenster() {
+	public KBMainWin() {
 
 
 		initialize(); // Menübar anlegen und Passwortabfrage starten
@@ -261,7 +264,7 @@ public class Hauptfenster {
 		welcome.setText("         Herzlich willkommen im Korrektur-Unterstützungs-Programm!\r\n\r\nBitte öffnen Sie eine bestehende Klasse oder legen Sie eine Klasse neu an.");
 		mainpanel.add(welcome);
 
-
+		
 	}
 
 
@@ -270,7 +273,7 @@ public class Hauptfenster {
 	 */
 	private void initialize() {
 		KlasseList meineKlassenliste = new KlasseList();
-        meineKlassenliste.setKlasseListFromCSV("klassenliste.csv");
+        meineKlassenliste.readKlasseListFromCSV(KLISTE);
 		set_class_max(meineKlassenliste.Klassenliste.size());
 		System.out.println("Gesamtanzahl Klassen "+get_class_max());
 		
@@ -285,7 +288,7 @@ public class Hauptfenster {
 
 		menuBar = new JMenuBar();
 		frame.getContentPane().add(menuBar, BorderLayout.NORTH);
-
+     
 		/**
 		 * Menü "Datei" anlegen mit "Passwort ändern" und "Beenden"
 		 */ 
@@ -374,11 +377,11 @@ public class Hauptfenster {
 		mnHilfe.setToolTipText("Das Menü 'Hilfe' soll das Handbuch, Coopyright, ... enthalten.");
 		menuBar.add(mnHilfe);
 
-
+		frame.setVisible(true);
 		/**
 		 * Passwort-Abfrage bei Programmstart
 		 */
-
+        
 		frame.setEnabled(false); // Hauptfenster deaktivieren
 		Passwort pwDialog = new Passwort(frame); // Passwort-Dialog erstellen
 		pwDialog.setLocationRelativeTo(frame); // Aufrufenden frame an Passwort-Dialog übermitteln

@@ -29,9 +29,9 @@ public class Klasse {
 	// Constructors
 	//
 	public Klasse () { };
-	public Klasse ( String bez, String fach ,int sj) { klasseAnlegen(bez,fach,sj);};
+	//public Klasse ( String bez, String fach ,int sj) { klasseAnlegen(bez,fach,sj);};
 	public Klasse ( String bez, String fach ,int sj, Lehrer L) { klasseAnlegen(bez,fach,sj,L);};
-	public Klasse ( String bez, String fach ,int sj, String SLFile) { klasseAnlegen(bez,fach,sj, SLFile);};
+	//public Klasse ( String bez, String fach ,int sj, String SLFile) { klasseAnlegen(bez,fach,sj, SLFile);};
 
 	//
 	// Methods
@@ -90,10 +90,13 @@ public class Klasse {
 		return lehrer;
 	}
 
-	//
-	// Other methods
-	//
-
+	public String getFach() {
+		return fach;
+	}
+	public void setFach(String fach) {
+		this.fach = fach;
+	}
+	
 	public int getSchuelerzahl() {
 		return schuelerzahl;
 	}
@@ -106,12 +109,40 @@ public class Klasse {
 	public void setSchuelerL(SchuelerList schuelerL) {
 		this.schuelerL = schuelerL;
 	}
+	
+	public String getSchuelerListFilename() {
+		return schuelerListFilename;
+	}
+	private void setSchuelerListFilename(String schuelerListFilename) {
+		this.schuelerListFilename = schuelerListFilename;
+	}
+	
+	public Korrekturbuch getKorrBuch() {
+		return korrBuch;
+	}
+	public void setKorrBuch(Korrekturbuch korrBuch) {
+		this.korrBuch = korrBuch;
+	}
+	
+	public String getKorrBuchFilename() {
+		return korrBuchFilename;
+	}
+	private void setKorrBuchFilename(String korrBuchFilename) {
+		this.korrBuchFilename = korrBuchFilename;
+	}
+	
+	//
+	// Other methods
+	//
+
+
 	/**
 	 * 
 	 * @param bez Bezeichnung der Klasse
 	 * @param sj Schuljahr
 	 * 
 	 */
+	/*
 	public void klasseAnlegen( String bez, String fach, int sj)
 	{
 		setKlBez(bez);
@@ -121,23 +152,25 @@ public class Klasse {
 		setKorrBuchFilename(new String(bez + "_" + fach + "_" + sj + "_KB.csv"));
 		this.readSchuelerListFromFile();
 		this.readSchuelerAnz();
-		
+
 		System.out.println("K: Neue Klasse "+ this.getKlBez() +"/" + this.getFach() + " wird erstellt.");
 	}
-
+	 */
 	public void klasseAnlegen( String bez, String fach, int sj, Lehrer L)
 	{
 		setKlBez(bez);
 		setSchuljahr(sj);
 		setFach(fach);
+		setLehrer(L);
+		
 		setSchuelerListFilename(new String(bez + "_" + fach + "_" + sj + "_SL.csv"));
 		setKorrBuchFilename(new String(bez + "_" + fach + "_" + sj + "_KB.csv"));
-		setLehrer(L);
+				
 		this.readSchuelerListFromFile();
 		this.readSchuelerAnz();
 		System.out.println("K: Neue Klasse "+ this.getKlBez() +"/" + this.getFach() + " wird erstellt.");
 	}
-
+	/*
 	public void klasseAnlegen( String bez, String fach, int sj, String SLFile)
 	{
 		setKlBez(bez);
@@ -149,26 +182,10 @@ public class Klasse {
 		this.readSchuelerAnz();
 		System.out.println("K: Neue Klasse "+ this.getKlBez() +"/" + this.getFach() + " wird erstellt.");
 	}
+	 */
 
-	public String toString(){
-		return new String("K: " + getKlBez() +
-	", Fach " 	+ getFach() +
-	", Schuljahr " 	+ getSchuljahr() +"/"+ (getSchuljahr()+1) + 
-	", Lehrer: " + getLehrer().toString() +
-	", Schülerzahl: " + getSchuelerzahl());
-	}
-	public String getFach() {
-		return fach;
-	}
-	public void setFach(String fach) {
-		this.fach = fach;
-	}
-	public Korrekturbuch getKorrBuch() {
-		return korrBuch;
-	}
-	public void setKorrBuch(Korrekturbuch korrBuch) {
-		this.korrBuch = korrBuch;
-	}
+
+
 
 	/*
 public void setKorrBuchFromFile(String filename) {
@@ -179,48 +196,31 @@ public void writeKorrBuchToFile(String filename) {
 
 }*/
 
-	public String getSchuelerListFilename() {
-		return schuelerListFilename;
-	}
-	private void setSchuelerListFilename(String schuelerListFilename) {
-		this.schuelerListFilename = schuelerListFilename;
-	}
-    
-	public void writeSchuelerList() {
-		this.writeSchuelerListToFile(new String(this.getSchuelerListFilename()));
-	}
-	
-	private void writeSchuelerListToFile(String filename) {
-		getSchuelerL().writeSchuelerListToCSV(filename);
-	}
-
-	public String getKorrBuchFilename() {
-		return korrBuchFilename;
-	}
-	private void setKorrBuchFilename(String korrBuchFilename) {
-		this.korrBuchFilename = korrBuchFilename;
-	}
-
 	private void readSchuelerListFromFile(){
 		SchuelerList SLtmp = new SchuelerList();
 		SLtmp.setSchuelerListFromCSV(this.getSchuelerListFilename());
 		this.setSchuelerL(SLtmp);
 	}
-	
+
 	private void readSchuelerAnz(){
 		int anz = 0;
-		
 		anz = this.getSchuelerL().getAnz();
-				
 		this.setSchuelerzahl(anz);
- 		
+	}
+
+	public void writeSchuelerList() {
+		this.writeSchuelerListToFile(new String(this.getSchuelerListFilename()));
+	}
+
+	private void writeSchuelerListToFile(String filename) {
+		getSchuelerL().writeSchuelerListToCSV(filename);
 	}
 
 	public void addSchuelerToKlasse(String vorname, String nachname){
 		this.getSchuelerL().addToSchuelerList(new Schueler(vorname,nachname));
 		this.setSchuelerzahl(this.getSchuelerzahl()+1);
 	};
-	
+
 	public void addSchuelerToKlasse(int id, String vorname, String nachname){
 		this.getSchuelerL().addToSchuelerList(new Schueler(id,vorname,nachname));
 		this.setSchuelerzahl(this.getSchuelerzahl()+1);
@@ -233,14 +233,20 @@ public void writeKorrBuchToFile(String filename) {
 			this.getSchuelerL().removeFromSchuelerList(new Schueler(id, vorname,nachname));
 			this.setSchuelerzahl(this.getSchuelerzahl()-1);
 		}
-		
+
 	};*/
-	
+
 	public void removeSchuelerFromKlasse(int id, String vorname, String nachname){
 		this.getSchuelerL().removeFromSchuelerList(new Schueler(id,vorname,nachname));
 		this.setSchuelerzahl(this.getSchuelerzahl()+1);
 	};
-	
-	
-	
+
+	public String toString(){
+		return new String("K: " + getKlBez() +
+				", Fach " 	+ getFach() +
+				", Schuljahr " 	+ getSchuljahr() +"/"+ (getSchuljahr()+1) + 
+				", Lehrer: " + getLehrer().toString() +
+				", Schülerzahl: " + getSchuelerzahl());
+	}
+
 }

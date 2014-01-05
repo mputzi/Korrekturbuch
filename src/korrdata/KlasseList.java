@@ -38,7 +38,13 @@ public class KlasseList {
   //
   // Accessor methods
   //
+  public ArrayList<Klasse> getKlassenliste() {
+		return klassenliste;
+	}
 
+	public void setKlassenliste(ArrayList<Klasse> klassenliste) {
+		this.klassenliste = klassenliste;
+	}
   /**
    * Set the value of anz
    * @param newVar the new value of anz
@@ -194,11 +200,5 @@ public class KlasseList {
 	  return new String("Inhalt der Klassenliste: " + getKlassenliste());
   }
 
-public ArrayList<Klasse> getKlassenliste() {
-	return klassenliste;
-}
 
-public void setKlassenliste(ArrayList<Klasse> klassenliste) {
-	this.klassenliste = klassenliste;
-}
 }

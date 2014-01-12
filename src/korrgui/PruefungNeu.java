@@ -68,7 +68,16 @@ public class PruefungNeu extends JDialog implements ActionListener {
 				}
 			};
 	private JTable table = new JTable(model);
-			
+	private JPanel panel_Aufgaben;
+	private JTextField txtAnzahlDerAufgaben;
+	private JSpinner anzahl_Aufgaben_gui;
+	private JPanel panel_1;
+	private JPanel panel_2;
+	private JScrollPane scrollPane;
+	private JTextArea txt_erklaerung;
+	
+	
+	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		try {
@@ -79,6 +88,8 @@ public class PruefungNeu extends JDialog implements ActionListener {
 			e.printStackTrace();
 		}
 	}
+	
+	
 	
 	public PruefungNeu(final Frame aufrufer) {
 		initialize();
@@ -132,7 +143,7 @@ public class PruefungNeu extends JDialog implements ActionListener {
 				panel.add(textField_1);
 			}
 			{
-				comboBox = new JComboBox(Pruefungsarten.ART.values()); // evtl ohne Type-Cast da JComboBox<ART> nicht immer funktioniert
+				comboBox = new JComboBox<ART>(Pruefungsarten.ART.values()); // evtl ohne Type-Cast da JComboBox<ART> nicht immer funktioniert
 				comboBox.addItemListener(il);
 				comboBox.setBorder(UIManager.getBorder("ComboBox.border"));
 				comboBox.setBackground(Color.WHITE);
@@ -283,6 +294,19 @@ public class PruefungNeu extends JDialog implements ActionListener {
 				 * Korrektureingabe gestartet
 				 * Dazu den Dialog "Neue Prüfung" schließen und "Korrektureingabe" öffnen
 				 */
+				System.out.println(textDatum.getText());
+				String datum[] = textDatum.getText().split("\\.");
+				System.out.println(datum[0]);
+				Integer day = new Integer(datum[0]);
+				Integer mon = new Integer(datum[1]);
+				Integer yea = new Integer(datum[2]);
+				Integer nummer = new Integer(txtNR.getText());
+				Pruefungsarten.ART art = comboBox.getItemAt(comboBox.getSelectedIndex());
+				
+				KBMainWin.get_kb().neuePruefung(day, mon-1, yea, nummer, art);
+				
+				
+				
 				PruefungNeu.this.dispose();
 				
 			};
@@ -324,19 +348,6 @@ public class PruefungNeu extends JDialog implements ActionListener {
 			
 		}
 	};
-	
-	
-	
-	
-	private JPanel panel_Aufgaben;
-	private JTextField txtAnzahlDerAufgaben;
-	private JSpinner anzahl_Aufgaben_gui;
-	private JPanel panel_1;
-	private JPanel panel_2;
-	private JScrollPane scrollPane;
-	private JTextArea txt_erklaerung;
-	
-	
 	
 	
 	public void actionPerformed(ActionEvent arg0) {

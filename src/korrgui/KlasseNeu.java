@@ -39,6 +39,7 @@ import korrdata.*;
 public class KlasseNeu extends JDialog implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
+	private static String schuelerListCSVFilename = "schueler.csv";
 	Frame aufrufer = new Frame();
 	
 
@@ -269,7 +270,16 @@ public class KlasseNeu extends JDialog implements ActionListener {
 	
 	private void actionCSVButton(){
 		// Die Datei schueler.csv wird importiert, sofern vorhanden
-		File datei = new File("schueler.csv");
+		
+		// Passwort-Änderungs-Dialog erstellen
+		SchuelerCSV SLCSVDialog = new SchuelerCSV(this);
+		// Aufrufenden frame an Passwort-Änderungs-Dialog übermitteln
+		SLCSVDialog.setLocationRelativeTo(this);
+		// Passwort-Änderungs-Dialog anzeigen
+		SLCSVDialog.setVisible(true);			
+		
+		
+		File datei = new File(getSchuelerListCSVFilename());
 		if (datei.exists()){
 			try {
 			name_list.clear();
@@ -487,5 +497,16 @@ public class KlasseNeu extends JDialog implements ActionListener {
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
 		
+	}
+
+
+	public static String getSchuelerListCSVFilename() {
+		return schuelerListCSVFilename;
+	}
+
+
+	public static void setSchuelerListCSVFilename(
+			String schuelerListCSVFilename) {
+		KlasseNeu.schuelerListCSVFilename = schuelerListCSVFilename;
 	}
 }

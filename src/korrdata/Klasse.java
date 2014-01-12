@@ -215,6 +215,14 @@ public void writeKorrBuchToFile(String filename) {
 	private void writeSchuelerListToFile(String filename) {
 		getSchuelerL().writeSchuelerListToCSV(filename);
 	}
+	
+	public void deleteSchuelerList() {
+		this.deleteSchuelerListFile(new String(this.getSchuelerListFilename()));
+	}
+
+	private void deleteSchuelerListFile(String filename) {
+		getSchuelerL().deleteSchuelerListFile(filename);
+	}
 
 	public void addSchuelerToKlasse(String vorname, String nachname){
 		this.getSchuelerL().addToSchuelerList(new Schueler(vorname,nachname));

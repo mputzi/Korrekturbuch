@@ -182,6 +182,16 @@ public class SchuelerList {
     
   }
   
+  public void deleteSchuelerListFile(String filename){
+	  File f = new File(filename);
+		boolean alreadyExists = f.exists();
+		
+		if (alreadyExists){
+				f.delete();
+			}
+		
+  }
+  
   public String toString(){
 	  return new String("SL: " + Schuelerliste);
   }

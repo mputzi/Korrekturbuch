@@ -164,8 +164,8 @@ public class KlasseNeu extends JDialog implements ActionListener {
 	private Component verticalStrut_2;
 	private Component verticalStrut_3;
 	private JButton btnhinzu;
-	private DefaultListModel name_list = new DefaultListModel();
-	private JList liste = new JList(name_list);
+	private DefaultListModel<String> name_list = new DefaultListModel<String>();
+	private JList<String> liste = new JList<String>(name_list);
 	private TreeSet<String> name_list_neu;
 	
 	
@@ -178,8 +178,7 @@ public class KlasseNeu extends JDialog implements ActionListener {
 				//KBMainWin.set_class_selected(newID);
 				//KBMainWin.set_class_open(true);
 		KBMainWin.set_class_open(false);
-		
-		
+				
 		// Schülerliste zur Klasse wird erstellt. 		
 		SchuelerList newSL = new SchuelerList();
 		Schueler newS;
@@ -288,7 +287,9 @@ public class KlasseNeu extends JDialog implements ActionListener {
 			String zeile=null;
 			while ((zeile = in.readLine()) != null) {
 				name_list.addElement(zeile);
-			} }
+			}
+			in.close();
+			}
 			catch (IOException e) { e.printStackTrace(); }
 		}
 		btnAusgewLschen.setEnabled(false);

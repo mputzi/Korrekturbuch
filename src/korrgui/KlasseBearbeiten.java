@@ -32,9 +32,10 @@ import java.awt.event.KeyEvent;
 
 import korrdata.Klasse;
 import korrdata.KlasseList;
+import korrdata.Lehrer;
 import korrdata.Schueler;
 import korrdata.SchuelerList;
-import java.awt.Window.Type;
+
 
 
 public class KlasseBearbeiten extends JDialog implements ActionListener {
@@ -114,8 +115,11 @@ public class KlasseBearbeiten extends JDialog implements ActionListener {
 		/**
 		 * Daten aus gewählter Klasse einfügen
 		 */
-		lies_Grunddaten();
-		lies_Schueler();
+		// Reihenfolge hier wichtig!
+		// Klassenobjekt wird nach Einlesen zerstört!
+		lies_Schueler(); // Am Ende wird Schüerlisten-Datei gelöscht!
+		lies_Grunddaten(); // Am Ende wird Klasse aus KlassenListe gelöscht!
+		
 		
 		
 	}
@@ -123,13 +127,15 @@ public class KlasseBearbeiten extends JDialog implements ActionListener {
 	private void lies_Schueler()
 	{
 		SchuelerList SList = new SchuelerList();
-		SList = meineKlassenliste.getKlassenliste().get(classselected).getSchuelerL();
+		// temporäres Klassenobjekt
+		Klasse akt = meineKlassenliste.getKlassenliste().get(classselected);
+		
+		SList = akt.getSchuelerL();
 		
 		String Sname;
 		ArrayList<Schueler> SListe = new ArrayList<Schueler>();
 		SListe = SList.Schuelerliste;
-		
-		
+				
 		int sizeL = SListe.size();
 		for (int i=0;i<sizeL;i++){
 			Sname = SListe.get(i).getNachname() + " " + SListe.get(i).getVorname();
@@ -139,39 +145,30 @@ public class KlasseBearbeiten extends JDialog implements ActionListener {
 		//System.out.println("Neuer Versuch "+SListe);
 		//damit ist man in der zugehörigen Schülerliste
 		
-		
-		
+		// Schülerlistendatei der aktuellen Klasse löschen
+		meineKlassenliste.getKlassenliste().get(classselected).deleteSchuelerList();
+		// Schülerliste nur noch temporär vorhanden!
 	}
 	
-	private void schreib_Schueler()
-	{
-		/**
-		 * muss noch implementiert werden
-		 */
-		
-		
-		
-	}
-	
-	private void schreib_Grunddaten()
-	{
-		/**
-		 * muss noch implementiert werden
-		 */
-		
-				
-	}
+
 	
 	private void lies_Grunddaten()
 	{
+		// temporäres Klassenobjekt
 		Klasse akt = meineKlassenliste.getKlassenliste().get(classselected);
 		
+		
+		// Informationen 
 		klasseBezeichnung.setText(akt.getKlBez());
 		klasseFach.setText(akt.getFach());
 		klasseSJ.setText(akt.getSchuljahr()+"");
 		klasseLehrer.setText(akt.getLehrer().getNachname());
 		klasseAmt.setText(akt.getLehrer().getAmtsbez());
 		klasseSchule.setText(akt.getLehrer().getSchule());
+		
+		// Eintrag der ursprünglichen Klasse in Klassenliste löschen
+		meineKlassenliste.removeFromKlasseList(akt);
+		// Informationen nur noch temporär vorhanden!
 	}
 	
 	private ActionListener CLASSal = new ActionListener(){
@@ -246,12 +243,54 @@ public class KlasseBearbeiten extends JDialog implements ActionListener {
 	
 	
 	private void actionOKButton(){
-		
-		/**
-		 * Hier müssen jetzt noch die veränderten Daten zurückgeschrieben werden
-		 */
-		schreib_Grunddaten();
-		schreib_Schueler();
+				
+				// Schülerliste zur Klasse wird erstellt. 		
+				SchuelerList newSL = new SchuelerList();
+				Schueler newS;
+				
+				int sc =0;
+				String listname ="";
+				String[] nameParts;
+				String vorname ="";
+				String nachname ="";
+				while(!name_list.isEmpty() && sc < name_list.getSize()){
+					listname = name_list.get(sc).toString();
+					nameParts = listname.split(" ");
+					vorname = nameParts[0];
+					nachname = nameParts[1];
+					
+					newS = new Schueler(vorname,nachname);
+					newSL.addToSchuelerList(newS);
+					
+					sc++;
+				}
+						
+				// Auslesen der Textfelder
+				String newBez = this.klasseBezeichnung.getText();
+				String newFach = this.klasseFach.getText();
+				Integer newSJ;
+				try{
+					newSJ = new Integer(this.klasseSJ.getText());
+				}
+				catch(NumberFormatException e){
+					System.out.println("Eingegebenes Schuljahr keine Zahl!");
+					KlasseBearbeiten.this.setVisible(false);
+					KlasseBearbeiten.this.dispose();
+					return;
+				};
+				Lehrer newLeh = new Lehrer(this.klasseAmt.getText(),
+						this.klasseLehrer.getText(),
+						this.klasseSchule.getText());
+					
+				
+				// neue Klasse erstellen
+				Klasse kl = new Klasse(newBez,newFach,newSJ,newLeh);
+				kl.setSchuelerL(newSL);
+				kl.writeSchuelerList();
+				
+				// Klassenliste ändern
+				this.meineKlassenliste.addToKlasseList(kl);
+				this.meineKlassenliste.writeKlasseListToCSV(KBMainWin.KLISTE);
 		
 		// Bestätigen und die Klassenauswahl verlassen
 		// Dialog abbauen

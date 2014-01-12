@@ -38,6 +38,7 @@ public class Korrekturbuch {
   //
   public Korrekturbuch () { };
   
+ /*
   public Korrekturbuch (List<Pruefung> liste) {
 	  getPruefungsliste().clear();
 	  getPruefungsliste().addAll(liste);
@@ -55,12 +56,15 @@ public class Korrekturbuch {
 	  }
 	  Collections.sort(getPruefungsliste(),new PruefungComparator());
   };
+ */
   
   public Korrekturbuch (Klasse kl) {
 	  this.setKlassenBezeichnung(kl.getKlBez());
 	  this.setKBKlasse(kl);
 	  
 	  System.out.println("KB: Erstelle Korrekturbuch zur Klasse " + this.getKBKlasse());
+	  
+	  // Über fillKorrekturbuch werden alle Prüfungen aus Dateien ausgelesen.
 	  
 	  if(this.fillKorrekturbuch()){
 		  System.out.println("Prüfungen vorhanden!");
@@ -70,6 +74,7 @@ public class Korrekturbuch {
 	  }
 	  Collections.sort(getPruefungsliste(),new PruefungComparator());
   };
+  
   //
   // Methods
   //
@@ -99,7 +104,8 @@ public class Korrekturbuch {
     	System.out.println("Prüfung nicht in Liste enthalten.");
     }
    } 
-   
+   //not used
+   /*
     public void setKorrekturbuch (List<Pruefung> liste )
     {
     	getPruefungsliste().clear();
@@ -107,7 +113,7 @@ public class Korrekturbuch {
       
       setPrAnz(getPruefungsliste().size());
     }
-   
+   */
     public boolean setKorrekturbuchFromFiles(File[] files)
     {
     	if (files.length==0){
@@ -339,16 +345,18 @@ public Lehrer getLehrer()
 	 */ 
 
 	 Calendar d = new GregorianCalendar(yea,mon,day);
-	 this.setPrAnz(this.getPrAnz()+1);
+	 //this.setPrAnz(this.getPrAnz()+1);
+	 
 	 Pruefung tmp = new Pruefung(ID, d, art, nummer, this);
 	 //tmp.autosetFilename(this);
-	 this.Pruefungsliste.add(tmp);
+	 this.addToKorrekturbuch(tmp);
 	 	 
 	 System.out.println("KB: "+"Neue Prüfung: " + tmp.getPrFilename() + " erstellt und hinzugefügt.");
 	 
 	 // Schreiben der neuen Prüfung in neue Datei
 	 tmp.writePruefungToCSV();	 
  }
+ 
 /* 
  public void removePruefung(int ID){
 	 

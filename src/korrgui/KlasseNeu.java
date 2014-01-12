@@ -8,6 +8,7 @@ import java.awt.Frame;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyListener;
+
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
@@ -21,12 +22,18 @@ import javax.swing.event.ListDataListener;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.JTextField;
-import net.miginfocom.swing.MigLayout;
-import java.util.TreeSet;
-import javax.swing.Box;
-import java.awt.event.KeyEvent;
 
+import net.miginfocom.swing.MigLayout;
+
+import java.util.TreeSet;
+
+import javax.swing.Box;
+
+import java.awt.event.KeyEvent;
 import java.io.*;
+
+import korrdata.*;
+
 
 
 public class KlasseNeu extends JDialog implements ActionListener {
@@ -163,15 +170,76 @@ public class KlasseNeu extends JDialog implements ActionListener {
 	
 	private void actionOKButton(){
 		
+		// selektierte neue Klasse setzen
+			//** falls KlassenID implementiert:
+				//Integer newID = new Integer(999);
+				// newID bestimmen ... 
+				//KBMainWin.set_class_selected(newID);
+				//KBMainWin.set_class_open(true);
+		KBMainWin.set_class_open(false);
+		
+		
+		// Schülerliste zur Klasse wird erstellt. 		
+		SchuelerList newSL = new SchuelerList();
+		Schueler newS;
+		
+		int sc =0;
+		String listname ="";
+		String[] nameParts;
+		String vorname ="";
+		String nachname ="";
+		while(!name_list.isEmpty() && sc < name_list.getSize()){
+			listname = name_list.get(sc).toString();
+			nameParts = listname.split(" ");
+			vorname = nameParts[0];
+			nachname = nameParts[1];
+			
+			newS = new Schueler(vorname,nachname);
+			newSL.addToSchuelerList(newS);
+			
+			sc++;
+		}
+				
+		// Auslesen der Textfelder
+		String newBez = this.klasseBezeichnung.getText();
+		String newFach = this.klasseFach.getText();
+		Integer newSJ;
+		try{
+			newSJ = new Integer(this.klasseSJ.getText());
+		}
+		catch(NumberFormatException e){
+			System.out.println("Eingegebenes Schuljahr keine Zahl!");
+			KlasseNeu.this.setVisible(false);
+			KlasseNeu.this.dispose();
+			return;
+		};
+		Lehrer newLeh = new Lehrer(this.klasseAmt.getText(),
+				this.klasseLehrer.getText(),
+				this.klasseSchule.getText());
+			
+		
+		// neue Klasse erstellen
+		Klasse kl = new Klasse(newBez,newFach,newSJ,newLeh);
+		kl.setSchuelerL(newSL);
+		kl.writeSchuelerList();
+		
+		// Klassenliste ergänzen
+		KlasseList klL = new KlasseList();
+		// auslesen
+		klL.readKlasseListFromCSV(KBMainWin.KLISTE);
+		// hinzufügen
+		klL.addToKlasseList(kl);
+		// schreiben
+		klL.writeKlasseListToCSV(KBMainWin.KLISTE);
+		
 		// Bestätigen und die Klassenauswahl verlassen
 		// Dialog abbauen
 		KlasseNeu.this.setVisible(false);
 		KlasseNeu.this.dispose();
-		KBMainWin.set_class_open(true);
 		// Kontrolle wieder an Hauptfenster geben
 		//aufrufer.setEnabled(true);
 		//aufrufer.setVisible(true);
-		KBMainWin.set_class_open(true);
+		
 	}
 	
 	private void actionCancelButton(){

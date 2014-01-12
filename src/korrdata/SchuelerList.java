@@ -89,7 +89,8 @@ public class SchuelerList {
     	System.out.println("Schüler nicht in Liste enthalten.");
     }
   }
-  
+  // not used
+  /*
   public void setSchuelerList (List liste )
   {
     Schuelerliste.clear();
@@ -97,6 +98,7 @@ public class SchuelerList {
     
     setAnz(Schuelerliste.size());
   }
+  */
   
   public void setSchuelerListFromCSV(String filename)
   {
@@ -135,12 +137,6 @@ public class SchuelerList {
 	}
 	else {System.out.println("SL: Datei existiert nicht" + filename);}
     setAnz(Schuelerliste.size());
-  }
-  
-
-  
-  public String toString(){
-	  return new String("SL: " + Schuelerliste);
   }
   
   public void writeSchuelerListToCSV(String filename)
@@ -185,5 +181,11 @@ public class SchuelerList {
  		}
     
   }
+  
+  public String toString(){
+	  return new String("SL: " + Schuelerliste);
+  }
+  
+  
 
 }

@@ -7,26 +7,35 @@ import java.awt.Frame;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
+
 import java.awt.GridBagLayout;
+
 import javax.swing.JLabel;
+
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
-import javax.swing.JTextField;
+
 import javax.swing.JPasswordField;
+
 import java.awt.Color;
+
 import javax.swing.border.BevelBorder;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-
 import korrsecur.*;
+
 import java.awt.Window.Type;
+
 
 
 public class PassChange extends JDialog {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7812077875481168875L;
 	private final JPanel contentPanel = new JPanel();
 	private JPasswordField passwordFieldAlt;
 	private JPasswordField passwordFieldNeu1;
@@ -41,6 +50,7 @@ public class PassChange extends JDialog {
 			PassChange dialog = new PassChange(null);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -51,8 +61,8 @@ public class PassChange extends JDialog {
 	 */
 	public PassChange(final Frame aufrufer) {
 		setUndecorated(true);
-		setType(Type.POPUP);
 		setResizable(false);
+		
 		ActionListener PWDChgAL = new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				String cmd = e.getActionCommand();
@@ -73,13 +83,14 @@ public class PassChange extends JDialog {
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setAlwaysOnTop(true);
 		setBounds(100, 100, 450, 250);
+		
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		GridBagLayout gbl_contentPanel = new GridBagLayout();
-		gbl_contentPanel.columnWidths = new int[]{0, 0, 0, 0, 0};
-		gbl_contentPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0};
-		gbl_contentPanel.columnWeights = new double[]{0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_contentPanel.columnWidths = new int[]{32, 146, 35, 136, 0};
+		gbl_contentPanel.rowHeights = new int[]{32, 19, 35, 19, 19, 15, 0};
+		gbl_contentPanel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gbl_contentPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		contentPanel.setLayout(gbl_contentPanel);
 		{
@@ -92,8 +103,15 @@ public class PassChange extends JDialog {
 		}
 		{
 			passwordFieldAlt = new JPasswordField();
+			passwordFieldAlt.setToolTipText("Das alte Passwort hatte " + Secur.passLength() + " Zeichen.");
 			passwordFieldAlt.setColumns(12);
 			passwordFieldAlt.setBackground(new Color(255, 250, 205));
+			/*
+			StringBuffer sb = new StringBuffer(Secur.passLength());
+			for (int i =0;i<Secur.passLength();i++){
+				sb.append("a");
+			}
+			passwordFieldAlt.setText(sb.toString()); */
 			GridBagConstraints gbc_passwordFieldAlt = new GridBagConstraints();
 			gbc_passwordFieldAlt.anchor = GridBagConstraints.WEST;
 			gbc_passwordFieldAlt.insets = new Insets(0, 0, 5, 0);
@@ -204,6 +222,7 @@ public class PassChange extends JDialog {
 			
 			
 		}
+		
 	}
 	
 	private void actionCancelButton(){

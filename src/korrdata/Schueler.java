@@ -127,11 +127,11 @@ public class Schueler {
 	  return true;	  
   }
 
-  public String toString3(){
+  public String toStringVNSpacesep(){
 	  return new String(getVorname() + " " + getNachname());
   }
   
-  public String toString2(){
+  public String toStringNVCommasep(){
 	  return new String(getNachname() + ", " + getVorname());
   }
   

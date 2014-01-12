@@ -131,7 +131,42 @@ public final class Secur {
 	 * 
 	 * ######################################################################
 	 */
-	
+	public static int passLength(){
+		int l = 0;
+		String inStr = new String("");
+		FileReader f;
+		int c;
+		
+		File pwdDat = new File("pwd.dat");
+		if(  pwdDat.exists() && pwdDat.canWrite() && pwdDat.isFile()  ) {
+			System.out.println("Datei pwd.dat ist da, alles in Ordnung.");
+		}
+		else if (!pwdDat.exists()) return 0;
+
+		try {
+			f = new FileReader("pwd.dat");
+			while ((c = f.read()) != -1) {
+				inStr=inStr+(char)c;
+			}
+			f.close();
+		} catch (IOException e) {
+			System.out.println("Fehler beim Lesen der Datei");
+		}
+		System.out.println("Passwort (enc) erfolgreich gelesen.");
+		
+		File keyDat = new File("key.dat");
+		String decpwd = new String("");
+		try{
+			decpwd = decrypt(inStr, keyDat);
+		}
+		catch (Exception e) {
+			System.err.println("Caught Exception: " +  e.getMessage());	                                 
+		}
+		
+		l = decpwd.length();
+		
+		return l;
+	}
 
 	public static boolean passCheck(char[] pwd){
 		FileReader f;

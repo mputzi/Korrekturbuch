@@ -104,6 +104,9 @@ public class Korrektureingabe extends JFrame {
 	public Korrektureingabe(Pruefung pr) {
 		setTitle("Korrekturliste");
 		setResizable(false);
+		setAlwaysOnTop(true);
+		setFocusable(true);
+		
 		this.setAktPr(pr);
 		this.setAl(pr.getAufgabenListe());
 		this.setKl(pr.getKorrekturliste());

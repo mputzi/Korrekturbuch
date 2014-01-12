@@ -1,24 +1,27 @@
 package korrgui;
 
-/**
- * Klassenliste muss weiter unten noch durch Pruefungsliste ersetzt werden
- * in Abhängigkeit von der gewählten Klasse
- */
+
+ 
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JTextArea;
-import java.awt.ComponentOrientation;
+
+//import java.awt.ComponentOrientation;
 import java.awt.Dimension;
-import javax.swing.UIManager;
-import java.awt.Font;
+
+//import javax.swing.UIManager;
+
+//import java.awt.Font;
+
 import javax.swing.DefaultListModel;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
@@ -28,8 +31,9 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
 
-import korrdata.KlasseList; //Muss noch auf Pruefungsliste geändert werden
-import korrdata.Korrekturbuch;
+//import korrdata.KlasseList; 
+//import korrdata.Korrekturbuch;
+import korrdata.Pruefung;
 
 
 public class PruefungOeffnen extends JDialog implements ActionListener {
@@ -42,8 +46,8 @@ public class PruefungOeffnen extends JDialog implements ActionListener {
 	private JPanel contentPanel = new JPanel();
 	private boolean auswahl=false; //Prüfung ausgewählt?
 	
-	private JList Pruefungsliste = new JList(); // Liste der Prüfungen anzeigen
-	private DefaultListModel pruef_list = new DefaultListModel();
+	private JList<String> Pruefungsliste = new JList<String>(); // Liste der Prüfungen anzeigen
+	private DefaultListModel<String> pruef_list = new DefaultListModel<String>();
 	
 	private JButton okButton;
 	private JTextArea Zusammenfassung = new JTextArea();
@@ -125,6 +129,20 @@ public class PruefungOeffnen extends JDialog implements ActionListener {
 		/**
 		 * Hier wird dann die Korrektureingabe gestartet!!
 		 */
+		if(auswahl==true){
+			Pruefung pr = KBMainWin.get_kb().getPruefungsliste().get(KBMainWin.get_pruef_selected());
+			// Wenn Aufgaben vorhanden
+			if(pr.getAufgabenListe().getAnz()!=0){
+				Korrektureingabe kInput = new Korrektureingabe(pr);
+				// Aufrufenden frame an Passwort-Änderungs-Dialog übermitteln
+				kInput.setLocationRelativeTo(this);
+				// Passwort-Änderungs-Dialog anzeigen
+				kInput.setVisible(true);
+
+			}
+		}
+		
+		
 		
 	}
 	

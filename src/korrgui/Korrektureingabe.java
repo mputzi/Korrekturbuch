@@ -106,6 +106,10 @@ public class Korrektureingabe extends JFrame {
 		setResizable(false);
 		setAlwaysOnTop(true);
 		setFocusable(true);
+		setAlwaysOnTop(true);
+		setModalExclusionType(ModalExclusionType.APPLICATION_EXCLUDE);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 800, 600);
 		
 		this.setAktPr(pr);
 		this.setAl(pr.getAufgabenListe());
@@ -113,11 +117,7 @@ public class Korrektureingabe extends JFrame {
 		
 		int schZahl  = this.kl.getAnzSchueler();
 		int aufgZahl = this.al.getAnz();
-		
-		setAlwaysOnTop(true);
-		setModalExclusionType(ModalExclusionType.APPLICATION_EXCLUDE);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
+				
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -132,7 +132,6 @@ public class Korrektureingabe extends JFrame {
 		
 		JButton btnFertig = new JButton("Fertig");
 		splitPane.setRightComponent(btnFertig);
-		
 		JButton btnAbbruch = new JButton("Abbruch");
 		splitPane.setLeftComponent(btnAbbruch);
 		
@@ -153,9 +152,18 @@ public class Korrektureingabe extends JFrame {
 		
 		horizontalBox_1.add(horizontalStrut_1);
 		
+		JScrollPane scrollPane_3 = new JScrollPane();
+		scrollPane_3.setAlignmentY(Component.BOTTOM_ALIGNMENT);
+		JScrollBar shbar1 = scrollPane_3.getHorizontalScrollBar();
+		Box horizontalBox = Box.createHorizontalBox();
+		horizontalBox.setAlignmentY(Component.BOTTOM_ALIGNMENT);
+		
+		internalFrame.getContentPane().add(horizontalBox, "cell 1 0,growx,aligny bottom");
+		
 		table_aufgaben_beschr = new JTable();
 		table_aufgaben_beschr.setAlignmentY(Component.TOP_ALIGNMENT);
 		// table_aufgaben_beschr.setBackground(UIManager.getColor("FormattedTextField.inactiveBackground"));
+		
 		horizontalBox_1.add(table_aufgaben_beschr);
 		table_aufgaben_beschr.setModel(new DefaultTableModel(
 			new Object[][] {
@@ -168,15 +176,7 @@ public class Korrektureingabe extends JFrame {
 		));
 		table_aufgaben_beschr.setEnabled(false);
 		table_aufgaben_beschr.setTableHeader(null);
-		
-		JScrollPane scrollPane_3 = new JScrollPane();
-		scrollPane_3.setAlignmentY(Component.BOTTOM_ALIGNMENT);
-		JScrollBar shbar1 = scrollPane_3.getHorizontalScrollBar();
-		Box horizontalBox = Box.createHorizontalBox();
-		horizontalBox.setAlignmentY(Component.BOTTOM_ALIGNMENT);
-		
-		internalFrame.getContentPane().add(horizontalBox, "cell 1 0,growx,aligny bottom");
-				
+						
 		table_aufgaben = new JTable();
 		table_aufgaben.setAlignmentY(Component.BOTTOM_ALIGNMENT);
 		table_aufgaben.setRowSelectionAllowed(false);
@@ -201,24 +201,7 @@ public class Korrektureingabe extends JFrame {
 		internalFrame.getContentPane().add(scrollPane, "cell 0 1,grow");
 		
 		table_id = new JTable();
-		/**
-		 * Ab hier nur ein Test
-		 */
-		table_id.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				int zeile = table_id.getSelectedRow();
-				if ((Boolean)table_id.getValueAt(zeile,1)==false){
-					table_sum.setValueAt(null, zeile, 0);
-					table_sum.setValueAt(null,zeile, 1);
-					System.out.println("false");
-				}
-				else if ((Boolean)table_id.getValueAt(zeile,1)==true){
-					//table_sum.setValueAt(0, zeile, 0);
-					//table_sum.setValueAt(0, zeile, 1);
-				}
-			}
-		});
+
 		table_id.setBackground(UIManager.getColor("FormattedTextField.inactiveBackground"));
 		table_id.setModel(new DefaultTableModel(
 			new Object[schZahl][4] ,
@@ -252,10 +235,36 @@ public class Korrektureingabe extends JFrame {
 		scrollPane_2.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		internalFrame.getContentPane().add(scrollPane_2, "cell 1 1,grow");
 		
+		JScrollPane scrollPane_4 = new JScrollPane();
+		scrollPane_4.setMinimumSize(new Dimension(100, 22));
+		scrollPane_4.setMaximumSize(new Dimension(100, 32767));
+		JScrollBar sbar4 = scrollPane_4.getVerticalScrollBar();
+		sbar4.setModel(sbar1.getModel());
+		
+		scrollPane_4.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPane_4.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		internalFrame.getContentPane().add(scrollPane_4, "cell 2 1,grow");
+		
+		table_sum = new JTable();
+		table_sum.setModel(new DefaultTableModel(
+			new Object[schZahl][2],
+			new String[] {
+				"S", "N"
+			}
+		) {
+			Class[] columnTypes = new Class[] {
+				Float.class, Integer.class
+			};
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+		});
+		table_sum.getColumnModel().getColumn(0).setPreferredWidth(20);
+		table_sum.getColumnModel().getColumn(1).setPreferredWidth(20);
+		table_sum.setCellSelectionEnabled(true);
+		scrollPane_4.setViewportView(table_sum);
+		
 		table_BE = new JTable();
-		
-		   
-		
 		
 		class BEInputTableModel extends AbstractTableModel{
 			private String[] columnNames;
@@ -350,44 +359,44 @@ public class Korrektureingabe extends JFrame {
 		table_BE.getTableHeader().setReorderingAllowed(false);
 		scrollPane_2.setViewportView(table_BE);
 		
+		// Daten in Tabllen füllen!
+		
 		fillinData(table_aufgaben,table_id,table_BE);
 		
-		JScrollPane scrollPane_4 = new JScrollPane();
-		scrollPane_4.setMinimumSize(new Dimension(100, 22));
-		scrollPane_4.setMaximumSize(new Dimension(100, 32767));
-		JScrollBar sbar4 = scrollPane_4.getVerticalScrollBar();
-		sbar4.setModel(sbar1.getModel());
-		
-		scrollPane_4.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		scrollPane_4.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		internalFrame.getContentPane().add(scrollPane_4, "cell 2 1,grow");
-		
-		table_sum = new JTable();
-		table_sum.setModel(new DefaultTableModel(
-			new Object[schZahl][2],
-			new String[] {
-				"S", "N"
-			}
-		) {
-			Class[] columnTypes = new Class[] {
-				Float.class, Integer.class
-			};
-			public Class getColumnClass(int columnIndex) {
-				return columnTypes[columnIndex];
-			}
-		});
-		table_sum.getColumnModel().getColumn(0).setPreferredWidth(20);
-		table_sum.getColumnModel().getColumn(1).setPreferredWidth(20);
-		table_sum.setCellSelectionEnabled(true);
-		scrollPane_4.setViewportView(table_sum);
-
-
 		internalFrame.setVisible(true);
 	
 		btnFertig.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+					actionOKButton();
+				}
+		});
+		
+		btnAbbruch.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				actionCancelButton();
 			}
 		});
+		
+		table_id.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				int zeile = table_id.getSelectedRow();
+				if ((Boolean)table_id.getValueAt(zeile,1)==false){
+					table_sum.setValueAt(null, zeile, 0);
+					table_sum.setValueAt(null, zeile, 1);
+					
+					for(int i=0; i<table_BE.getColumnCount(); i++)
+						table_BE.setValueAt(0.0, zeile, i);
+					
+					System.out.println("false");
+				}
+				else if ((Boolean)table_id.getValueAt(zeile,1)==true){
+					//table_sum.setValueAt(0, zeile, 0);
+					//table_sum.setValueAt(0, zeile, 1);
+				}
+			}
+		});
+		
 	}
 	
 	public void fillinData(JTable table_aufg, JTable table_sch, JTable table_BE){
@@ -457,6 +466,14 @@ public class Korrektureingabe extends JFrame {
 
 	public void setKl(KorrekturListe kl) {
 		this.kl = kl;
+	}
+	
+	public void actionCancelButton(){
+		
+	}
+	
+	public void actionOKButton(){
+		
 	}
 
 }

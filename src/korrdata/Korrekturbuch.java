@@ -318,7 +318,7 @@ public Lehrer getLehrer()
  		System.out.println("ww KB: Korrekturbuch " + this.getKBKlasse().getKlBez() + " erfolgreich in Datei geschrieben. ww");
   }
 
- public void neuePruefung(int day, int mon, int yea, int nummer, Pruefungsarten.ART art){
+ public Pruefung neuePruefung(int day, int mon, int yea, int nummer, Pruefungsarten.ART art){
 	 
 	 System.out.println("KB: -+- Neue Prüfung anlegen! -+-");
 	 
@@ -354,7 +354,9 @@ public Lehrer getLehrer()
 	 System.out.println("KB: "+"Neue Prüfung: " + tmp.getPrFilename() + " erstellt und hinzugefügt.");
 	 
 	 // Schreiben der neuen Prüfung in neue Datei
-	 tmp.writePruefungToCSV();	 
+	 tmp.writePruefungToCSV();
+	 
+	 return tmp;
  }
  
 /* 

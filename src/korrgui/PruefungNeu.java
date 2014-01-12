@@ -2,22 +2,32 @@ package korrgui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
+
 import java.awt.Dimension;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Frame;
+
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
+
 import java.awt.Color;
+
 import javax.swing.UIManager;
+
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
 
+import korrdata.Korrekturbuch;
+import korrdata.Pruefung;
 import korrdata.Pruefungsarten;
 import korrdata.Pruefungsarten.ART;
+import korrdata.Aufgabe;
+
 import javax.swing.SwingConstants;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
@@ -28,9 +38,12 @@ import javax.swing.BoxLayout;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.JTextArea;
+
 import java.awt.Font;
+
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
+
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -294,6 +307,8 @@ public class PruefungNeu extends JDialog implements ActionListener {
 				 * Korrektureingabe gestartet
 				 * Dazu den Dialog "Neue Prüfung" schließen und "Korrektureingabe" öffnen
 				 */
+				
+				// Details auslesen
 				System.out.println(textDatum.getText());
 				String datum[] = textDatum.getText().split("\\.");
 				System.out.println(datum[0]);
@@ -303,10 +318,24 @@ public class PruefungNeu extends JDialog implements ActionListener {
 				Integer nummer = new Integer(txtNR.getText());
 				Pruefungsarten.ART art = comboBox.getItemAt(comboBox.getSelectedIndex());
 				
-				KBMainWin.get_kb().neuePruefung(day, mon-1, yea, nummer, art);
+				//Korrekturbuch holen
+				Korrekturbuch tmpKB = KBMainWin.get_kb();
 				
+				// Prüfung erstellen
+				Pruefung tmpPR = tmpKB.neuePruefung(day, mon-1, yea, nummer, art);
+				// Prüfung aus Korrekturbuch holen
+				int indTmpPR = tmpKB.getPruefungsliste().lastIndexOf(tmpPR);
+				Pruefung pr = tmpKB.getPruefungsliste().get(indTmpPR);
 				
+				// Aufgaben hinzufügen
+				for(int i=0; i<table.getRowCount(); i++){
+					pr.addAufgabeToList(new Aufgabe(table.getValueAt(i, 0).toString(),new Float(table.getValueAt(i, 1).toString())));
+				}
 				
+				// Prüfung schreiben
+				pr.writePruefungToCSV();
+				
+				// Fenster abbauen.
 				PruefungNeu.this.dispose();
 				
 			};

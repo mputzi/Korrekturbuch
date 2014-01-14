@@ -13,6 +13,10 @@ import javax.swing.JButton;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.DefaultCellEditor;
 import javax.swing.JFormattedTextField;
@@ -62,6 +66,7 @@ import java.text.ParseException;
 import java.text.ParsePosition;
 
 import korrdata.*;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -108,7 +113,7 @@ public class Korrektureingabe extends JFrame {
 		setFocusable(true);
 		setAlwaysOnTop(true);
 		setModalExclusionType(ModalExclusionType.APPLICATION_EXCLUDE);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 800, 600);
 		
 		this.setAktPr(pr);
@@ -314,11 +319,11 @@ public class Korrektureingabe extends JFrame {
 		    public boolean isCellEditable(int row, int col) {
 		        //Note that the data/cell address is constant,
 		        //no matter where the cell appears onscreen.
-		       // if (col < 2) {
-		       //     return false;
-		       // } else {
+		        if (getKl().getAnwesendList()[row] == false) {
+		            return false;
+		        } else {
 		            return true;
-		       // }
+		        }
 		    }
 
 		    /*
@@ -345,10 +350,32 @@ public class Korrektureingabe extends JFrame {
 			flclasses
 		));
 		
-				
-		//table_BE.setDefaultEditor(Float.class, new DefaultCellEditor(new JTextField("")));
-		//table_BE.setDefaultRenderer(Float.class, new DefaultTableCellRenderer());
+		JTextField tf = new JTextField("0.0");
+		
+		class myFocusAdapter extends FocusAdapter
+		{
+			private JTextField mytf;
+			public myFocusAdapter(JTextField tf){
 			
+				mytf = tf;
+			}
+			
+			public void focusGained( final FocusEvent e )
+            {
+                mytf.selectAll();
+            }
+		}
+		
+
+		myFocusAdapter fada = new myFocusAdapter(tf);
+
+		tf.addFocusListener(fada);
+		
+		DefaultCellEditor myEdit = new DefaultCellEditor(tf);
+		myEdit.setClickCountToStart(1);
+		
+		table_BE.setDefaultEditor(Float.class, myEdit);
+		table_BE.setDefaultRenderer(Float.class, new DefaultTableCellRenderer());
 		
 		table_BE.getColumnModel().getColumn(0).setResizable(false);
 		table_BE.getColumnModel().getColumn(1).setResizable(false);
@@ -358,6 +385,8 @@ public class Korrektureingabe extends JFrame {
 		table_BE.setGridColor(Color.GREEN);
 		table_BE.getTableHeader().setReorderingAllowed(false);
 		scrollPane_2.setViewportView(table_BE);
+		
+		
 		
 		// Daten in Tabllen füllen!
 		
@@ -384,11 +413,12 @@ public class Korrektureingabe extends JFrame {
 				if ((Boolean)table_id.getValueAt(zeile,1)==false){
 					table_sum.setValueAt(null, zeile, 0);
 					table_sum.setValueAt(null, zeile, 1);
-					
+					/*
 					for(int i=0; i<table_BE.getColumnCount(); i++)
 						table_BE.setValueAt(0.0, zeile, i);
-					
-					System.out.println("false");
+					*/
+//					System.out.println("false");
+					getKl().getAnwesendList()[zeile]=false;
 				}
 				else if ((Boolean)table_id.getValueAt(zeile,1)==true){
 					//table_sum.setValueAt(0, zeile, 0);
@@ -404,7 +434,7 @@ public class Korrektureingabe extends JFrame {
 		boolean[] anwL = this.getKl().getAnwesendList();
 		SchuelerList sL = this.getKl().getSchuelerList();
 		KorrekturListe kL = this.getKl();
-		
+		kL.calcNoten();	
 		AufgabeList aL = this.getAl();
 		
 		for (int i=0; i<aL.getAnz(); i++){
@@ -422,7 +452,13 @@ public class Korrektureingabe extends JFrame {
 				table_BE.setValueAt(kL.getErreichtAt(i, j), i, j);
 			}
 			
+			// Wenn anwesend: Summe und Note
+			if(anwL[i]==true){			
+			table_sum.setValueAt(kL.getListGesamtBE()[i], i, 0);
+			table_sum.setValueAt(kL.getNoten()[i], i, 1);
+			}
 			
+					
 		}
 		
 		
@@ -469,10 +505,13 @@ public class Korrektureingabe extends JFrame {
 	}
 	
 	public void actionCancelButton(){
-		
+		this.setVisible(false);
+		this.dispose();
 	}
 	
 	public void actionOKButton(){
+		
+		
 		
 	}
 

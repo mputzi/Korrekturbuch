@@ -52,8 +52,22 @@ public class KBMainWin {
 
 	private JPanel mainpanel;
 	private JTextPane welcome;
+	private JEditorPane editorPane;
+	private JPanel panel;
 
 
+	static private boolean auth = false;
+	static public void set_auth (boolean arg)
+	{
+		auth=arg;
+		return;
+	}
+	static public boolean get_auth ()
+	{
+		return auth;
+	}
+	
+	
 	/**
 	 *  In der Variablen class_open wird gespeichert, ob eine Klasse zur Bearbeitung geöffnet ist.
 	 *  Nur dann wird überhaupt das Menü Prüfung angezeigt und auch der Menüpunkt Klassebearbeiten.
@@ -102,6 +116,7 @@ public class KBMainWin {
     	return pruef_selected;
     }
     
+    
     static private Korrekturbuch kb;//new Korrekturbuch();
     static public void set_kb (Klasse kl){
     	kb=new Korrekturbuch(kl);
@@ -117,7 +132,7 @@ public class KBMainWin {
 		public void actionPerformed(ActionEvent e){
 			String cmd = e.getActionCommand();
 			System.out.println(cmd);
-
+			
 			if (cmd=="passwordchange"){
 				// Passwort-Änderungs-Dialog erstellen
 				PassChange pwChgDialog = new PassChange(frame);
@@ -191,6 +206,10 @@ public class KBMainWin {
 				mntmBearbeiten.setEnabled(false); // Menüpunkt "Klasse bearbeiten" ausblenden
 				mntmSchliessen.setEnabled(false);
 			}
+			
+			if (get_auth()==true){
+				showInfoText();
+			}
 
 		}
 	};
@@ -200,7 +219,7 @@ public class KBMainWin {
 	 * Fensteraktionen abfangen --> "WindowsListener"
 	 * static private wl -> private wl 
 	 */
-	private static WindowListener wl = new WindowListener(){
+	private  WindowListener wl = new WindowListener(){
 		public void windowClosed(WindowEvent arg0) {}
         public void windowActivated(WindowEvent arg0) {
             //System.out.println("Window Activated");
@@ -216,6 +235,7 @@ public class KBMainWin {
 				mntmBearbeiten.setEnabled(false); // Menüpunkt "Klasse bearbeiten" ausblenden
 				mntmSchliessen.setEnabled(false);
 			}
+			
         }
         public void windowClosing(WindowEvent arg0) {
         	System.out.println(arg0);
@@ -225,8 +245,8 @@ public class KBMainWin {
         public void windowIconified(WindowEvent arg0) {}
         public void windowOpened(WindowEvent arg0) {}
 	};
-	private JEditorPane editorPane;
-	private JPanel panel;
+
+
 	
 	
 	/**
@@ -239,7 +259,7 @@ public class KBMainWin {
 				try {
 					KBMainWin window = new KBMainWin();
 					window.frame.setVisible(true);
-					window.frame.addWindowListener(wl);
+					window.frame.addWindowListener(window.wl);
 
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -278,7 +298,11 @@ public class KBMainWin {
 		welcome.setEditable(false);
 		welcome.setText("         Herzlich willkommen im Korrektur-Unterstützungs-Programm!\r\n\r\nBitte öffnen Sie eine bestehende Klasse oder legen Sie eine Klasse neu an.");
 		
-
+		editorPane = new JEditorPane();
+		editorPane.setBackground(UIManager.getColor("EditorPane.inactiveForeground"));
+		editorPane.setEditable(false);
+		
+		mainpanel.add(editorPane);
 		
 	}
 
@@ -393,6 +417,7 @@ public class KBMainWin {
 		menuBar.add(mnHilfe);
 
 		frame.setVisible(true);
+				
 		/**
 		 * Passwort-Abfrage bei Programmstart
 		 */
@@ -405,11 +430,28 @@ public class KBMainWin {
 	}
 	
 	public void showInfoText(){
-		editorPane = new JEditorPane();
-		editorPane.setBackground(UIManager.getColor("EditorPane.inactiveForeground"));
-		editorPane.setEditable(false);
-		mainpanel.add(editorPane);
+		String infoText = get_class_max() + " Klassen verfügbar.";
 		
-		editorPane.setText(this.get_class_max() + " Klassen verfügbar.");
+		if(get_class_open()){
+		if(get_class_selected()!=99){
+			infoText += "\n Klasse ausgewählt: " + get_kb().getKlassenBezeichnung();
+		}else{
+			infoText += "\n Keine Klasse ausgewählt.";
+		}
+		
+		
+		if(get_pruef_selected()!=99){
+			infoText += "\n Prüfung ausgewählt: " + get_kb().getPruefungsliste().get(get_pruef_selected()).getPruefListString();
+			infoText += "\n   Teilnehmer: " + get_kb().getPruefungsliste().get(get_pruef_selected()).getKorrekturliste().getAnzSchueler();
+			infoText += "\n   Durchschnitt: " + get_kb().getPruefungsliste().get(get_pruef_selected()).getDurchschnitt();
+		}else{
+			infoText += "\n Keine Prüfung ausgewählt.";
+		}
+		}else{
+			infoText += "\n Keine Klasse ausgewählt.";
+		}
+				
+		editorPane.setText(infoText);
+		
 	}
 }

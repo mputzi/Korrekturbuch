@@ -56,18 +56,19 @@ public class Passwort extends JDialog {
 					if(passCheck){
 						// Zurück zum aufrufenden Fenster!
 						// System.out.println("Passwort akzeptiert.");
-						
+						KBMainWin.set_auth(true);			
 						aufrufer.showInfoText();
-						
 						// Passwort-Dialog abbauen und Hauptfenster wieder freigeben
 						try{
 							aufrufer.frame.setEnabled(true);
+							aufrufer.frame.toFront();
 						}
 						catch(NullPointerException npe){
 							System.out.println("kein aufrufender Frame gefunden!");
 						}
 						Passwort.this.setVisible(false);
 						Passwort.this.dispose();
+						
 					}
 					// Wenn Passwort falsch:
 					else{

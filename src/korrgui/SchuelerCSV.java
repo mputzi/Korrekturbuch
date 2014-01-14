@@ -74,9 +74,8 @@ public class SchuelerCSV extends JDialog {
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						
-						klNeuDiag.setSchuelerListCSVFilename(txtcsv.getText()); 
-						
-						
+						KlasseNeu.setSchuelerListCSVFilename(txtcsv.getText()); 
+											
 						SchuelerCSV.this.setVisible(false);
 						SchuelerCSV.this.dispose();
 						

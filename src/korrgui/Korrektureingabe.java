@@ -430,10 +430,11 @@ public class Korrektureingabe extends JFrame {
 	}
 	
 	public void fillinData(JTable table_aufg, JTable table_sch, JTable table_BE){
-		
-		boolean[] anwL = this.getKl().getAnwesendList();
-		SchuelerList sL = this.getKl().getSchuelerList();
 		KorrekturListe kL = this.getKl();
+		kL.setAnwesendListeFromFile();
+		boolean[] anwL = kL.getAnwesendList();
+		SchuelerList sL = kL.getSchuelerList();
+		kL.setKorrekturListeFromFile() ;
 		kL.calcNoten();	
 		AufgabeList aL = this.getAl();
 		
@@ -449,6 +450,7 @@ public class Korrektureingabe extends JFrame {
 			table_sch.setValueAt(sL.Schuelerliste.get(i).getVorname(), i, 3);
 			
 			for (int j=0; j<kl.getAnzAufgaben(); j++){
+				System.out.println("KE: "+i+" hat bei Aufgabe " + j + kL.getErreichtAt(i, j) + " BE erreicht.");
 				table_BE.setValueAt(kL.getErreichtAt(i, j), i, j);
 			}
 			

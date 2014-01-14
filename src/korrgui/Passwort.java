@@ -40,7 +40,7 @@ public class Passwort extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public Passwort(final Frame aufrufer) {
+	public Passwort(final KBMainWin aufrufer) {
 		ActionListener PWDal = new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				String cmd = e.getActionCommand();
@@ -55,10 +55,13 @@ public class Passwort extends JDialog {
 					// Wenn Passwort richtig:
 					if(passCheck){
 						// Zurück zum aufrufenden Fenster!
-						System.out.println("Passwort akzeptiert.");
+						// System.out.println("Passwort akzeptiert.");
+						
+						aufrufer.showInfoText();
+						
 						// Passwort-Dialog abbauen und Hauptfenster wieder freigeben
 						try{
-							aufrufer.setEnabled(true);
+							aufrufer.frame.setEnabled(true);
 						}
 						catch(NullPointerException npe){
 							System.out.println("kein aufrufender Frame gefunden!");
@@ -76,8 +79,8 @@ public class Passwort extends JDialog {
 
 						// Versuche das aufrufende Fenster zu schließen!
 						try{
-							aufrufer.setVisible(false);
-							aufrufer.dispose();}
+							aufrufer.frame.setVisible(false);
+							aufrufer.frame.dispose();}
 						catch(NullPointerException npe){
 							System.out.println("kein aufrufender Frame gefunden!");
 						}
@@ -97,8 +100,8 @@ public class Passwort extends JDialog {
 					Passwort.this.dispose();
 					// Versuche das aufrufende Fenster zu schließen!
 					try{
-						aufrufer.setVisible(false);
-						aufrufer.dispose();}
+						aufrufer.frame.setVisible(false);
+						aufrufer.frame.dispose();}
 					catch(NullPointerException npe){
 						System.out.println("kein aufrufender Frame gefunden!");
 					}

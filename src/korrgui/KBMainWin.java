@@ -16,6 +16,14 @@ import javax.swing.JTextPane;
 import java.awt.Dimension;
 
 import korrdata.*;
+import java.awt.FlowLayout;
+import javax.swing.JEditorPane;
+import javax.swing.BoxLayout;
+import java.awt.Component;
+import java.awt.GridLayout;
+import java.awt.Color;
+import java.awt.SystemColor;
+import javax.swing.UIManager;
 
 
 
@@ -28,7 +36,7 @@ public class KBMainWin {
 	 * Also umsetzbar schon mit set- und get-Methoden. Aber so ist es einfacher, wenn auch unsauber :-)
 	 */ 
 	
-	private JFrame frame;
+	public JFrame frame;
 	//private Hauptfenster window;
 
 	
@@ -217,6 +225,8 @@ public class KBMainWin {
         public void windowIconified(WindowEvent arg0) {}
         public void windowOpened(WindowEvent arg0) {}
 	};
+	private JEditorPane editorPane;
+	private JPanel panel;
 	
 	
 	/**
@@ -258,11 +268,16 @@ public class KBMainWin {
 		 */
 		mainpanel = new JPanel();
 		frame.getContentPane().add(mainpanel, BorderLayout.CENTER);
+		mainpanel.setLayout(new GridLayout(2, 0, 0, 0));
+		
+		panel = new JPanel();
+		mainpanel.add(panel);
 		welcome = new JTextPane();
+		panel.add(welcome);
 		welcome.setOpaque(false);
 		welcome.setEditable(false);
 		welcome.setText("         Herzlich willkommen im Korrektur-Unterstützungs-Programm!\r\n\r\nBitte öffnen Sie eine bestehende Klasse oder legen Sie eine Klasse neu an.");
-		mainpanel.add(welcome);
+		
 
 		
 	}
@@ -383,9 +398,18 @@ public class KBMainWin {
 		 */
         
 		frame.setEnabled(false); // Hauptfenster deaktivieren
-		Passwort pwDialog = new Passwort(frame); // Passwort-Dialog erstellen
+		Passwort pwDialog = new Passwort(this); // Passwort-Dialog erstellen
 		pwDialog.setLocationRelativeTo(frame); // Aufrufenden frame an Passwort-Dialog übermitteln
 		pwDialog.setVisible(true); // Passwort-Dialog anzeigen
-
+		
+	}
+	
+	public void showInfoText(){
+		editorPane = new JEditorPane();
+		editorPane.setBackground(UIManager.getColor("EditorPane.inactiveForeground"));
+		editorPane.setEditable(false);
+		mainpanel.add(editorPane);
+		
+		editorPane.setText(this.get_class_max() + " Klassen verfügbar.");
 	}
 }

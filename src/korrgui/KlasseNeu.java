@@ -222,6 +222,11 @@ public class KlasseNeu extends JDialog implements ActionListener {
 		Klasse kl = new Klasse(newBez,newFach,newSJ,newLeh);
 		kl.setSchuelerL(newSL);
 		kl.writeSchuelerList();
+		kl.readSchuelerAnz();
+		
+		// Korrekturbuch anlegen
+		Korrekturbuch kb = new Korrekturbuch(kl);
+		kb.writeKorrekturBuch();
 		
 		// Klassenliste ergänzen
 		KlasseList klL = new KlasseList();

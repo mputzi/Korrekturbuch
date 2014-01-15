@@ -23,15 +23,19 @@ import javax.swing.event.ListDataListener;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.JTextField;
+
 import net.miginfocom.swing.MigLayout;
 
 import java.util.ArrayList;
 import java.util.TreeSet;
+
 import javax.swing.Box;
+
 import java.awt.event.KeyEvent;
 
 import korrdata.Klasse;
 import korrdata.KlasseList;
+import korrdata.Korrekturbuch;
 import korrdata.Lehrer;
 import korrdata.Schueler;
 import korrdata.SchuelerList;
@@ -119,9 +123,7 @@ public class KlasseBearbeiten extends JDialog implements ActionListener {
 		// Klassenobjekt wird nach Einlesen zerstört!
 		lies_Schueler(); // Am Ende wird Schüerlisten-Datei gelöscht!
 		lies_Grunddaten(); // Am Ende wird Klasse aus KlassenListe gelöscht!
-		
-		
-		
+
 	}
 	
 	private void lies_Schueler()
@@ -138,16 +140,13 @@ public class KlasseBearbeiten extends JDialog implements ActionListener {
 				
 		int sizeL = SListe.size();
 		for (int i=0;i<sizeL;i++){
-			Sname = SListe.get(i).getNachname() + " " + SListe.get(i).getVorname();
+			Sname = SListe.get(i).getVorname() + " " + SListe.get(i).getNachname();
 			name_list.addElement((String)Sname);
 		}
 		
 		//System.out.println("Neuer Versuch "+SListe);
 		//damit ist man in der zugehörigen Schülerliste
-		
-		// Schülerlistendatei der aktuellen Klasse löschen
-		meineKlassenliste.getKlassenliste().get(classselected).deleteSchuelerList();
-		// Schülerliste nur noch temporär vorhanden!
+
 	}
 	
 
@@ -166,9 +165,6 @@ public class KlasseBearbeiten extends JDialog implements ActionListener {
 		klasseAmt.setText(akt.getLehrer().getAmtsbez());
 		klasseSchule.setText(akt.getLehrer().getSchule());
 		
-		// Eintrag der ursprünglichen Klasse in Klassenliste löschen
-		meineKlassenliste.removeFromKlasseList(akt);
-		// Informationen nur noch temporär vorhanden!
 	}
 	
 	private ActionListener CLASSal = new ActionListener(){
@@ -281,12 +277,31 @@ public class KlasseBearbeiten extends JDialog implements ActionListener {
 				Lehrer newLeh = new Lehrer(this.klasseAmt.getText(),
 						this.klasseLehrer.getText(),
 						this.klasseSchule.getText());
-					
+
+				// Altes Löschen
+				// temporäres Klassenobjekt
+				System.out.println("Alte Klasse löschen: Nummer " + classselected);
+				Klasse klold = meineKlassenliste.getKlassenliste().get(classselected);
+				
+				// Schülerlistendatei der alten Klasse löschen
+				klold.deleteSchuelerList();
+				// Schülerliste nur noch temporär vorhanden!
+				
+				// Eintrag der ursprünglichen Klasse in Klassenliste löschen
+				meineKlassenliste.removeFromKlasseList(klold);
+				// Informationen nur noch temporär vorhanden!
 				
 				// neue Klasse erstellen
 				Klasse kl = new Klasse(newBez,newFach,newSJ,newLeh);
 				kl.setSchuelerL(newSL);
+				// Schreiben der Schülerliste
 				kl.writeSchuelerList();
+				kl.readSchuelerAnz();
+				
+				// Korrekturbuch anlegen
+				Korrekturbuch kb = new Korrekturbuch(kl);
+				// Schreiben des Korrekturbuchs
+				kb.writeKorrekturBuch();
 				
 				// Klassenliste ändern
 				this.meineKlassenliste.addToKlasseList(kl);
@@ -449,7 +464,7 @@ public class KlasseBearbeiten extends JDialog implements ActionListener {
 				txtLehrer.setEditable(false);
 				txtLehrer.setOpaque(false);
 				txtLehrer.setFont(new Font("Tahoma", Font.BOLD, 12));
-				txtLehrer.setText("Lehrer (Name, Vorname)");
+				txtLehrer.setText("Lehrer (Nachname)");
 				panel.add(txtLehrer, "cell 0 6,growx");
 				txtLehrer.setColumns(10);
 			}

@@ -202,7 +202,7 @@ public void writeKorrBuchToFile(String filename) {
 		this.setSchuelerL(SLtmp);
 	}
 
-	private void readSchuelerAnz(){
+	public void readSchuelerAnz(){
 		int anz = 0;
 		anz = this.getSchuelerL().getAnz();
 		this.setSchuelerzahl(anz);

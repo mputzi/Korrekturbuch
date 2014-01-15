@@ -103,7 +103,12 @@ public class Lehrer {
 	  String[] strarr = input.split("\\s+");
 	  setAmtsbez(strarr[0]);
 	  setNachname(strarr[1]);
-	  setSchule(strarr[2]);
+	  
+	  String schuleStr = strarr[2];
+	  for(int i=3;i<strarr.length;i++){
+		  schuleStr += " " + strarr[i];
+	  }
+	  setSchule(schuleStr);
 	  
   }
   

@@ -403,10 +403,12 @@ public class Korrektureingabe extends JFrame {
 		table_BE.setDefaultRenderer(Float.class, new DefaultTableCellRenderer());
 		
 		table_BE.getColumnModel().getColumn(0).setResizable(false);
+		/*
 		table_BE.getColumnModel().getColumn(1).setResizable(false);
 		table_BE.getColumnModel().getColumn(2).setResizable(false);
 		table_BE.getColumnModel().getColumn(3).setResizable(false);
 		table_BE.getColumnModel().getColumn(4).setResizable(false);
+		*/
 		table_BE.setGridColor(Color.GREEN);
 		table_BE.getTableHeader().setReorderingAllowed(false);
 		scrollPane_2.setViewportView(table_BE);

@@ -55,8 +55,11 @@ public class KorrekturListe {
 		//System.out.println(this.getSchuelerNameAt(0));
 
 		this.setAnwesendList(new boolean[this.getSchuelerList().getAnz()]);
-		this.fillAnwesendList(true);
-		
+		if(!this.setAnwesendListeFromFile()){
+			this.fillAnwesendList(true);
+			this.writeAnwesendListe();
+		};
+			
 		this.setAufgabenL(this.getPr().getAufgabenListe());
 		//this.setAnzAufgaben(this.getPr().getAufgabenListe().getAnz());
 
@@ -129,7 +132,13 @@ public class KorrekturListe {
 	}
 
 	public void setAnwesendAtIndex ( boolean newVar, int index ) {
-		this.anwesendL[index] = newVar;
+		try{
+			this.anwesendL[index] = newVar;	
+		}
+		catch(ArrayIndexOutOfBoundsException e){
+			System.out.println("KL: ERR: Schülerzahl falsch!");
+		}
+		
 	}
 
 
@@ -499,11 +508,13 @@ public class KorrekturListe {
 		}
 		catch (FileNotFoundException e) {
 			e.printStackTrace();
+			return false;
 		} catch (IOException e) {
 			e.printStackTrace();
+			return false;
 		}
 		
-		}
+		}else return false;
 		return true;
 	}
 
@@ -567,6 +578,9 @@ public class KorrekturListe {
 	}
 
 	private boolean setAnwesendListeFromFile(String filename){
+		
+		
+		
 		try{
 			CsvReader csvAList = new CsvReader(filename);
 			csvAList.readHeaders();
@@ -591,9 +605,11 @@ public class KorrekturListe {
 			csvAList.close();
 		}
 		catch (FileNotFoundException e) {
-			e.printStackTrace();
+		//	e.printStackTrace();
+			return false;
 		} catch (IOException e) {
-			e.printStackTrace();
+		//	e.printStackTrace();
+			return false;
 		}
 
 		return true;

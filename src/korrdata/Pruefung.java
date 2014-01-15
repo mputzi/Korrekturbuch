@@ -79,12 +79,14 @@ public class Pruefung {
 	  this.setPrArtKey(prArtKey);
 	  this.setNummer(prNummer);
 	  this.setIdNum(idNum);
-	
-  // Anzahl der Teilnehmer = Maximum	  
-	  this.setAnzTeilnehmer(this.getKb().getKBKlasse().getSchuelerzahl());
 	  
 	  this.autosetFilename(this.getKb());
 	  this.setKorrekturliste(new KorrekturListe(this));
+	
+  // Anzahl der Teilnehmer = Maximum	  
+	  this.setAnzTeilnehmer(this.getKorrekturliste().getAnwesendAnzahl());
+	  
+	  
   }
   
   //

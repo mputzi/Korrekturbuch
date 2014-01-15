@@ -56,7 +56,7 @@ public class KorrekturListe {
 
 		this.setAnwesendList(new boolean[this.getSchuelerList().getAnz()]);
 		this.fillAnwesendList(true);
-
+		
 		this.setAufgabenL(this.getPr().getAufgabenListe());
 		//this.setAnzAufgaben(this.getPr().getAufgabenListe().getAnz());
 
@@ -75,6 +75,9 @@ public class KorrekturListe {
 
 		this.setErreichtL(new float[this.getSchuelerList().getAnz()][this.getPr().getAufgabenListe().getAnz()]);
 		this.setNoten(new int[this.getSchuelerList().getAnz()]);
+		
+		this.setKorrekturListeFromFile();
+			
 	};
 /*
 	public KorrekturListe (SchuelerList schuelerL) {
@@ -167,7 +170,7 @@ public class KorrekturListe {
 
 	public void setErreichtAt (int schuelerNum, int aufgNum, float errBE){
 		try{
-			System.out.println("KL: Aufgabennummer "+aufgNum+", maximal: "+this.getAnzAufgaben());
+			//System.out.println("KL: Aufgabennummer "+aufgNum+", maximal: "+this.getAnzAufgaben());
 
 			if (schuelerNum <= this.getAnzSchueler()){
 				if (aufgNum <= this.getAnzAufgaben()){
@@ -222,7 +225,7 @@ public class KorrekturListe {
 	 * @param newVar the new value of m_schueler
 	 */
 	public void setSchuelerList ( SchuelerList newVar ) {
-		System.out.println("KL: SChülerliste in Korrekturliste gesetzt.");
+		System.out.println("KL: Schülerliste in Korrekturliste gesetzt.");
 		System.out.println("KL: " + newVar.toString());
 		m_schueler = newVar;
 	}
@@ -353,7 +356,7 @@ public class KorrekturListe {
 	  return new float[];
   }*/
 
-	public int getAnwesendNumber(){
+	public int getAnwesendAnzahl(){
 		int cnt = 0;
 		for (int i=0; i<this.getAnwesendList().length; i++){
 			if(this.getAnwesendAtIndex(i)==true) cnt++;  
@@ -462,6 +465,11 @@ public class KorrekturListe {
 	}
 
 	private boolean setKorrekturListeFromFile(String filename){
+		
+		File f = new File(filename);
+		boolean alreadyExists = f.exists();
+		if (alreadyExists){
+						
 		try{
 			CsvReader csvKorrList = new CsvReader(filename);
 			csvKorrList.readHeaders();
@@ -494,7 +502,8 @@ public class KorrekturListe {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
+		
+		}
 		return true;
 	}
 
@@ -571,7 +580,7 @@ public class KorrekturListe {
 
 				// perform program logic here
 				// Debugging only
-				System.out.println("KL: " + schID + an);
+				// System.out.println("KL: " + schID + an);
 
 				// Umwandeln in interne Formate
 				int schIDNumber = Integer.valueOf(schID).intValue();

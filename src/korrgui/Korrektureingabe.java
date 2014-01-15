@@ -34,6 +34,8 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
+import javax.swing.event.CellEditorListener;
+import javax.swing.event.ChangeEvent;
 
 import java.awt.Color;
 
@@ -374,6 +376,29 @@ public class Korrektureingabe extends JFrame {
 		DefaultCellEditor myEdit = new DefaultCellEditor(tf);
 		myEdit.setClickCountToStart(1);
 		
+		class myCellEditorListener implements CellEditorListener{
+			public void editingCanceled(ChangeEvent e) {
+	            System.out.println("CellLis editingCanceled");
+	        }
+			public void editingStopped(ChangeEvent e) {
+	            try {
+	                if (e.getSource() instanceof JTable) {
+	                    JTable table = (JTable) e.getSource();
+	                    int colId = table.getSelectedColumn();
+	                    int rowId = table.getSelectedRow();
+	                    System.out.println("Editing Stopped at ("+colId+";"+rowId+")");
+	                }
+	            } catch (Exception ex) {
+	                System.out.println("Fehler beim Merken der geänderten Daten" + ex.getMessage());
+	                ex.printStackTrace();
+	            }
+			}
+		}
+		
+		myCellEditorListener cel = new myCellEditorListener();
+		
+		myEdit.addCellEditorListener(cel);
+			
 		table_BE.setDefaultEditor(Float.class, myEdit);
 		table_BE.setDefaultRenderer(Float.class, new DefaultTableCellRenderer());
 		
@@ -385,9 +410,7 @@ public class Korrektureingabe extends JFrame {
 		table_BE.setGridColor(Color.GREEN);
 		table_BE.getTableHeader().setReorderingAllowed(false);
 		scrollPane_2.setViewportView(table_BE);
-		
-		
-		
+
 		// Daten in Tabllen füllen!
 		
 		fillinData(table_aufgaben,table_id,table_BE);
@@ -434,7 +457,7 @@ public class Korrektureingabe extends JFrame {
 		kL.setAnwesendListeFromFile();
 		boolean[] anwL = kL.getAnwesendList();
 		SchuelerList sL = kL.getSchuelerList();
-		kL.setKorrekturListeFromFile() ;
+
 		kL.calcNoten();	
 		AufgabeList aL = this.getAl();
 		
@@ -450,7 +473,7 @@ public class Korrektureingabe extends JFrame {
 			table_sch.setValueAt(sL.Schuelerliste.get(i).getVorname(), i, 3);
 			
 			for (int j=0; j<kl.getAnzAufgaben(); j++){
-				System.out.println("KE: "+i+" hat bei Aufgabe " + j + kL.getErreichtAt(i, j) + " BE erreicht.");
+				// System.out.println("KE: "+i+" hat bei Aufgabe " + j + kL.getErreichtAt(i, j) + " BE erreicht.");
 				table_BE.setValueAt(kL.getErreichtAt(i, j), i, j);
 			}
 			
@@ -462,8 +485,7 @@ public class Korrektureingabe extends JFrame {
 			
 					
 		}
-		
-		
+			
 
 		/*
 		while(table_aufgaben.getColumnCount()<al.getAnz()){

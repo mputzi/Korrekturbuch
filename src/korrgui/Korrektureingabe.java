@@ -610,6 +610,8 @@ public class Korrektureingabe extends JFrame {
 		getKl().writeAnwesendListe();
 		KBMainWin.set_pruef_selected(KBMainWin.get_pruef_selected());		
 		
+		
+		
 		this.setVisible(false);
 		this.dispose();
 	}

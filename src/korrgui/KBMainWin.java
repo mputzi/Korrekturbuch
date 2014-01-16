@@ -235,7 +235,7 @@ public class KBMainWin {
 				mntmBearbeiten.setEnabled(false); // Menüpunkt "Klasse bearbeiten" ausblenden
 				mntmSchliessen.setEnabled(false);
 			}
-			
+			showInfoText();
         }
         public void windowClosing(WindowEvent arg0) {
         	System.out.println(arg0);
@@ -273,8 +273,6 @@ public class KBMainWin {
 	 * Create the application.
 	 */
 	public KBMainWin() {
-
-
 		initialize(); // Menübar anlegen und Passwortabfrage starten
 
 		mnPruefung.setVisible(false); // Menü "Prüfung" erst möglich, wenn Klasse geöffnet
@@ -303,6 +301,7 @@ public class KBMainWin {
 		editorPane.setEditable(false);
 		
 		mainpanel.add(editorPane);
+		frame.addWindowListener(wl);
 		
 	}
 
@@ -434,7 +433,7 @@ public class KBMainWin {
 		
 		if(get_class_open()){
 		if(get_class_selected()!=99){
-			infoText += "\n Klasse ausgewählt: " + get_kb().getKlassenBezeichnung();
+			infoText += "\n Klasse ausgewählt: " + get_kb().getKlassenBezeichnung() + " " + get_kb().getFach() + " " + get_kb().getSchuljahr();
 		}else{
 			infoText += "\n Keine Klasse ausgewählt.";
 		}
@@ -444,6 +443,8 @@ public class KBMainWin {
 			infoText += "\n Prüfung ausgewählt: " + get_kb().getPruefungsliste().get(get_pruef_selected()).getPruefListString();
 			infoText += "\n   Teilnehmer: " + get_kb().getPruefungsliste().get(get_pruef_selected()).getKorrekturliste().getAnzSchueler();
 			infoText += "\n   Durchschnitt: " + get_kb().getPruefungsliste().get(get_pruef_selected()).getDurchschnitt();
+			infoText += "\n   Anteil Noten 1/2: " + get_kb().getPruefungsliste().get(get_pruef_selected()).getAnteil12();
+			infoText += "\n   Anteil Noten 5/6: " + get_kb().getPruefungsliste().get(get_pruef_selected()).getAnteil56();
 		}else{
 			infoText += "\n Keine Prüfung ausgewählt.";
 		}

@@ -419,7 +419,7 @@ public class KlasseNeu extends JDialog implements ActionListener {
 				txtLehrer.setEditable(false);
 				txtLehrer.setOpaque(false);
 				txtLehrer.setFont(new Font("Tahoma", Font.BOLD, 12));
-				txtLehrer.setText("Lehrer (Name, Vorname)");
+				txtLehrer.setText("Lehrer (Nachname)");
 				panel.add(txtLehrer, "cell 0 6,growx");
 				txtLehrer.setColumns(10);
 			}

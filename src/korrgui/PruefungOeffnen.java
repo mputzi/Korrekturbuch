@@ -120,10 +120,7 @@ public class PruefungOeffnen extends JDialog implements ActionListener {
 
 	
 	private void actionOKButton(){
-		// Bestätigen und die Klassenauswahl verlassen
-		// Dialog abbauen
-		PruefungOeffnen.this.setVisible(false);
-		PruefungOeffnen.this.dispose();
+
 		//set_Pruef_selected wird bei der Auswahl in der Liste automatisch schon gesetzt, nur bei Cancel wieder auf 99
 		
 		/**
@@ -142,7 +139,10 @@ public class PruefungOeffnen extends JDialog implements ActionListener {
 			}
 		}
 		
-		
+		// Bestätigen und die Klassenauswahl verlassen
+		// Dialog abbauen
+		PruefungOeffnen.this.setVisible(false);
+		PruefungOeffnen.this.dispose();
 		
 	}
 	

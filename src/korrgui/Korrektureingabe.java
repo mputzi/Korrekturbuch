@@ -32,10 +32,13 @@ import javax.swing.JSplitPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.event.CellEditorListener;
 import javax.swing.event.ChangeEvent;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 
 import java.awt.Color;
 
@@ -89,6 +92,7 @@ public class Korrektureingabe extends JFrame {
 	private KorrekturListe kl;
 	private JTable table_sum;
 
+
 	/**
 	 * Launch the application.
 	 */
@@ -109,6 +113,7 @@ public class Korrektureingabe extends JFrame {
 	 * Create the frame.
 	 */
 	public Korrektureingabe(Pruefung pr) {
+	
 		setTitle("Korrekturliste");
 		setResizable(false);
 		setAlwaysOnTop(true);
@@ -194,6 +199,7 @@ public class Korrektureingabe extends JFrame {
 		));
 		table_aufgaben.setEnabled(false);
 		table_aufgaben.setTableHeader(null);
+		//table_aufgaben.getTableHeader().setReorderingAllowed(false);
 		
 		Component horizontalStrut = Box.createHorizontalStrut(15);
 		
@@ -223,15 +229,28 @@ public class Korrektureingabe extends JFrame {
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
 			}
+			@Override
+		    public boolean isCellEditable(int rowIndex, int columnIndex)
+		    {
+		        if(columnIndex == 1){return true;}
+		        else{return false;}
+		    }
+			
 		});
 		table_id.getColumnModel().getColumn(0).setResizable(false);
 		table_id.getColumnModel().getColumn(0).setPreferredWidth(20);
+		
 		table_id.getColumnModel().getColumn(1).setResizable(false);
 		table_id.getColumnModel().getColumn(1).setPreferredWidth(15);
 		table_id.getColumnModel().getColumn(2).setResizable(false);
 		table_id.getColumnModel().getColumn(2).setPreferredWidth(40);
+		table_id.getColumnModel().getColumn(2).setCellEditor(null);
 		table_id.getColumnModel().getColumn(3).setResizable(false);
 		table_id.getColumnModel().getColumn(3).setPreferredWidth(40);
+		table_id.getColumnModel().getColumn(3).setCellEditor(null);
+		table_id.getTableHeader().setReorderingAllowed(false);
+		table_id.setCellSelectionEnabled(false);
+
 		scrollPane.setViewportView(table_id);
 		
 		JScrollPane scrollPane_2 = new JScrollPane();
@@ -269,6 +288,8 @@ public class Korrektureingabe extends JFrame {
 		table_sum.getColumnModel().getColumn(0).setPreferredWidth(20);
 		table_sum.getColumnModel().getColumn(1).setPreferredWidth(20);
 		table_sum.setCellSelectionEnabled(true);
+		table_sum.getTableHeader().setReorderingAllowed(false);
+		table_sum.setEnabled(false);
 		scrollPane_4.setViewportView(table_sum);
 		
 		table_BE = new JTable();
@@ -313,9 +334,10 @@ public class Korrektureingabe extends JFrame {
 		        return data[row][col];
 		    }
 
-		    public Class getColumnClass(int c) {
+		    public Class getColumnClass(int col) {
 		        //return getValueAt(0, c).getClass();
-		    	return Float.class;
+		    	//return Float.class;
+		    	return classes[col];
 		    }
 		    
 		    public boolean isCellEditable(int row, int col) {
@@ -333,8 +355,15 @@ public class Korrektureingabe extends JFrame {
 		     * data can change.
 		     */
 		    public void setValueAt(Object value, int row, int col) {
-		        data[row][col] = value;
+		    	try{
+		        data[row][col] = Float.valueOf(value.toString());
+		        
 		        fireTableCellUpdated(row, col);
+		        fireTableDataChanged();
+		    	}
+		    	catch(NumberFormatException e){
+		    		
+		    	}
 		    }
 
 		}
@@ -352,7 +381,9 @@ public class Korrektureingabe extends JFrame {
 			flclasses
 		));
 		
-		JTextField tf = new JTextField("0.0");
+		table_BE.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		
+		JTextField tf = new JTextField(new String(""+ new Float(0.0f)));
 		
 		class myFocusAdapter extends FocusAdapter
 		{
@@ -367,15 +398,15 @@ public class Korrektureingabe extends JFrame {
                 mytf.selectAll();
             }
 		}
-		
-
 		myFocusAdapter fada = new myFocusAdapter(tf);
 
 		tf.addFocusListener(fada);
+		//tf.addKeyListener(keyli);
 		
 		DefaultCellEditor myEdit = new DefaultCellEditor(tf);
 		myEdit.setClickCountToStart(1);
 		
+		/*
 		class myCellEditorListener implements CellEditorListener{
 			public void editingCanceled(ChangeEvent e) {
 	            System.out.println("CellLis editingCanceled");
@@ -394,13 +425,40 @@ public class Korrektureingabe extends JFrame {
 	            }
 			}
 		}
-		
 		myCellEditorListener cel = new myCellEditorListener();
-		
-		myEdit.addCellEditorListener(cel);
-			
+    	myEdit.addCellEditorListener(cel);
+		*/
+				
 		table_BE.setDefaultEditor(Float.class, myEdit);
 		table_BE.setDefaultRenderer(Float.class, new DefaultTableCellRenderer());
+		
+		class BETableModelListener implements TableModelListener{
+			public void tableChanged(TableModelEvent e) {
+		        int row = e.getFirstRow();
+		        int column = e.getColumn();
+		        BEInputTableModel model = (BEInputTableModel)e.getSource();
+		     //   String columnName = model.getColumnName(column);
+		        try{
+		        float data = Float.valueOf(model.getValueAt(row, column).toString());
+		        
+		        getKl().setErreichtAt(row, column, data);
+		        
+		        table_sum.setValueAt(getKl().getListGesamtBE()[row], row, 0);
+				table_sum.setValueAt(getKl().getNoten()[row], row, 1);
+		        
+		        }
+		    	catch(NumberFormatException e1){		    		
+		    	}
+		        catch(ArrayIndexOutOfBoundsException e2){
+		        	
+		        }
+   
+		    }
+		}
+		
+		BETableModelListener myBETableModelListener = new BETableModelListener();
+		
+		table_BE.getModel().addTableModelListener(myBETableModelListener);
 		
 		table_BE.getColumnModel().getColumn(0).setResizable(false);
 		/*
@@ -409,6 +467,9 @@ public class Korrektureingabe extends JFrame {
 		table_BE.getColumnModel().getColumn(3).setResizable(false);
 		table_BE.getColumnModel().getColumn(4).setResizable(false);
 		*/
+		
+		
+		
 		table_BE.setGridColor(Color.GREEN);
 		table_BE.getTableHeader().setReorderingAllowed(false);
 		scrollPane_2.setViewportView(table_BE);
@@ -446,8 +507,15 @@ public class Korrektureingabe extends JFrame {
 					getKl().getAnwesendList()[zeile]=false;
 				}
 				else if ((Boolean)table_id.getValueAt(zeile,1)==true){
-					//table_sum.setValueAt(0, zeile, 0);
-					//table_sum.setValueAt(0, zeile, 1);
+					KorrekturListe kL = getKl();
+					table_sum.setValueAt(kL.getListGesamtBE()[zeile], zeile, 0);
+					table_sum.setValueAt(kL.getNoten()[zeile], zeile, 1);
+					/*
+					for(int i=0; i<table_BE.getColumnCount(); i++)
+						table_BE.setValueAt(0.0, zeile, i);
+					*/
+//					System.out.println("false");
+					getKl().getAnwesendList()[zeile]=true;
 				}
 			}
 		});
@@ -531,14 +599,19 @@ public class Korrektureingabe extends JFrame {
 	}
 	
 	public void actionCancelButton(){
+		KBMainWin.set_pruef_selected(99);
 		this.setVisible(false);
 		this.dispose();
 	}
 	
 	public void actionOKButton(){
 		
+		getKl().writeKorrekturListe();
+		getKl().writeAnwesendListe();
+		KBMainWin.set_pruef_selected(KBMainWin.get_pruef_selected());		
 		
-		
+		this.setVisible(false);
+		this.dispose();
 	}
 
 }

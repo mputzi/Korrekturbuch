@@ -215,13 +215,16 @@ public void setKorrekturliste(KorrekturListe korrekturliste) {
   public float getDurchschnitt(  )
   {	
 	  float durch = 0.0f;
+	  setAnzTeilnehmer(this.getKorrekturliste().getAnwesendAnzahl());
 	  int anz = this.getAnzTeilnehmer();
+	  int sz = this.getKb().getSchuelerAnz();
 	  int[] nL = this.getKorrekturliste().getNoten();
+	  boolean[] aL = this.getKorrekturliste().getAnwesendList();
 	  
 	  int sum = 0;
-	  if (nL.length == anz){
-		  for(int i=0;i<anz;i++){
-			  sum += nL[i];
+	  if (nL.length == sz){
+		  for(int i=0;i<sz;i++){
+			  if(aL[i]){  sum += nL[i];}
 		  }
 	  }
 	  else{
@@ -240,15 +243,16 @@ public void setKorrekturliste(KorrekturListe korrekturliste) {
   public float getAnteil56(  )
   {
 	  float anteil = 0.0f;
-	  
+	  setAnzTeilnehmer(this.getKorrekturliste().getAnwesendAnzahl());
 	  int anz = this.getAnzTeilnehmer();
+	  int sz = this.getKb().getSchuelerAnz();
 	  int[] nL = this.getKorrekturliste().getNoten();
+	  boolean[] aL = this.getKorrekturliste().getAnwesendList();
 	  
 	  int sum = 0;
-	  if (nL.length == anz){
-		  for(int i=0;i<anz;i++){
-			  if (nL[i]>4)
-			  sum += 1;
+	  if (nL.length == sz){
+		  for(int i=0;i<sz;i++){
+			  if ((nL[i]>4) && aL[i]){  sum += 1;}
 		  }
 	  }
 	  else{
@@ -267,15 +271,16 @@ public void setKorrekturliste(KorrekturListe korrekturliste) {
   public float getAnteil12(  )
   {
 float anteil = 0.0f;
-	  
+setAnzTeilnehmer(this.getKorrekturliste().getAnwesendAnzahl());
 	  int anz = this.getAnzTeilnehmer();
+	  int sz = this.getKb().getSchuelerAnz();
 	  int[] nL = this.getKorrekturliste().getNoten();
+	  boolean[] aL = this.getKorrekturliste().getAnwesendList();
 	  
 	  int sum = 0;
-	  if (nL.length == anz){
-		  for(int i=0;i<anz;i++){
-			  if (nL[i]<3)
-			  sum += 1;
+	  if (nL.length == sz){
+		  for(int i=0;i<sz;i++){
+			  if ((nL[i]<3) && aL[i]){  sum += 1;}
 		  }
 	  }
 	  else{

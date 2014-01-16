@@ -441,10 +441,11 @@ public class KBMainWin {
 		
 		if(get_pruef_selected()!=99){
 			infoText += "\n Prüfung ausgewählt: " + get_kb().getPruefungsliste().get(get_pruef_selected()).getPruefListString();
-			infoText += "\n   Teilnehmer: " + get_kb().getPruefungsliste().get(get_pruef_selected()).getKorrekturliste().getAnzSchueler();
+			infoText += "\n   Anzahl der Schüler: " + get_kb().getPruefungsliste().get(get_pruef_selected()).getKorrekturliste().getAnzSchueler();
+			infoText += "\n   Teilnehmer: " + get_kb().getPruefungsliste().get(get_pruef_selected()).getKorrekturliste().getAnwesendAnzahl();
 			infoText += "\n   Durchschnitt: " + get_kb().getPruefungsliste().get(get_pruef_selected()).getDurchschnitt();
-			infoText += "\n   Anteil Noten 1/2: " + get_kb().getPruefungsliste().get(get_pruef_selected()).getAnteil12();
-			infoText += "\n   Anteil Noten 5/6: " + get_kb().getPruefungsliste().get(get_pruef_selected()).getAnteil56();
+			infoText += "\n   Anteil Noten 1/2: " + get_kb().getPruefungsliste().get(get_pruef_selected()).getAnteil12()*100 + "%";
+			infoText += "\n   Anteil Noten 5/6: " + get_kb().getPruefungsliste().get(get_pruef_selected()).getAnteil56()*100 + "%";
 		}else{
 			infoText += "\n Keine Prüfung ausgewählt.";
 		}
